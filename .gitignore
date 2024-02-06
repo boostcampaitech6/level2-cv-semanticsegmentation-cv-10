@@ -1,2 +1,4 @@
 data
 *.tar.gz
+train
+test
