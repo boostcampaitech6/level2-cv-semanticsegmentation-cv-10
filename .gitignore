@@ -2,3 +2,5 @@ data
 *.tar.gz
 *.pt
 *.csv
+train
+test
