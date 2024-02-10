@@ -22,6 +22,7 @@ import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
 from torchvision import models
 from torch.optim.lr_scheduler import CosineAnnealingLR
+from torch.cuda.amp import autocast, GradScaler
 
 # visualization
 import matplotlib.pyplot as plt
@@ -41,12 +42,12 @@ CLASSES = [
 CLASS2IND = {v: i for i, v in enumerate(CLASSES)}
 IND2CLASS = {v: k for k, v in CLASS2IND.items()}
 
-BATCH_SIZE = 8
-LR = 1e-4
+BATCH_SIZE = 2
+LR = 1e-3
 RANDOM_SEED = 21
 
 NUM_EPOCHS = 150
-VAL_EVERY = 10
+VAL_EVERY = 5
 
 SAVED_DIR = "save_dir"
 
@@ -179,14 +180,14 @@ PALETTE = [
     (0, 125, 92), (209, 0, 151), (188, 208, 182), (0, 220, 176),
 ]
 
-tf_1 = A.Compose([A.Resize(512, 512),
-                A.CenterCrop(400, 400),
+tf_1 = A.Compose([A.Resize(1024, 1024),
+                A.CenterCrop(950, 950),
                 A.ColorJitter(0.2,0.5,0.2,0),
                 # A.Compose([A.Crop(x_min=110,y_min=220,x_max=300,y_max=400,p=0.5),
                 #            A.Resize(512,512)]),
                 A.Rotate(10)
                 ])
-tf_2 = A.Compose([A.Resize(512, 512)
+tf_2 = A.Compose([A.Resize(1024, 1024)
                 ])
 
 train_dataset = XRayDataset(is_train=True, transforms=tf_1)
@@ -203,7 +204,7 @@ train_loader = DataLoader(
 # 주의: validation data는 이미지 크기가 크기 때문에 `num_wokers`는 커지면 메모리 에러가 발생할 수 있습니다.
 valid_loader = DataLoader(
     dataset=valid_dataset, 
-    batch_size=4,
+    batch_size=2,
     shuffle=False,
     num_workers=0,
     drop_last=False
@@ -217,7 +218,7 @@ def dice_coef(y_true, y_pred):
     eps = 0.0001
     return (2. * intersection + eps) / (torch.sum(y_true_f, -1) + torch.sum(y_pred_f, -1) + eps)
 
-def save_model(model, file_name='deep_resnet101_epoch.pt'):
+def save_model(model, file_name='latest_resnet101_epoch.pt'):
     output_path = os.path.join(SAVED_DIR, file_name)
     torch.save(model, output_path)
 
@@ -281,24 +282,31 @@ def train(model, data_loader, val_loader, criterion, optimizer):
     
     n_class = len(CLASSES)
     best_dice = 0.
+    scaler = GradScaler()
     wandb.init(entity='level2-cv-10-detection', project='yumin', name='base_res101')
     
     for epoch in range(NUM_EPOCHS):
         model.train()
         scheduler.step()
-
-        for step, (images, masks) in enumerate(data_loader):            
+        for step, (images, masks) in enumerate(data_loader):   
+                     
             # gpu 연산을 위해 device 할당합니다.
             images, masks = images.cuda(), masks.cuda()
             model = model.cuda()
+            # outputs = model(images)['out']
             
-            outputs = model(images)['out']
-            
+            with torch.cuda.amp.autocast(): #fp16 연산
+                outputs = model(images)['out']
+                loss = criterion(outputs, masks)
+
             # loss를 계산합니다.
-            loss = criterion(outputs, masks)
+            # loss = criterion(outputs, masks)
             optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
+            scaler.scale(loss).backward()
+            scaler.step(optimizer)
+            scaler.update()
+            # loss.backward()
+            # optimizer.step()
             
             # step 주기에 따라 loss를 출력합니다.
             if (step + 1) % 25 == 0:
@@ -322,7 +330,7 @@ def train(model, data_loader, val_loader, criterion, optimizer):
                 save_model(model)
                 wandb.log({'Validation Dice': dice})
                 
-checkpoint_path = './save_dir/deep_resnet101_30epoch.pt'
+checkpoint_path = './save_dir/deep_resnet101_100epoch.pt'
 checkpoint = torch.load(checkpoint_path)
 
 # model = models.segmentation.fcn_resnet50(pretrained=False)
