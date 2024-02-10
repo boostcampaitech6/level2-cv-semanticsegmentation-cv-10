@@ -21,6 +21,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
 from torchvision import models
+from torch.optim.lr_scheduler import CosineAnnealingLR
 
 # visualization
 import matplotlib.pyplot as plt
@@ -44,8 +45,8 @@ BATCH_SIZE = 8
 LR = 1e-4
 RANDOM_SEED = 21
 
-NUM_EPOCHS = 100
-VAL_EVERY = 5
+NUM_EPOCHS = 150
+VAL_EVERY = 10
 
 SAVED_DIR = "save_dir"
 
@@ -181,8 +182,8 @@ PALETTE = [
 tf_1 = A.Compose([A.Resize(512, 512),
                 A.CenterCrop(400, 400),
                 A.ColorJitter(0.2,0.5,0.2,0),
-                A.Compose([A.Crop(x_min=110,y_min=220,x_max=300,y_max=400,p=0.5),
-                           A.Resize(512,512)]),
+                # A.Compose([A.Crop(x_min=110,y_min=220,x_max=300,y_max=400,p=0.5),
+                #            A.Resize(512,512)]),
                 A.Rotate(10)
                 ])
 tf_2 = A.Compose([A.Resize(512, 512)
@@ -216,7 +217,7 @@ def dice_coef(y_true, y_pred):
     eps = 0.0001
     return (2. * intersection + eps) / (torch.sum(y_true_f, -1) + torch.sum(y_pred_f, -1) + eps)
 
-def save_model(model, file_name='fcn_resnet50_best_model.pt'):
+def save_model(model, file_name='deep_resnet101_epoch.pt'):
     output_path = os.path.join(SAVED_DIR, file_name)
     torch.save(model, output_path)
 
@@ -280,10 +281,11 @@ def train(model, data_loader, val_loader, criterion, optimizer):
     
     n_class = len(CLASSES)
     best_dice = 0.
-    wandb.init(entity='level2-cv-10-detection', project='yumin', name='add_aug')
+    wandb.init(entity='level2-cv-10-detection', project='yumin', name='base_res101')
     
     for epoch in range(NUM_EPOCHS):
         model.train()
+        scheduler.step()
 
         for step, (images, masks) in enumerate(data_loader):            
             # gpu 연산을 위해 device 할당합니다.
@@ -306,12 +308,13 @@ def train(model, data_loader, val_loader, criterion, optimizer):
                     f'Step [{step+1}/{len(train_loader)}], '
                     f'Loss: {round(loss.item(),4)}'
                 )
-                wandb.log({'Train Loss': loss.item()})
+                wandb.log({'Train Loss': loss.item(),
+                           'learning rate' : scheduler.get_last_lr()[0]})
 
         # validation 주기에 따라 loss를 출력하고 best model을 저장합니다.
         if (epoch + 1) % VAL_EVERY == 0:
             dice = validation(epoch + 1, model, val_loader, criterion)
-            
+            print(f"current valid Dice: {dice:.4f}")
             if best_dice < dice:
                 print(f"Best performance at epoch: {epoch + 1}, {best_dice:.4f} -> {dice:.4f}")
                 print(f"Save model in {SAVED_DIR}")
@@ -319,19 +322,29 @@ def train(model, data_loader, val_loader, criterion, optimizer):
                 save_model(model)
                 wandb.log({'Validation Dice': dice})
                 
-checkpoint_path = './save_dir/resnet50_100epoch.pt'
+checkpoint_path = './save_dir/deep_resnet101_30epoch.pt'
 checkpoint = torch.load(checkpoint_path)
 
-model = models.segmentation.fcn_resnet50(pretrained=False)
+# model = models.segmentation.fcn_resnet50(pretrained=False)
+model = models.segmentation.deeplabv3_resnet101(pretrained=True)
+# model = models.segmentation.fcn_resnet101(pretrained=True)
 
 # output class 개수를 dataset에 맞도록 수정합니다.
-model.classifier[4] = nn.Conv2d(512, len(CLASSES), kernel_size=1)
+# model.classifier[4] = nn.Conv2d(512, len(CLASSES), kernel_size=1)
+model.classifier[4] = nn.Conv2d(256, len(CLASSES), kernel_size=1)
+
 
 # Loss function을 정의합니다.
 criterion = nn.BCEWithLogitsLoss()
 
 # Optimizer를 정의합니다.
 optimizer = optim.AdamW(params=model.parameters(), lr=LR, weight_decay=1e-6)
+
+# scheduler 주기
+T_max = 5
+
+# 스케줄러 설정
+scheduler = CosineAnnealingLR(optimizer, T_max=T_max, eta_min = 1e-7)
 
 # 시드를 설정합니다.
 set_seed()
