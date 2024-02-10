@@ -21,7 +21,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
 from torchvision import models
-from torch.optim.lr_scheduler import CosineAnnealingLR
+from torch.optim.lr_scheduler import CosineAnnealingLR, StepLR
 from torch.cuda.amp import autocast, GradScaler
 
 # visualization
@@ -42,7 +42,7 @@ CLASSES = [
 CLASS2IND = {v: i for i, v in enumerate(CLASSES)}
 IND2CLASS = {v: k for k, v in CLASS2IND.items()}
 
-BATCH_SIZE = 2
+BATCH_SIZE = 4
 LR = 1e-3
 RANDOM_SEED = 21
 
@@ -54,9 +54,12 @@ SAVED_DIR = "save_dir"
 if not os.path.exists(SAVED_DIR):                                                           
     os.makedirs(SAVED_DIR)
 
+ignore_list = ['ID073','ID288','ID363','ID387','ID430','ID487','ID519','ID523','ID543']
+
 pngs = {
     os.path.relpath(os.path.join(root, fname), start=IMAGE_ROOT)
     for root, _dirs, files in os.walk(IMAGE_ROOT)
+    if not any(ignore_folder in root for ignore_folder in ignore_list)
     for fname in files
     if os.path.splitext(fname)[1].lower() == ".png"
 }
@@ -65,6 +68,7 @@ pngs = {
 jsons = {
     os.path.relpath(os.path.join(root, fname), start=LABEL_ROOT)
     for root, _dirs, files in os.walk(LABEL_ROOT)
+    if not any(ignore_folder in root for ignore_folder in ignore_list)
     for fname in files
     if os.path.splitext(fname)[1].lower() == ".json"
 }
@@ -181,11 +185,12 @@ PALETTE = [
 ]
 
 tf_1 = A.Compose([A.Resize(1024, 1024),
-                A.CenterCrop(950, 950),
-                A.ColorJitter(0.2,0.5,0.2,0),
+                A.CenterCrop(980, 980),
+                A.RandomBrightnessContrast(brightness_limit = 0.1, contrast_limit = 0.3,always_apply = True),
                 # A.Compose([A.Crop(x_min=110,y_min=220,x_max=300,y_max=400,p=0.5),
                 #            A.Resize(512,512)]),
-                A.Rotate(10)
+                A.Rotate(10),
+                A.CLAHE()
                 ])
 tf_2 = A.Compose([A.Resize(1024, 1024)
                 ])
@@ -317,6 +322,7 @@ def train(model, data_loader, val_loader, criterion, optimizer):
                     f'Loss: {round(loss.item(),4)}'
                 )
                 wandb.log({'Train Loss': loss.item(),
+                           'epoch' : epoch+1,
                            'learning rate' : scheduler.get_last_lr()[0]})
 
         # validation 주기에 따라 loss를 출력하고 best model을 저장합니다.
@@ -330,16 +336,19 @@ def train(model, data_loader, val_loader, criterion, optimizer):
                 save_model(model)
                 wandb.log({'Validation Dice': dice})
                 
-checkpoint_path = './save_dir/deep_resnet101_100epoch.pt'
-checkpoint = torch.load(checkpoint_path)
+
 
 # model = models.segmentation.fcn_resnet50(pretrained=False)
-model = models.segmentation.deeplabv3_resnet101(pretrained=True)
+model = models.segmentation.fcn_resnet101(pretrained=True)
 # model = models.segmentation.fcn_resnet101(pretrained=True)
+# checkpoint_path = './save_dir/deep_resnet101_120epoch.pt'
+# checkpoint = torch.load(checkpoint_path)
+# model.load_state_dict(checkpoint['model_state_dict'])
+
 
 # output class 개수를 dataset에 맞도록 수정합니다.
-# model.classifier[4] = nn.Conv2d(512, len(CLASSES), kernel_size=1)
-model.classifier[4] = nn.Conv2d(256, len(CLASSES), kernel_size=1)
+model.classifier[4] = nn.Conv2d(512, len(CLASSES), kernel_size=1)
+# model.classifier[4] = nn.Conv2d(256, len(CLASSES), kernel_size=1)
 
 
 # Loss function을 정의합니다.
@@ -353,6 +362,7 @@ T_max = 5
 
 # 스케줄러 설정
 scheduler = CosineAnnealingLR(optimizer, T_max=T_max, eta_min = 1e-7)
+# scheduler = StepLR(optimizer, step_size=10, gamma=0.01)
 
 # 시드를 설정합니다.
 set_seed()
