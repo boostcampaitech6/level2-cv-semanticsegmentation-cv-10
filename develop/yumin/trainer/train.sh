@@ -2,8 +2,8 @@
 
 # 1_python base_res50_cos_16_4.py
 # 2_python base_res50_crop_JI_16_4.py
-python 2dot5_base_res50_JI_16_4.py
-python 3_base_res50_crop_BC_16_4.py
+# python 2dot5_base_res50_JI_16_4.py
+python 3_base_res50_BC_16_4.py
 python 4_base_res50_step_BC_16_4.py
 python 5_res50_sgkf_step_BC_16_4.py
 python 6_res50_sgkf_ignore_step_BC_16_4.py
