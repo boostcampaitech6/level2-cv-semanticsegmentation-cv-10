@@ -194,8 +194,8 @@ PALETTE = [
 
 tf_1 = A.Compose([
                 A.Resize(512, 512),
-                A.CenterCrop(480, 480),
-                A.Resize(512, 512),
+                # A.CenterCrop(480, 480),
+                # A.Resize(512, 512),
                 # A.Resize(1024, 1024),
                 # A.CenterCrop(980, 980),
                 # A.Resize(1024, 1024),

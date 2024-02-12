@@ -27,8 +27,8 @@ import matplotlib.pyplot as plt
 
 # 데이터 경로를 입력하세요
 
-IMAGE_ROOT = "../../data/train/DCM"
-LABEL_ROOT = "../../data/train/outputs_json"
+IMAGE_ROOT = "../../../data/train/DCM"
+LABEL_ROOT = "../../../data/train/outputs_json"
 CLASSES = [
     'finger-1', 'finger-2', 'finger-3', 'finger-4', 'finger-5',
     'finger-6', 'finger-7', 'finger-8', 'finger-9', 'finger-10',
@@ -179,7 +179,7 @@ PALETTE = [
 ]
 
 tf_1 = A.Compose([A.Resize(512, 512),
-                A.CenterCrop(400, 400),
+                # A.CenterCrop(400, 400),
                 A.RandomBrightnessContrast(brightness_limit = 0.2, contrast_limit = 0.5, p = 0.7),
                 # A.Compose([A.Crop(x_min=110,y_min=220,x_max=300,y_max=400,p=0.5),
                 #            A.Resize(512,512)]),
@@ -216,7 +216,7 @@ def dice_coef(y_true, y_pred):
     eps = 0.0001
     return (2. * intersection + eps) / (torch.sum(y_true_f, -1) + torch.sum(y_pred_f, -1) + eps)
 
-def save_model(model, file_name='fcn_resnet50_best_model.pt'):
+def save_model(model, file_name='_3_base_res50_BC_16_4.pt'):
     output_path = os.path.join(SAVED_DIR, file_name)
     torch.save(model, output_path)
 
@@ -280,7 +280,7 @@ def train(model, data_loader, val_loader, criterion, optimizer):
 
     n_class = len(CLASSES)
     best_dice = 0.
-    wandb.init(entity='level2-cv-10-detection', project='yumin', name='3_base_res50_crop_BC_16_4')
+    wandb.init(entity='level2-cv-10-detection', project='yumin', name='3_base_res50_BC_16_4')
 
     for epoch in range(NUM_EPOCHS):
         model.train()
@@ -312,16 +312,18 @@ def train(model, data_loader, val_loader, criterion, optimizer):
         # validation 주기에 따라 loss를 출력하고 best model을 저장합니다.
         if (epoch + 1) % VAL_EVERY == 0:
             dice = validation(epoch + 1, model, val_loader, criterion)
+            print(f"current valid Dice: {dice:.4f}")
+            wandb.log({'Validation Dice': dice})
 
             if best_dice < dice:
                 print(f"Best performance at epoch: {epoch + 1}, {best_dice:.4f} -> {dice:.4f}")
                 print(f"Save model in {SAVED_DIR}")
                 best_dice = dice
                 save_model(model)
-                wandb.log({'Validation Dice': dice})
+                
 
-checkpoint_path = './save_dir/_3_base_res50_crop_BC_16_4.pt'
-checkpoint = torch.load(checkpoint_path)
+# checkpoint_path = './save_dir/_3_base_res50_crop_BC_16_4.pt'
+# checkpoint = torch.load(checkpoint_path)
 
 model = models.segmentation.fcn_resnet50(pretrained=False)
 

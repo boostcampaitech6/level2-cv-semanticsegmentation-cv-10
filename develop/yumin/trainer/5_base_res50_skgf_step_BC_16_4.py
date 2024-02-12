@@ -193,8 +193,8 @@ PALETTE = [
 
 tf_1 = A.Compose([
                 A.Resize(512, 512),
-                A.CenterCrop(480, 480),
-                A.Resize(512, 512),
+                # A.CenterCrop(480, 480),
+                # A.Resize(512, 512),
                 A.RandomBrightnessContrast(brightness_limit = 0.2, contrast_limit = 0.5, p=0.7),
                 # A.Resize(1024, 1024),
                 # A.CenterCrop(980, 980),
@@ -238,7 +238,7 @@ def dice_coef(y_true, y_pred):
     eps = 0.0001
     return (2. * intersection + eps) / (torch.sum(y_true_f, -1) + torch.sum(y_pred_f, -1) + eps)
 
-def save_model(model, file_name='_5_base_res50_skgf_step_crop_BC_16_4.pt'):
+def save_model(model, file_name='_5_base_res50_skgf_step_BC_16_4.pt'):
     output_path = os.path.join(SAVED_DIR, file_name)
     torch.save(model, output_path)
 
@@ -304,7 +304,7 @@ def train(model, data_loader, val_loader, criterion, optimizer):
     n_class = len(CLASSES)
     best_dice = 0.
     scaler = GradScaler()
-    wandb.init(entity='level2-cv-10-detection', project='yumin', name='5_base_res50_skgf_step_crop_BC_16_4')
+    wandb.init(entity='level2-cv-10-detection', project='yumin', name='5_base_res50_skgf_step_BC_16_4')
     
     for epoch in range(NUM_EPOCHS):
         model.train()
