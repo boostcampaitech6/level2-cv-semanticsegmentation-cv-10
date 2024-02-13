@@ -46,7 +46,7 @@ CLASS2IND = {v: i for i, v in enumerate(CLASSES)}
 IND2CLASS = {v: k for k, v in CLASS2IND.items()}
 
 BATCH_SIZE_T = 4
-BATCH_SIZE_V = 4
+BATCH_SIZE_V = 2
 LR = 1e-4
 RANDOM_SEED = 21
 
@@ -201,7 +201,7 @@ tf_1 = A.Compose([
                 # A.CenterCrop(980, 980),
                 # A.Resize(1024, 1024),
                 A.OneOf([A.OneOf([A.Blur(blur_limit = 4, always_apply = True),
-                                    A.GlassBlur(sigma = 0.7, max_delta = 1, iterations = 2, always_apply = True),
+                                    A.GlassBlur(sigma = 0.4, max_delta = 1, iterations = 2, always_apply = True),
                                     A.MedianBlur(blur_limit = 4, always_apply = True)], p=1),
                          A.RandomBrightnessContrast(brightness_limit = 0.05, contrast_limit = 0.3,always_apply = True),
                          A.CLAHE(p=1.0)], 
@@ -218,7 +218,7 @@ train_loader = DataLoader(
     dataset=train_dataset, 
     batch_size=BATCH_SIZE_T,
     shuffle=True,
-    num_workers=2,
+    num_workers=1,
     drop_last=True,
 )
 

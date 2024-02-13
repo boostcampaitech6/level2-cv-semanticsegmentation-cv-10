@@ -49,7 +49,7 @@ CLASSES = [
 CLASS2IND = {v: i for i, v in enumerate(CLASSES)}
 IND2CLASS = {v: k for k, v in CLASS2IND.items()}
 
-LR = 1e-3
+LR = 1e-4
 RANDOM_SEED = 21
 
 NUM_EPOCHS = 100
