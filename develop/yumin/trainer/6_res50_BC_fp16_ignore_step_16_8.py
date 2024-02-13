@@ -30,8 +30,11 @@ import matplotlib.pyplot as plt
 import wandb
 
 # 데이터 경로를 입력하세요
-WAND_NAME = '6_res50_BC_fp16_ignore_step_32_8'
-SAVE_PT_NAME = '_6_res50_BC_fp16_ignore_step_32_8.pt'
+WAND_NAME = '6_res50_BC_fp16_ignore_step_16_8'
+SAVE_PT_NAME = '_6_res50_BC_fp16_ignore_step_16_8.pt'
+
+BATCH_SIZE_T = 16
+BATCH_SIZE_V = 8
 
 IMAGE_ROOT = "../../../data/train/DCM"
 LABEL_ROOT = "../../../data/train/outputs_json"
@@ -46,9 +49,7 @@ CLASSES = [
 CLASS2IND = {v: i for i, v in enumerate(CLASSES)}
 IND2CLASS = {v: k for k, v in CLASS2IND.items()}
 
-BATCH_SIZE_T = 32
-BATCH_SIZE_V = 32
-LR = 1e-4
+LR = 1e-3
 RANDOM_SEED = 21
 
 NUM_EPOCHS = 100
@@ -335,7 +336,7 @@ def train(model, data_loader, val_loader, criterion, optimizer):
             # optimizer.step()
             
             # step 주기에 따라 loss를 출력합니다.
-            if (step + 1) % 25 == 0:
+            if (step + 1) % 20 == 0:
                 print(
                     f'{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")} | '
                     f'Epoch [{epoch+1}/{NUM_EPOCHS}], '
@@ -387,7 +388,7 @@ optimizer = optim.AdamW(params=model.parameters(), lr=LR, weight_decay=1e-6)
 # scheduler = CosineAnnealingLR(optimizer, T_max=T_max, eta_min = 1e-7)
 # scheduler = StepLR(optimizer, step_size=20, gamma=0.1)
 # scheduler = MultiStepLR(optimizer, milestones=[70,90], gamma=1e-4)
-scheduler = MultiStepLR(optimizer, milestones=[70,90], gamma=1e-3)
+scheduler = MultiStepLR(optimizer, milestones=[50,90], gamma=1e-3)
 
 # 시드를 설정합니다.
 set_seed()

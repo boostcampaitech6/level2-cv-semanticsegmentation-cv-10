@@ -33,6 +33,9 @@ import wandb
 WAND_NAME = '9_res50_BC_fp16_ignore_step_sgkf_hardaug_4_2_1024'
 SAVE_PT_NAME = '_9_res50_BC_fp16_ignore_step_sgkf_hardaug_4_2_1024.pt'
 
+BATCH_SIZE_T = 4
+BATCH_SIZE_V = 2
+
 IMAGE_ROOT = "../../../data/train/DCM"
 LABEL_ROOT = "../../../data/train/outputs_json"
 CLASSES = [
@@ -46,9 +49,7 @@ CLASSES = [
 CLASS2IND = {v: i for i, v in enumerate(CLASSES)}
 IND2CLASS = {v: k for k, v in CLASS2IND.items()}
 
-BATCH_SIZE_T = 4
-BATCH_SIZE_V = 2
-LR = 1e-4
+LR = 1e-3
 RANDOM_SEED = 21
 
 NUM_EPOCHS = 100
@@ -385,7 +386,7 @@ optimizer = optim.AdamW(params=model.parameters(), lr=LR, weight_decay=1e-6)
 # 스케줄러 설정
 # scheduler = CosineAnnealingLR(optimizer, T_max=T_max, eta_min = 1e-7)
 # scheduler = StepLR(optimizer, step_size=20, gamma=0.1)
-scheduler = MultiStepLR(optimizer, milestones=[70,90], gamma=1e-3)
+scheduler = MultiStepLR(optimizer, milestones=[50,90], gamma=1e-3)
 
 # 시드를 설정합니다.
 set_seed()
