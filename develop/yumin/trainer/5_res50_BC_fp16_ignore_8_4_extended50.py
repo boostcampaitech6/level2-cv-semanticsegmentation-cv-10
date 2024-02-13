@@ -13,7 +13,7 @@ import pandas as pd
 from tqdm.auto import tqdm
 from sklearn.model_selection import GroupKFold, StratifiedGroupKFold
 import albumentations as A
-from ..UNet_Version.models.UNet_3Plus import UNet_3Plus
+# from UNet_Version.models.UNet_3Plus import UNet_3Plus
 
 # torch
 import torch
@@ -27,10 +27,14 @@ from torch.cuda.amp import autocast, GradScaler
 
 # visualization
 import matplotlib.pyplot as plt
+import wandb
 
 # 데이터 경로를 입력하세요
-WAND_NAME = '11_unet_3plus_BC_fp16_ignore_sgkf_hardaug_2_1_1024'
-SAVE_PT_NAME = '_11_unet_3plus_BC_fp16_ignore_sgkf_hardaug_2_1_1024.pt'
+WAND_NAME = '5_res50_BC_fp16_ignore_8_4'
+SAVE_PT_NAME = '_5_res50_BC_fp16_ignore_8_4.pt'
+
+BATCH_SIZE_T = 8
+BATCH_SIZE_V = 4
 
 IMAGE_ROOT = "../../../data/train/DCM"
 LABEL_ROOT = "../../../data/train/outputs_json"
@@ -45,12 +49,10 @@ CLASSES = [
 CLASS2IND = {v: i for i, v in enumerate(CLASSES)}
 IND2CLASS = {v: k for k, v in CLASS2IND.items()}
 
-BATCH_SIZE_T = 2
-BATCH_SIZE_V = 1
 LR = 1e-4
 RANDOM_SEED = 21
 
-NUM_EPOCHS = 100
+NUM_EPOCHS = 50
 VAL_EVERY = 10
 
 SAVED_DIR = "save_dir"
@@ -98,21 +100,21 @@ class XRayDataset(Dataset):
         groups = [os.path.dirname(fname) for fname in _filenames]
         
         # dummy label
-        # ys = [0 for fname in _filenames]
-        wrist_pa_oblique = [f'ID{str(fname).zfill(3)}' for fname in range(274,320)]
-        wrist_pa_oblique.append('ID321')
-        y = [ 0 if os.path.dirname(fname) in wrist_pa_oblique else 1 for fname in _filenames]    
+        ys = [0 for fname in _filenames]
+        # wrist_pa_oblique = [f'ID{str(fname).zfill(3)}' for fname in range(274,320)]
+        # wrist_pa_oblique.append('ID321')
+        # y = [ 0 if os.path.dirname(fname) in wrist_pa_oblique else 1 for fname in _filenames]    
 
 
         # 전체 데이터의 20%를 validation data로 쓰기 위해 `n_splits`를
         # 5으로 설정하여 KFold를 수행합니다.
-        # gkf = GroupKFold(n_splits=5)
-        sgkf = StratifiedGroupKFold(n_splits=5)
+        gkf = GroupKFold(n_splits=5)
+        # sgkf = StratifiedGroupKFold(n_splits=5)
 
         filenames = []
         labelnames = []
-        # for i, (x, y) in enumerate(gkf.split(_filenames, ys, groups)):
-        for i, (x, y) in enumerate(sgkf.split(_filenames, y, groups)):
+        for i, (x, y) in enumerate(gkf.split(_filenames, ys, groups)):
+        # for i, (x, y) in enumerate(sgkf.split(_filenames, y, groups)):
             if is_train:
                 # 0번을 validation dataset으로 사용합니다.
                 if i == 0:
@@ -194,21 +196,22 @@ PALETTE = [
 ]
 
 tf_1 = A.Compose([
-                A.Resize(1024, 1024),
+                A.Resize(512, 512),
                 # A.CenterCrop(480, 480),
                 # A.Resize(512, 512),
+                A.RandomBrightnessContrast(brightness_limit = 0.05, contrast_limit = 0.3, p=0.5),
                 # A.Resize(1024, 1024),
                 # A.CenterCrop(980, 980),
                 # A.Resize(1024, 1024),
-                A.OneOf([A.OneOf([A.Blur(blur_limit = 4, always_apply = True),
-                                    A.GlassBlur(sigma = 0.4, max_delta = 1, iterations = 2, always_apply = True),
-                                    A.MedianBlur(blur_limit = 4, always_apply = True)], p=1),
-                         A.RandomBrightnessContrast(brightness_limit = 0.05, contrast_limit = 0.3,always_apply = True),
-                         A.CLAHE(p=1.0)], 
-                         p=0.5),
+                # A.OneOf([A.OneOf([A.Blur(blur_limit = 7, always_apply = True),
+                #                     A.GlassBlur(sigma = 0.7, max_delta = 1, iterations = 2, always_apply = True),
+                #                     A.MedianBlur(blur_limit = 7, always_apply = True)], p=1),
+                #          A.RandomBrightnessContrast(brightness_limit = 0.1, contrast_limit = 0.3,always_apply = True),
+                #          A.CLAHE(p=1.0)], 
+                #          p=0.5),
                 A.Rotate(10),
                 ])
-tf_2 = A.Compose([A.Resize(1024, 1024)
+tf_2 = A.Compose([A.Resize(512, 512)
                 ])
 
 train_dataset = XRayDataset(is_train=True, transforms=tf_1)
@@ -218,7 +221,7 @@ train_loader = DataLoader(
     dataset=train_dataset, 
     batch_size=BATCH_SIZE_T,
     shuffle=True,
-    num_workers=1,
+    num_workers=8,
     drop_last=True,
 )
 
@@ -266,8 +269,8 @@ def validation(epoch, model, data_loader, criterion, thr=0.5):
             images, masks = images.cuda(), masks.cuda()         
             model = model.cuda()
             
-            # outputs = model(images)['out']
-            outputs = model(images)
+            outputs = model(images)['out']
+            # outputs = model(images)
             
             output_h, output_w = outputs.size(-2), outputs.size(-1)
             mask_h, mask_w = masks.size(-2), masks.size(-1)
@@ -319,7 +322,8 @@ def train(model, data_loader, val_loader, criterion, optimizer):
             # outputs = model(images)['out']
             
             with torch.cuda.amp.autocast(): #fp16 연산
-                outputs = model(images)
+                outputs = model(images)['out']
+                # outputs = model(images)
                 loss = criterion(outputs, masks)
 
             # loss를 계산합니다.
@@ -332,17 +336,17 @@ def train(model, data_loader, val_loader, criterion, optimizer):
             # optimizer.step()
             
             # step 주기에 따라 loss를 출력합니다.
-            if (step + 1) % 25 == 0:
+            if (step + 1) % 20 == 0:
                 print(
                     f'{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")} | '
                     f'Epoch [{epoch+1}/{NUM_EPOCHS}], '
                     f'Step [{step+1}/{len(train_loader)}], '
                     f'Loss: {round(loss.item(),4)}, '
-                    f'lr: {scheduler.get_last_lr()[0]:.7f}'
+                    f'lr: {optimizer.param_groups[0]["lr"]}'
                 )
                 wandb.log({'Train Loss': loss.item(),
-                           'learning rate' : scheduler.get_last_lr()[0]})
-        scheduler.step()
+                           'learning rate' : optimizer.param_groups[0]['lr']})
+        
         # validation 주기에 따라 loss를 출력하고 best model을 저장합니다.
         if (epoch + 1) % VAL_EVERY == 0:
             dice = validation(epoch + 1, model, val_loader, criterion)
@@ -358,16 +362,16 @@ def train(model, data_loader, val_loader, criterion, optimizer):
                 
 
 
-# model = models.segmentation.fcn_resnet50(pretrained=False)
+# model = models.segmentation.fcn_resnet50(pretrained=True)
 # model = models.segmentation.fcn_resnet101(pretrained=True)
 # model = models.segmentation.fcn_resnet101(pretrained=True)
-# checkpoint_path = './save_dir/latest_resnet101_epoch.pt'
-# model = torch.load(checkpoint_path)
-model = UNet_3Plus(n_classes=len(CLASSES))
+checkpoint_path = './save_dir/latest_resnet101_epoch.pt'
+model = torch.load(checkpoint_path)
+# model = UNet_3Plus(n_classes=len(CLASSES))
 
 
 # output class 개수를 dataset에 맞도록 수정합니다.
-# model.classifier[4] = nn.Conv2d(512, len(CLASSES), kernel_size=1)
+model.classifier[4] = nn.Conv2d(512, len(CLASSES), kernel_size=1)
 # model.classifier[4] = nn.Conv2d(256, len(CLASSES), kernel_size=1)
 
 
@@ -383,7 +387,7 @@ optimizer = optim.AdamW(params=model.parameters(), lr=LR, weight_decay=1e-6)
 # 스케줄러 설정
 # scheduler = CosineAnnealingLR(optimizer, T_max=T_max, eta_min = 1e-7)
 # scheduler = StepLR(optimizer, step_size=20, gamma=0.1)
-scheduler = MultiStepLR(optimizer, milestones=[50,90], gamma=1e-3)
+# scheduler = MultiStepLR(optimizer, milestones=[70,90], gamma=1e-3)
 
 # 시드를 설정합니다.
 set_seed()

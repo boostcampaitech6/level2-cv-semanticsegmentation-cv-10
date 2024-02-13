@@ -13,7 +13,7 @@ import pandas as pd
 from tqdm.auto import tqdm
 from sklearn.model_selection import GroupKFold, StratifiedGroupKFold
 import albumentations as A
-# from UNet_Version.models.UNet_3Plus import UNet_3Plus
+from Unet_3Plus import UNet_3Plus_DeepSup_CGM
 
 # torch
 import torch
@@ -27,14 +27,10 @@ from torch.cuda.amp import autocast, GradScaler
 
 # visualization
 import matplotlib.pyplot as plt
-import wandb
 
 # 데이터 경로를 입력하세요
-WAND_NAME = '6_res50_BC_fp16_ignore_step_8_4'
-SAVE_PT_NAME = '_6_res50_BC_fp16_ignore_step_8_4.pt'
-
-BATCH_SIZE_T = 8
-BATCH_SIZE_V = 4
+WAND_NAME = '11_unet_CGM_BC_fp16_ignore_step_sgkf_hardaug_4_2_512'
+SAVE_PT_NAME = '_11_unet_CGM_BC_fp16_ignore_step_sgkf_hardaug_4_2_512.pt'
 
 IMAGE_ROOT = "../../../data/train/DCM"
 LABEL_ROOT = "../../../data/train/outputs_json"
@@ -49,11 +45,13 @@ CLASSES = [
 CLASS2IND = {v: i for i, v in enumerate(CLASSES)}
 IND2CLASS = {v: k for k, v in CLASS2IND.items()}
 
-LR = 1e-3
+BATCH_SIZE_T = 4
+BATCH_SIZE_V = 2
+LR = 1e-5
 RANDOM_SEED = 21
 
 NUM_EPOCHS = 100
-VAL_EVERY = 10
+VAL_EVERY = 1
 
 SAVED_DIR = "save_dir"
 
@@ -100,21 +98,21 @@ class XRayDataset(Dataset):
         groups = [os.path.dirname(fname) for fname in _filenames]
         
         # dummy label
-        ys = [0 for fname in _filenames]
-        # wrist_pa_oblique = [f'ID{str(fname).zfill(3)}' for fname in range(274,320)]
-        # wrist_pa_oblique.append('ID321')
-        # y = [ 0 if os.path.dirname(fname) in wrist_pa_oblique else 1 for fname in _filenames]    
+        # ys = [0 for fname in _filenames]
+        wrist_pa_oblique = [f'ID{str(fname).zfill(3)}' for fname in range(274,320)]
+        wrist_pa_oblique.append('ID321')
+        y = [ 0 if os.path.dirname(fname) in wrist_pa_oblique else 1 for fname in _filenames]    
 
 
         # 전체 데이터의 20%를 validation data로 쓰기 위해 `n_splits`를
         # 5으로 설정하여 KFold를 수행합니다.
-        gkf = GroupKFold(n_splits=5)
-        # sgkf = StratifiedGroupKFold(n_splits=5)
+        # gkf = GroupKFold(n_splits=5)
+        sgkf = StratifiedGroupKFold(n_splits=5)
 
         filenames = []
         labelnames = []
-        for i, (x, y) in enumerate(gkf.split(_filenames, ys, groups)):
-        # for i, (x, y) in enumerate(sgkf.split(_filenames, y, groups)):
+        # for i, (x, y) in enumerate(gkf.split(_filenames, ys, groups)):
+        for i, (x, y) in enumerate(sgkf.split(_filenames, y, groups)):
             if is_train:
                 # 0번을 validation dataset으로 사용합니다.
                 if i == 0:
@@ -199,16 +197,15 @@ tf_1 = A.Compose([
                 A.Resize(512, 512),
                 # A.CenterCrop(480, 480),
                 # A.Resize(512, 512),
-                A.RandomBrightnessContrast(brightness_limit = 0.05, contrast_limit = 0.3, p=0.5),
                 # A.Resize(1024, 1024),
                 # A.CenterCrop(980, 980),
                 # A.Resize(1024, 1024),
-                # A.OneOf([A.OneOf([A.Blur(blur_limit = 7, always_apply = True),
-                #                     A.GlassBlur(sigma = 0.7, max_delta = 1, iterations = 2, always_apply = True),
-                #                     A.MedianBlur(blur_limit = 7, always_apply = True)], p=1),
-                #          A.RandomBrightnessContrast(brightness_limit = 0.1, contrast_limit = 0.3,always_apply = True),
-                #          A.CLAHE(p=1.0)], 
-                #          p=0.5),
+                A.OneOf([A.OneOf([A.Blur(blur_limit = 4, always_apply = True),
+                                    A.GlassBlur(sigma = 0.4, max_delta = 1, iterations = 2, always_apply = True),
+                                    A.MedianBlur(blur_limit = 3, always_apply = True)], p=1),
+                         A.RandomBrightnessContrast(brightness_limit = 0.05, contrast_limit = 0.3,always_apply = True),
+                         A.CLAHE(p=1.0)], 
+                         p=0.5),
                 A.Rotate(10),
                 ])
 tf_2 = A.Compose([A.Resize(512, 512)
@@ -221,7 +218,7 @@ train_loader = DataLoader(
     dataset=train_dataset, 
     batch_size=BATCH_SIZE_T,
     shuffle=True,
-    num_workers=8,
+    num_workers=1,
     drop_last=True,
 )
 
@@ -258,8 +255,8 @@ def set_seed():
 def validation(epoch, model, data_loader, criterion, thr=0.5):
     print(f'Start validation #{epoch:2d}')
     model.eval()
-
-    dices = []
+    dices_list = [[] for _ in range(5)]
+    # dices = []
     with torch.no_grad():
         n_class = len(CLASSES)
         total_loss = 0
@@ -267,38 +264,45 @@ def validation(epoch, model, data_loader, criterion, thr=0.5):
 
         for step, (images, masks) in tqdm(enumerate(data_loader), total=len(data_loader)):
             images, masks = images.cuda(), masks.cuda()         
-            model = model.cuda()
+            # model = model.cuda()
             
-            outputs = model(images)['out']
-            # outputs = model(images)
+            # outputs = model(images)['out']
+            output_d1, output_d2, output_d3, output_d4, output_d5 = model(images)
+            img_list = [output_d1, output_d2, output_d3, output_d4, output_d5]
             
-            output_h, output_w = outputs.size(-2), outputs.size(-1)
-            mask_h, mask_w = masks.size(-2), masks.size(-1)
-            
-            # gt와 prediction의 크기가 다른 경우 prediction을 gt에 맞춰 interpolation 합니다.
-            if output_h != mask_h or output_w != mask_w:
-                outputs = F.interpolate(outputs, size=(mask_h, mask_w), mode="bilinear")
-            
-            loss = criterion(outputs, masks)
-            total_loss += loss
-            cnt += 1
-            
-            outputs = torch.sigmoid(outputs)
-            outputs = (outputs > thr).detach().cpu()
-            masks = masks.detach().cpu()
-            
-            dice = dice_coef(outputs, masks)
-            dices.append(dice)
+            for i, outputs in enumerate(img_list):
+                output_h, output_w = outputs.size(-2), outputs.size(-1)
+                mask_h, mask_w = masks.size(-2), masks.size(-1)
                 
-    dices = torch.cat(dices, 0)
-    dices_per_class = torch.mean(dices, 0)
-    dice_str = [
-        f"{c:<12}: {d.item():.4f}"
-        for c, d in zip(CLASSES, dices_per_class)
-    ]
-    dice_str = "\n".join(dice_str)
+                # gt와 prediction의 크기가 다른 경우 prediction을 gt에 맞춰 interpolation 합니다.
+                if output_h != mask_h or output_w != mask_w:
+                    outputs = F.interpolate(outputs, size=(mask_h, mask_w), mode="bilinear")
+                
+                # loss = criterion(outputs, masks)
+                # total_loss += loss
+                # cnt += 1
+                
+                outputs = torch.sigmoid(outputs)
+                outputs = (outputs > thr).detach().cpu()
+                masks = masks.detach().cpu()
+                
+                dice = dice_coef(outputs, masks)
+                # dices.append(dice)
+                dices_list[i].append(dice)
     
-    avg_dice = torch.mean(dices_per_class).item()
+    avg_dices = [torch.mean(torch.cat(dices)) for dices in dices_list]
+    avg_dice = sum(avg_dices) / len(avg_dices)
+
+
+    # dices = torch.cat(dices, 0)
+    # dices_per_class = torch.mean(dices, 0)
+    # dice_str = [
+    #     f"{c:<12}: {d.item():.4f}"
+    #     for c, d in zip(CLASSES, dices_per_class)
+    # ]
+    # dice_str = "\n".join(dice_str)
+    
+    # avg_dice = torch.mean(dices_per_class).item()
     
     return avg_dice
 
@@ -321,30 +325,34 @@ def train(model, data_loader, val_loader, criterion, optimizer):
 
             # outputs = model(images)['out']
             
-            with torch.cuda.amp.autocast(): #fp16 연산
-                outputs = model(images)['out']
-                # outputs = model(images)
-                loss = criterion(outputs, masks)
+            with torch.cuda.amp.autocast(): #fp16 연산 , CGM 연산
+                output_d1, output_d2, output_d3, output_d4, output_d5 = model(images)
+                loss_d1 = criterion(output_d1, masks)
+                loss_d2 = criterion(output_d2, masks)
+                loss_d3 = criterion(output_d3, masks)
+                loss_d4 = criterion(output_d4, masks)
+                loss_d5 = criterion(output_d5, masks)
+                total_loss = (loss_d1 + loss_d2 + loss_d3 + loss_d4 + loss_d5) / 5
 
             # loss를 계산합니다.
             # loss = criterion(outputs, masks)
             optimizer.zero_grad()
-            scaler.scale(loss).backward()
+            scaler.scale(total_loss).backward()
             scaler.step(optimizer)
             scaler.update()
             # loss.backward()
             # optimizer.step()
             
             # step 주기에 따라 loss를 출력합니다.
-            if (step + 1) % 20 == 0:
+            if (step + 1) % 25 == 0:
                 print(
                     f'{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")} | '
                     f'Epoch [{epoch+1}/{NUM_EPOCHS}], '
                     f'Step [{step+1}/{len(train_loader)}], '
-                    f'Loss: {round(loss.item(),4)}, '
-                    f'lr: {scheduler.get_last_lr()[0]}'
+                    f'Loss: {round(total_loss.item(),4)}, '
+                    f'lr: {scheduler.get_last_lr()[0]:.7f}'
                 )
-                wandb.log({'Train Loss': loss.item(),
+                wandb.log({'Train Loss': total_loss.item(),
                            'learning rate' : scheduler.get_last_lr()[0]})
         scheduler.step()
         # validation 주기에 따라 loss를 출력하고 best model을 저장합니다.
@@ -362,16 +370,16 @@ def train(model, data_loader, val_loader, criterion, optimizer):
                 
 
 
-model = models.segmentation.fcn_resnet50(pretrained=True)
+# model = models.segmentation.fcn_resnet50(pretrained=False)
 # model = models.segmentation.fcn_resnet101(pretrained=True)
 # model = models.segmentation.fcn_resnet101(pretrained=True)
 # checkpoint_path = './save_dir/latest_resnet101_epoch.pt'
 # model = torch.load(checkpoint_path)
-# model = UNet_3Plus(n_classes=len(CLASSES))
+model = UNet_3Plus_DeepSup_CGM(n_classes=len(CLASSES))
 
 
 # output class 개수를 dataset에 맞도록 수정합니다.
-model.classifier[4] = nn.Conv2d(512, len(CLASSES), kernel_size=1)
+# model.classifier[4] = nn.Conv2d(512, len(CLASSES), kernel_size=1)
 # model.classifier[4] = nn.Conv2d(256, len(CLASSES), kernel_size=1)
 
 
@@ -387,7 +395,6 @@ optimizer = optim.AdamW(params=model.parameters(), lr=LR, weight_decay=1e-6)
 # 스케줄러 설정
 # scheduler = CosineAnnealingLR(optimizer, T_max=T_max, eta_min = 1e-7)
 # scheduler = StepLR(optimizer, step_size=20, gamma=0.1)
-# scheduler = MultiStepLR(optimizer, milestones=[70,90], gamma=1e-4)
 scheduler = MultiStepLR(optimizer, milestones=[30,90], gamma=1e-3)
 
 # 시드를 설정합니다.

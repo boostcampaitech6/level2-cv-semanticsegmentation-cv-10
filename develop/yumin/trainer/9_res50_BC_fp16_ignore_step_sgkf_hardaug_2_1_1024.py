@@ -30,11 +30,11 @@ import matplotlib.pyplot as plt
 import wandb
 
 # 데이터 경로를 입력하세요
-WAND_NAME = '6_res50_BC_fp16_ignore_step_8_4'
-SAVE_PT_NAME = '_6_res50_BC_fp16_ignore_step_8_4.pt'
+WAND_NAME = '9_res50_BC_fp16_ignore_step_sgkf_hardaug_2_1_1024'
+SAVE_PT_NAME = '_9_res50_BC_fp16_ignore_step_sgkf_hardaug_2_1_1024.pt'
 
-BATCH_SIZE_T = 8
-BATCH_SIZE_V = 4
+BATCH_SIZE_T = 2
+BATCH_SIZE_V = 1
 
 IMAGE_ROOT = "../../../data/train/DCM"
 LABEL_ROOT = "../../../data/train/outputs_json"
@@ -100,21 +100,21 @@ class XRayDataset(Dataset):
         groups = [os.path.dirname(fname) for fname in _filenames]
         
         # dummy label
-        ys = [0 for fname in _filenames]
-        # wrist_pa_oblique = [f'ID{str(fname).zfill(3)}' for fname in range(274,320)]
-        # wrist_pa_oblique.append('ID321')
-        # y = [ 0 if os.path.dirname(fname) in wrist_pa_oblique else 1 for fname in _filenames]    
+        # ys = [0 for fname in _filenames]
+        wrist_pa_oblique = [f'ID{str(fname).zfill(3)}' for fname in range(274,320)]
+        wrist_pa_oblique.append('ID321')
+        y = [ 0 if os.path.dirname(fname) in wrist_pa_oblique else 1 for fname in _filenames]    
 
 
         # 전체 데이터의 20%를 validation data로 쓰기 위해 `n_splits`를
         # 5으로 설정하여 KFold를 수행합니다.
-        gkf = GroupKFold(n_splits=5)
-        # sgkf = StratifiedGroupKFold(n_splits=5)
+        # gkf = GroupKFold(n_splits=5)
+        sgkf = StratifiedGroupKFold(n_splits=5)
 
         filenames = []
         labelnames = []
-        for i, (x, y) in enumerate(gkf.split(_filenames, ys, groups)):
-        # for i, (x, y) in enumerate(sgkf.split(_filenames, y, groups)):
+        # for i, (x, y) in enumerate(gkf.split(_filenames, ys, groups)):
+        for i, (x, y) in enumerate(sgkf.split(_filenames, y, groups)):
             if is_train:
                 # 0번을 validation dataset으로 사용합니다.
                 if i == 0:
@@ -196,22 +196,21 @@ PALETTE = [
 ]
 
 tf_1 = A.Compose([
-                A.Resize(512, 512),
+                # A.Resize(512, 512),
                 # A.CenterCrop(480, 480),
                 # A.Resize(512, 512),
-                A.RandomBrightnessContrast(brightness_limit = 0.05, contrast_limit = 0.3, p=0.5),
-                # A.Resize(1024, 1024),
+                A.Resize(1024, 1024),
                 # A.CenterCrop(980, 980),
                 # A.Resize(1024, 1024),
-                # A.OneOf([A.OneOf([A.Blur(blur_limit = 7, always_apply = True),
-                #                     A.GlassBlur(sigma = 0.7, max_delta = 1, iterations = 2, always_apply = True),
-                #                     A.MedianBlur(blur_limit = 7, always_apply = True)], p=1),
-                #          A.RandomBrightnessContrast(brightness_limit = 0.1, contrast_limit = 0.3,always_apply = True),
-                #          A.CLAHE(p=1.0)], 
-                #          p=0.5),
+                A.OneOf([A.OneOf([A.Blur(blur_limit = 4, always_apply = True),
+                                    A.GlassBlur(sigma = 0.7, max_delta = 1, iterations = 2, always_apply = True),
+                                    A.MedianBlur(blur_limit = 4, always_apply = True)], p=1),
+                         A.RandomBrightnessContrast(brightness_limit = 0.05, contrast_limit = 0.3,always_apply = True),
+                         A.CLAHE(p=1.0)], 
+                         p=0.5),
                 A.Rotate(10),
                 ])
-tf_2 = A.Compose([A.Resize(512, 512)
+tf_2 = A.Compose([A.Resize(1024, 1024)
                 ])
 
 train_dataset = XRayDataset(is_train=True, transforms=tf_1)
@@ -336,7 +335,7 @@ def train(model, data_loader, val_loader, criterion, optimizer):
             # optimizer.step()
             
             # step 주기에 따라 loss를 출력합니다.
-            if (step + 1) % 20 == 0:
+            if (step + 1) % 25 == 0:
                 print(
                     f'{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")} | '
                     f'Epoch [{epoch+1}/{NUM_EPOCHS}], '
@@ -387,7 +386,6 @@ optimizer = optim.AdamW(params=model.parameters(), lr=LR, weight_decay=1e-6)
 # 스케줄러 설정
 # scheduler = CosineAnnealingLR(optimizer, T_max=T_max, eta_min = 1e-7)
 # scheduler = StepLR(optimizer, step_size=20, gamma=0.1)
-# scheduler = MultiStepLR(optimizer, milestones=[70,90], gamma=1e-4)
 scheduler = MultiStepLR(optimizer, milestones=[30,90], gamma=1e-3)
 
 # 시드를 설정합니다.

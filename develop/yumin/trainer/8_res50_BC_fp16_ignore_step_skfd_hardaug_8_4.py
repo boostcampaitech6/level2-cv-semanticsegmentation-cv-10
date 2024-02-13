@@ -50,7 +50,7 @@ CLASS2IND = {v: i for i, v in enumerate(CLASSES)}
 IND2CLASS = {v: k for k, v in CLASS2IND.items()}
 
 
-LR = 1e-4
+LR = 1e-3
 RANDOM_SEED = 21
 
 NUM_EPOCHS = 100
@@ -387,7 +387,7 @@ optimizer = optim.AdamW(params=model.parameters(), lr=LR, weight_decay=1e-6)
 # 스케줄러 설정
 # scheduler = CosineAnnealingLR(optimizer, T_max=T_max, eta_min = 1e-7)
 # scheduler = StepLR(optimizer, step_size=20, gamma=0.1)
-scheduler = MultiStepLR(optimizer, milestones=[50,90], gamma=1e-3)
+scheduler = MultiStepLR(optimizer, milestones=[30,90], gamma=1e-3)
 
 # 시드를 설정합니다.
 set_seed()
