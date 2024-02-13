@@ -31,7 +31,7 @@ import wandb
 
 # 데이터 경로를 입력하세요
 WAND_NAME ='4dot5_res50_BC_fp16_8_4'
-SAVE_PT_NAME = '4dot5_res50_BC_fp16_8_4.pt'
+SAVE_PT_NAME = '_4dot5_res50_BC_fp16_8_4.pt'
 
 BATCH_SIZE_T = 8
 BATCH_SIZE_V = 4

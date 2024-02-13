@@ -1,0 +1,42 @@
+/opt/conda/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:136: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
+2024-02-11 10:05:13 | Epoch [1/150], Step [25/312], Loss: 0.6932
+2024-02-11 10:05:36 | Epoch [1/150], Step [50/312], Loss: 0.6932
+2024-02-11 10:05:59 | Epoch [1/150], Step [75/312], Loss: 0.6931
+2024-02-11 10:06:22 | Epoch [1/150], Step [100/312], Loss: 0.6931
+2024-02-11 10:06:45 | Epoch [1/150], Step [125/312], Loss: 0.6931
+2024-02-11 10:07:08 | Epoch [1/150], Step [150/312], Loss: 0.6931
+2024-02-11 10:07:31 | Epoch [1/150], Step [175/312], Loss: 0.6931
+2024-02-11 10:07:54 | Epoch [1/150], Step [200/312], Loss: 0.6931
+2024-02-11 10:08:17 | Epoch [1/150], Step [225/312], Loss: 0.6931
+2024-02-11 10:08:40 | Epoch [1/150], Step [250/312], Loss: 0.6931
+2024-02-11 10:09:03 | Epoch [1/150], Step [275/312], Loss: 0.6931
+2024-02-11 10:09:26 | Epoch [1/150], Step [300/312], Loss: 0.6931
+2024-02-11 10:10:02 | Epoch [2/150], Step [25/312], Loss: 0.6931
+2024-02-11 10:10:25 | Epoch [2/150], Step [50/312], Loss: 0.6931
+2024-02-11 10:10:48 | Epoch [2/150], Step [75/312], Loss: 0.6931
+2024-02-11 10:11:11 | Epoch [2/150], Step [100/312], Loss: 0.6931
+2024-02-11 10:11:34 | Epoch [2/150], Step [125/312], Loss: 0.6931
+2024-02-11 10:11:57 | Epoch [2/150], Step [150/312], Loss: 0.6931
+2024-02-11 10:12:20 | Epoch [2/150], Step [175/312], Loss: 0.6931
+2024-02-11 10:12:43 | Epoch [2/150], Step [200/312], Loss: 0.6931
+2024-02-11 10:13:06 | Epoch [2/150], Step [225/312], Loss: 0.6931
+Traceback (most recent call last):
+  File "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom.py", line 384, in <module>
+  File "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom.py", line 325, in train
+    scaler.scale(loss).backward()
+  File "/opt/conda/lib/python3.10/site-packages/torch/cuda/amp/grad_scaler.py", line 416, in step
+    retval = self._maybe_opt_step(optimizer, optimizer_state, *args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/torch/cuda/amp/grad_scaler.py", line 315, in _maybe_opt_step
+    retval = optimizer.step(*args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/torch/optim/lr_scheduler.py", line 68, in wrapper
+    return wrapped(*args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/torch/optim/optimizer.py", line 373, in wrapper
+    out = func(*args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/torch/optim/optimizer.py", line 76, in _use_grad
+    ret = func(self, *args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/torch/optim/adamw.py", line 173, in step
+    self._init_group(
+  File "/opt/conda/lib/python3.10/site-packages/torch/optim/adamw.py", line 105, in _init_group
+    if p.grad.is_sparse:
+KeyboardInterrupt

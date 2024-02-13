@@ -1,0 +1,1 @@
+{"Train Loss": 0.0011106409365311265, "learning rate": "0.0000001", "_timestamp": 1707664427.7045443, "_runtime": 14892.741747379303, "_step": 125, "Validation Dice": 0.9129863381385803, "_wandb": {"runtime": 14906}}

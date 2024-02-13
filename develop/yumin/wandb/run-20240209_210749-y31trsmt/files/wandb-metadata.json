@@ -1,0 +1,88 @@
+{
+    "os": "Linux-5.4.0-99-generic-x86_64-with-glibc2.31",
+    "python": "3.10.13",
+    "heartbeatAt": "2024-02-09T12:07:55.774601",
+    "startedAt": "2024-02-09T12:07:49.392704",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom.py",
+    "codePathLocal": "custom.py",
+    "codePath": "develop/yumin/custom.py",
+    "git": {
+        "remote": "https://github.com/boostcampaitech6/level2-cv-semanticsegmentation-cv-10.git",
+        "commit": "551722d52d86d898687b00d96c9a8970da815b1f"
+    },
+    "email": "edwin.minle@gmail.com",
+    "root": "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10",
+    "host": "instance-6956",
+    "username": "root",
+    "executable": "/opt/conda/bin/python",
+    "cpu_count": 8,
+    "cpu_count_logical": 8,
+    "cpu_freq": {
+        "current": 2200.289,
+        "min": 0.0,
+        "max": 0.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 2200.289,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2200.289,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2200.289,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2200.289,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2200.289,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2200.289,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2200.289,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2200.289,
+            "min": 0.0,
+            "max": 0.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 48.963348388671875,
+            "used": 35.20824432373047
+        }
+    },
+    "gpu": "Tesla V100-SXM2-32GB",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "Tesla V100-SXM2-32GB",
+            "memory_total": 34089730048
+        }
+    ],
+    "memory": {
+        "total": 88.38546752929688
+    }
+}

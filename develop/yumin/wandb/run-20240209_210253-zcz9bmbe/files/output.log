@@ -1,0 +1,18 @@
+
+2024-02-09 21:03:42 | Epoch [1/150], Step [25/80], Loss: 0.5625
+2024-02-09 21:04:12 | Epoch [1/150], Step [50/80], Loss: 0.4698
+2024-02-09 21:04:42 | Epoch [1/150], Step [75/80], Loss: 0.3869
+2024-02-09 21:05:25 | Epoch [2/150], Step [25/80], Loss: 0.3026
+2024-02-09 21:05:55 | Epoch [2/150], Step [50/80], Loss: 0.2465
+2024-02-09 21:06:22 | Epoch [2/150], Step [75/80], Loss: 0.2025
+2024-02-09 21:07:06 | Epoch [3/150], Step [25/80], Loss: 0.1627
+Traceback (most recent call last):
+  File "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom.py", line 344, in <module>
+    train(model, train_loader, valid_loader, criterion, optimizer)
+  File "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom.py", line 299, in train
+    loss.backward()
+  File "/opt/conda/lib/python3.10/site-packages/torch/_tensor.py", line 492, in backward
+    torch.autograd.backward(
+  File "/opt/conda/lib/python3.10/site-packages/torch/autograd/__init__.py", line 251, in backward
+    Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+KeyboardInterrupt

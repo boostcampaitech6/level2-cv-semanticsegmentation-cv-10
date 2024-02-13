@@ -1,0 +1,26 @@
+2024-02-09 20:09:25,381 INFO    MainThread:167975 [wandb_setup.py:_flush():76] Current SDK version is 0.16.3
+2024-02-09 20:09:25,381 INFO    MainThread:167975 [wandb_setup.py:_flush():76] Configure stats pid to 167975
+2024-02-09 20:09:25,381 INFO    MainThread:167975 [wandb_setup.py:_flush():76] Loading settings from /data/ephemeral/home/.config/wandb/settings
+2024-02-09 20:09:25,381 INFO    MainThread:167975 [wandb_setup.py:_flush():76] Loading settings from /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/settings
+2024-02-09 20:09:25,381 INFO    MainThread:167975 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2024-02-09 20:09:25,381 INFO    MainThread:167975 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2024-02-09 20:09:25,381 INFO    MainThread:167975 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'develop/yumin/custom.py', 'program_abspath': '/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom.py', 'program': '/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom.py'}
+2024-02-09 20:09:25,381 INFO    MainThread:167975 [wandb_init.py:_log_setup():526] Logging user logs to /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_200925-ksgv251n/logs/debug.log
+2024-02-09 20:09:25,381 INFO    MainThread:167975 [wandb_init.py:_log_setup():527] Logging internal logs to /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_200925-ksgv251n/logs/debug-internal.log
+2024-02-09 20:09:25,381 INFO    MainThread:167975 [wandb_init.py:init():566] calling init triggers
+2024-02-09 20:09:25,381 INFO    MainThread:167975 [wandb_init.py:init():573] wandb.init called with sweep_config: {}
+config: {}
+2024-02-09 20:09:25,381 INFO    MainThread:167975 [wandb_init.py:init():616] starting backend
+2024-02-09 20:09:25,381 INFO    MainThread:167975 [wandb_init.py:init():620] setting up manager
+2024-02-09 20:09:25,385 INFO    MainThread:167975 [backend.py:_multiprocessing_setup():105] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2024-02-09 20:09:25,386 INFO    MainThread:167975 [wandb_init.py:init():628] backend started and connected
+2024-02-09 20:09:25,394 INFO    MainThread:167975 [wandb_init.py:init():720] updated telemetry
+2024-02-09 20:09:25,398 INFO    MainThread:167975 [wandb_init.py:init():753] communicating run to backend with 90.0 second timeout
+2024-02-09 20:09:36,112 INFO    MainThread:167975 [wandb_run.py:_on_init():2262] communicating current version
+2024-02-09 20:09:41,114 INFO    MainThread:167975 [wandb_run.py:_on_init():2271] got version response 
+2024-02-09 20:09:41,115 INFO    MainThread:167975 [wandb_init.py:init():804] starting run threads in backend
+2024-02-09 20:09:45,842 INFO    MainThread:167975 [wandb_run.py:_console_start():2241] atexit reg
+2024-02-09 20:09:45,842 INFO    MainThread:167975 [wandb_run.py:_redirect():2096] redirect: wrap_raw
+2024-02-09 20:09:45,842 INFO    MainThread:167975 [wandb_run.py:_redirect():2161] Wrapping output streams.
+2024-02-09 20:09:45,842 INFO    MainThread:167975 [wandb_run.py:_redirect():2186] Redirects installed.
+2024-02-09 20:09:45,843 INFO    MainThread:167975 [wandb_init.py:init():847] run started, returning control to user process

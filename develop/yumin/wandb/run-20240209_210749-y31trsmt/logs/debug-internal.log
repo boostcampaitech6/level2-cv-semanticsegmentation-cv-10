@@ -1,0 +1,165 @@
+2024-02-09 21:07:49,404 INFO    StreamThr :178099 [internal.py:wandb_internal():86] W&B internal server running at pid: 178099, started at: 2024-02-09 21:07:49.403622
+2024-02-09 21:07:49,408 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: status
+2024-02-09 21:07:49,409 INFO    WriterThread:178099 [datastore.py:open_for_write():87] open: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_210749-y31trsmt/run-y31trsmt.wandb
+2024-02-09 21:07:49,409 DEBUG   SenderThread:178099 [sender.py:send():382] send: header
+2024-02-09 21:07:49,412 DEBUG   SenderThread:178099 [sender.py:send():382] send: run
+2024-02-09 21:07:54,413 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: keepalive
+2024-02-09 21:07:55,059 INFO    SenderThread:178099 [dir_watcher.py:__init__():211] watching files in: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_210749-y31trsmt/files
+2024-02-09 21:07:55,059 INFO    SenderThread:178099 [sender.py:_start_run_threads():1136] run started: y31trsmt with start time 1707480469.40014
+2024-02-09 21:07:55,059 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 21:07:55,066 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: check_version
+2024-02-09 21:07:55,066 DEBUG   SenderThread:178099 [sender.py:send_request():409] send_request: check_version
+2024-02-09 21:07:55,755 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: run_start
+2024-02-09 21:07:55,759 DEBUG   HandlerThread:178099 [system_info.py:__init__():27] System info init
+2024-02-09 21:07:55,759 DEBUG   HandlerThread:178099 [system_info.py:__init__():42] System info init done
+2024-02-09 21:07:55,759 INFO    HandlerThread:178099 [system_monitor.py:start():194] Starting system monitor
+2024-02-09 21:07:55,759 INFO    SystemMonitor:178099 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2024-02-09 21:07:55,760 INFO    HandlerThread:178099 [system_monitor.py:probe():214] Collecting system info
+2024-02-09 21:07:55,760 INFO    SystemMonitor:178099 [interfaces.py:start():190] Started cpu monitoring
+2024-02-09 21:07:55,762 INFO    SystemMonitor:178099 [interfaces.py:start():190] Started disk monitoring
+2024-02-09 21:07:55,763 INFO    SystemMonitor:178099 [interfaces.py:start():190] Started gpu monitoring
+2024-02-09 21:07:55,764 INFO    SystemMonitor:178099 [interfaces.py:start():190] Started memory monitoring
+2024-02-09 21:07:55,765 INFO    SystemMonitor:178099 [interfaces.py:start():190] Started network monitoring
+2024-02-09 21:07:55,774 DEBUG   HandlerThread:178099 [system_info.py:probe():151] Probing system
+2024-02-09 21:07:55,776 DEBUG   HandlerThread:178099 [system_info.py:_probe_git():136] Probing git
+2024-02-09 21:07:55,781 DEBUG   HandlerThread:178099 [system_info.py:_probe_git():144] Probing git done
+2024-02-09 21:07:55,781 DEBUG   HandlerThread:178099 [system_info.py:probe():199] Probing system done
+2024-02-09 21:07:55,781 DEBUG   HandlerThread:178099 [system_monitor.py:probe():223] {'os': 'Linux-5.4.0-99-generic-x86_64-with-glibc2.31', 'python': '3.10.13', 'heartbeatAt': '2024-02-09T12:07:55.774601', 'startedAt': '2024-02-09T12:07:49.392704', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': '/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom.py', 'codePathLocal': 'custom.py', 'codePath': 'develop/yumin/custom.py', 'git': {'remote': 'https://github.com/boostcampaitech6/level2-cv-semanticsegmentation-cv-10.git', 'commit': '551722d52d86d898687b00d96c9a8970da815b1f'}, 'email': 'edwin.minle@gmail.com', 'root': '/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10', 'host': 'instance-6956', 'username': 'root', 'executable': '/opt/conda/bin/python', 'cpu_count': 8, 'cpu_count_logical': 8, 'cpu_freq': {'current': 2200.289, 'min': 0.0, 'max': 0.0}, 'cpu_freq_per_core': [{'current': 2200.289, 'min': 0.0, 'max': 0.0}, {'current': 2200.289, 'min': 0.0, 'max': 0.0}, {'current': 2200.289, 'min': 0.0, 'max': 0.0}, {'current': 2200.289, 'min': 0.0, 'max': 0.0}, {'current': 2200.289, 'min': 0.0, 'max': 0.0}, {'current': 2200.289, 'min': 0.0, 'max': 0.0}, {'current': 2200.289, 'min': 0.0, 'max': 0.0}, {'current': 2200.289, 'min': 0.0, 'max': 0.0}], 'disk': {'/': {'total': 48.963348388671875, 'used': 35.20824432373047}}, 'gpu': 'Tesla V100-SXM2-32GB', 'gpu_count': 1, 'gpu_devices': [{'name': 'Tesla V100-SXM2-32GB', 'memory_total': 34089730048}], 'memory': {'total': 88.38546752929688}}
+2024-02-09 21:07:55,781 INFO    HandlerThread:178099 [system_monitor.py:probe():224] Finished collecting system info
+2024-02-09 21:07:55,782 INFO    HandlerThread:178099 [system_monitor.py:probe():227] Publishing system info
+2024-02-09 21:07:55,782 DEBUG   HandlerThread:178099 [system_info.py:_save_conda():208] Saving list of conda packages installed into the current environment
+2024-02-09 21:07:56,060 INFO    Thread-13 :178099 [dir_watcher.py:_on_file_created():271] file/dir created: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_210749-y31trsmt/files/conda-environment.yaml
+2024-02-09 21:08:00,532 DEBUG   HandlerThread:178099 [system_info.py:_save_conda():220] Saving conda packages done
+2024-02-09 21:08:00,533 INFO    HandlerThread:178099 [system_monitor.py:probe():229] Finished publishing system info
+2024-02-09 21:08:00,537 DEBUG   SenderThread:178099 [sender.py:send():382] send: files
+2024-02-09 21:08:00,537 INFO    SenderThread:178099 [sender.py:_save_file():1403] saving file wandb-metadata.json with policy now
+2024-02-09 21:08:00,538 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 21:08:00,542 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: python_packages
+2024-02-09 21:08:00,543 DEBUG   SenderThread:178099 [sender.py:send_request():409] send_request: python_packages
+2024-02-09 21:08:00,543 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: stop_status
+2024-02-09 21:08:00,544 DEBUG   SenderThread:178099 [sender.py:send_request():409] send_request: stop_status
+2024-02-09 21:08:00,548 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: internal_messages
+2024-02-09 21:08:00,952 DEBUG   SenderThread:178099 [sender.py:send():382] send: telemetry
+2024-02-09 21:08:01,060 INFO    Thread-13 :178099 [dir_watcher.py:_on_file_modified():288] file/dir modified: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_210749-y31trsmt/files/conda-environment.yaml
+2024-02-09 21:08:01,061 INFO    Thread-13 :178099 [dir_watcher.py:_on_file_created():271] file/dir created: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_210749-y31trsmt/files/wandb-metadata.json
+2024-02-09 21:08:01,061 INFO    Thread-13 :178099 [dir_watcher.py:_on_file_created():271] file/dir created: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_210749-y31trsmt/files/requirements.txt
+2024-02-09 21:08:01,494 INFO    wandb-upload_0:178099 [upload_job.py:push():131] Uploaded file /tmp/tmp4vgb2jtfwandb/uer19tmo-wandb-metadata.json
+2024-02-09 21:08:05,953 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 21:08:10,954 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 21:08:15,546 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: internal_messages
+2024-02-09 21:08:15,546 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: stop_status
+2024-02-09 21:08:15,546 DEBUG   SenderThread:178099 [sender.py:send_request():409] send_request: stop_status
+2024-02-09 21:08:16,802 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 21:08:21,807 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 21:08:22,007 ERROR   SenderThread:178099 [internal_api.py:execute():373] 409 response executing GraphQL.
+2024-02-09 21:08:22,007 ERROR   SenderThread:178099 [internal_api.py:execute():374] {"errors":[{"message":"run level2-cv-10-detection/yumin/y31trsmt was previously created and deleted; try a new run name","path":["upsertBucket"]}],"data":{"upsertBucket":null}}
+2024-02-09 21:08:23,226 ERROR   SenderThread:178099 [internal_api.py:execute():373] 409 response executing GraphQL.
+2024-02-09 21:08:23,226 ERROR   SenderThread:178099 [internal_api.py:execute():374] {"errors":[{"message":"run level2-cv-10-detection/yumin/y31trsmt was previously created and deleted; try a new run name","path":["upsertBucket"]}],"data":{"upsertBucket":null}}
+2024-02-09 21:08:25,789 ERROR   SenderThread:178099 [internal_api.py:execute():373] 409 response executing GraphQL.
+2024-02-09 21:08:25,789 ERROR   SenderThread:178099 [internal_api.py:execute():374] {"errors":[{"message":"run level2-cv-10-detection/yumin/y31trsmt was previously created and deleted; try a new run name","path":["upsertBucket"]}],"data":{"upsertBucket":null}}
+2024-02-09 21:08:25,789 INFO    SenderThread:178099 [retry.py:__call__():172] Retry attempt failed:
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/retry.py", line 131, in __call__
+    result = self._call_fn(*args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/internal/internal_api.py", line 369, in execute
+    return self.client.execute(*args, **kwargs)  # type: ignore
+  File "/opt/conda/lib/python3.10/site-packages/wandb/vendor/gql-0.2.0/wandb_gql/client.py", line 52, in execute
+    result = self._get_result(document, *args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/vendor/gql-0.2.0/wandb_gql/client.py", line 60, in _get_result
+    return self.transport.execute(document, *args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/gql_request.py", line 59, in execute
+    request.raise_for_status()
+  File "/opt/conda/lib/python3.10/site-packages/requests/models.py", line 1021, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 409 Client Error: Conflict for url: https://api.wandb.ai/graphql
+2024-02-09 21:08:30,118 ERROR   SenderThread:178099 [internal_api.py:execute():373] 409 response executing GraphQL.
+2024-02-09 21:08:30,118 ERROR   SenderThread:178099 [internal_api.py:execute():374] {"errors":[{"message":"run level2-cv-10-detection/yumin/y31trsmt was previously created and deleted; try a new run name","path":["upsertBucket"]}],"data":{"upsertBucket":null}}
+2024-02-09 21:08:30,544 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: stop_status
+2024-02-09 21:08:30,545 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: internal_messages
+2024-02-09 21:08:35,559 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: keepalive
+2024-02-09 21:08:39,145 ERROR   SenderThread:178099 [internal_api.py:execute():373] 409 response executing GraphQL.
+2024-02-09 21:08:39,145 ERROR   SenderThread:178099 [internal_api.py:execute():374] {"errors":[{"message":"run level2-cv-10-detection/yumin/y31trsmt was previously created and deleted; try a new run name","path":["upsertBucket"]}],"data":{"upsertBucket":null}}
+2024-02-09 21:08:39,474 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: partial_history
+2024-02-09 21:08:40,569 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: keepalive
+2024-02-09 21:08:45,545 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: internal_messages
+2024-02-09 21:08:50,568 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: keepalive
+2024-02-09 21:08:55,569 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: keepalive
+2024-02-09 21:08:55,765 DEBUG   SystemMonitor:178099 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2024-02-09 21:08:58,615 ERROR   SenderThread:178099 [internal_api.py:execute():373] 409 response executing GraphQL.
+2024-02-09 21:08:58,615 ERROR   SenderThread:178099 [internal_api.py:execute():374] {"errors":[{"message":"run level2-cv-10-detection/yumin/y31trsmt was previously created and deleted; try a new run name","path":["upsertBucket"]}],"data":{"upsertBucket":null}}
+2024-02-09 21:09:00,545 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: internal_messages
+2024-02-09 21:09:05,589 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: keepalive
+2024-02-09 21:09:09,191 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: partial_history
+2024-02-09 21:09:10,603 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: keepalive
+2024-02-09 21:09:15,545 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: internal_messages
+2024-02-09 21:09:20,605 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: keepalive
+2024-02-09 21:09:25,606 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: keepalive
+2024-02-09 21:09:30,545 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: internal_messages
+2024-02-09 21:09:33,312 ERROR   SenderThread:178099 [internal_api.py:execute():373] 409 response executing GraphQL.
+2024-02-09 21:09:33,312 ERROR   SenderThread:178099 [internal_api.py:execute():374] {"errors":[{"message":"run level2-cv-10-detection/yumin/y31trsmt was previously created and deleted; try a new run name","path":["upsertBucket"]}],"data":{"upsertBucket":null}}
+2024-02-09 21:09:35,608 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: keepalive
+2024-02-09 21:09:39,953 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: partial_history
+2024-02-09 21:09:40,609 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: keepalive
+2024-02-09 21:09:43,655 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: poll_exit
+2024-02-09 21:09:48,656 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: keepalive
+2024-02-09 21:09:53,658 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: keepalive
+2024-02-09 21:09:58,659 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: keepalive
+2024-02-09 21:10:03,661 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: keepalive
+2024-02-09 21:10:08,662 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: keepalive
+2024-02-09 21:10:13,664 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: keepalive
+2024-02-09 21:10:18,665 DEBUG   HandlerThread:178099 [handler.py:handle_request():146] handle_request: keepalive
+2024-02-09 21:10:19,819 INFO    memory    :178099 [interfaces.py:monitor():140] Process proc.memory.rssMB has exited.
+2024-02-09 21:10:19,820 DEBUG   SystemMonitor:178099 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2024-02-09 21:10:19,820 DEBUG   SystemMonitor:178099 [system_monitor.py:_start():183] Publishing last batch of metrics
+2024-02-09 21:10:22,576 WARNING StreamThr :178099 [internal.py:is_dead():414] Internal process exiting, parent pid 178026 disappeared
+2024-02-09 21:10:22,576 ERROR   StreamThr :178099 [internal.py:wandb_internal():152] Internal process shutdown.
+2024-02-09 21:10:22,821 INFO    HandlerThread:178099 [handler.py:finish():869] shutting down handler
+2024-02-09 21:10:22,822 INFO    HandlerThread:178099 [system_monitor.py:finish():203] Stopping system monitor
+2024-02-09 21:10:22,822 INFO    HandlerThread:178099 [interfaces.py:finish():202] Joined cpu monitor
+2024-02-09 21:10:22,822 INFO    HandlerThread:178099 [interfaces.py:finish():202] Joined disk monitor
+2024-02-09 21:10:22,822 INFO    HandlerThread:178099 [interfaces.py:finish():202] Joined gpu monitor
+2024-02-09 21:10:22,822 INFO    HandlerThread:178099 [interfaces.py:finish():202] Joined memory monitor
+2024-02-09 21:10:22,822 INFO    WriterThread:178099 [datastore.py:close():296] close: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_210749-y31trsmt/run-y31trsmt.wandb
+2024-02-09 21:10:22,822 INFO    HandlerThread:178099 [interfaces.py:finish():202] Joined network monitor
+2024-02-09 21:10:44,506 ERROR   SenderThread:178099 [internal_api.py:execute():373] 409 response executing GraphQL.
+2024-02-09 21:10:44,506 ERROR   SenderThread:178099 [internal_api.py:execute():374] {"errors":[{"message":"run level2-cv-10-detection/yumin/y31trsmt was previously created and deleted; try a new run name","path":["upsertBucket"]}],"data":{"upsertBucket":null}}
+2024-02-09 21:10:44,507 ERROR   StreamThr :178099 [internal.py:wandb_internal():174] Thread SenderThread:
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/apis/normalize.py", line 41, in wrapper
+    return func(*args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/internal/internal_api.py", line 2216, in upsert_run
+    response = self.gql(
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/internal/internal_api.py", line 341, in gql
+    ret = self._retry_gql(
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/retry.py", line 131, in __call__
+    result = self._call_fn(*args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/internal/internal_api.py", line 369, in execute
+    return self.client.execute(*args, **kwargs)  # type: ignore
+  File "/opt/conda/lib/python3.10/site-packages/wandb/vendor/gql-0.2.0/wandb_gql/client.py", line 52, in execute
+    result = self._get_result(document, *args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/vendor/gql-0.2.0/wandb_gql/client.py", line 60, in _get_result
+    return self.transport.execute(document, *args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/gql_request.py", line 59, in execute
+    request.raise_for_status()
+  File "/opt/conda/lib/python3.10/site-packages/requests/models.py", line 1021, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 409 Client Error: Conflict for url: https://api.wandb.ai/graphql
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/internal/internal_util.py", line 49, in run
+    self._run()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/internal/internal_util.py", line 93, in _run
+    self._debounce()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/internal/internal.py", line 334, in _debounce
+    self._sm.debounce()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/internal/sender.py", line 540, in debounce
+    self._maybe_update_config(always=final)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/internal/sender.py", line 517, in _maybe_update_config
+    self._debounce_config()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/internal/sender.py", line 546, in _debounce_config
+    self._api.upsert_run(
+  File "/opt/conda/lib/python3.10/site-packages/wandb/apis/normalize.py", line 51, in wrapper
+    raise CommError(message, error)
+wandb.errors.CommError: run level2-cv-10-detection/yumin/y31trsmt was previously created and deleted; try a new run name (Error 409: Conflict)

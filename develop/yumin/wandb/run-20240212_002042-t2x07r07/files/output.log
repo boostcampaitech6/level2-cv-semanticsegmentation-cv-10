@@ -1,0 +1,24 @@
+/opt/conda/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:136: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
+2024-02-12 00:22:21 | Epoch [1/150], Step [25/39], Loss: 0.0852, lr: 0.0009045
+2024-02-12 00:24:11 | Epoch [2/150], Step [25/39], Loss: 0.0294, lr: 0.0006545
+2024-02-12 00:26:01 | Epoch [3/150], Step [25/39], Loss: 0.0239, lr: 0.0003456
+2024-02-12 00:27:55 | Epoch [4/150], Step [25/39], Loss: 0.0211, lr: 0.0000956
+2024-02-12 00:29:47 | Epoch [5/150], Step [25/39], Loss: 0.0203, lr: 0.0000001
+  0%|                                                                             | 0/40 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+ 18%|████████████                                                         | 7/40 [01:04<05:04,  9.22s/it]
+Traceback (most recent call last):
+  File "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/base_res.py", line 389, in <module>
+    train(model, train_loader, valid_loader, criterion, optimizer)
+  File "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/base_res.py", line 347, in train
+    dice = validation(epoch + 1, model, val_loader, criterion)
+  File "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/base_res.py", line 283, in validation
+    masks = masks.detach().cpu()
+KeyboardInterrupt

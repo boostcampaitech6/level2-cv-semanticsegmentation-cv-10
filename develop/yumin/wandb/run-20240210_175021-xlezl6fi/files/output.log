@@ -1,0 +1,480 @@
+/opt/conda/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:136: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
+2024-02-10 17:51:15 | Epoch [1/150], Step [25/156], Loss: 0.1113
+2024-02-10 17:51:44 | Epoch [1/150], Step [50/156], Loss: 0.0379
+2024-02-10 17:52:12 | Epoch [1/150], Step [75/156], Loss: 0.0262
+2024-02-10 17:52:40 | Epoch [1/150], Step [100/156], Loss: 0.0199
+2024-02-10 17:53:08 | Epoch [1/150], Step [125/156], Loss: 0.0185
+2024-02-10 17:53:36 | Epoch [1/150], Step [150/156], Loss: 0.0134
+2024-02-10 17:54:22 | Epoch [2/150], Step [25/156], Loss: 0.0111
+2024-02-10 17:54:50 | Epoch [2/150], Step [50/156], Loss: 0.0097
+2024-02-10 17:55:19 | Epoch [2/150], Step [75/156], Loss: 0.0096
+2024-02-10 17:55:47 | Epoch [2/150], Step [100/156], Loss: 0.0075
+2024-02-10 17:56:15 | Epoch [2/150], Step [125/156], Loss: 0.0066
+2024-02-10 17:56:43 | Epoch [2/150], Step [150/156], Loss: 0.0058
+2024-02-10 17:57:29 | Epoch [3/150], Step [25/156], Loss: 0.0048
+2024-02-10 17:57:57 | Epoch [3/150], Step [50/156], Loss: 0.0047
+2024-02-10 17:58:26 | Epoch [3/150], Step [75/156], Loss: 0.0042
+2024-02-10 17:58:54 | Epoch [3/150], Step [100/156], Loss: 0.0043
+2024-02-10 17:59:22 | Epoch [3/150], Step [125/156], Loss: 0.0042
+2024-02-10 17:59:50 | Epoch [3/150], Step [150/156], Loss: 0.004
+2024-02-10 18:00:36 | Epoch [4/150], Step [25/156], Loss: 0.0036
+2024-02-10 18:01:04 | Epoch [4/150], Step [50/156], Loss: 0.0034
+2024-02-10 18:01:33 | Epoch [4/150], Step [75/156], Loss: 0.0035
+2024-02-10 18:02:01 | Epoch [4/150], Step [100/156], Loss: 0.0034
+2024-02-10 18:02:29 | Epoch [4/150], Step [125/156], Loss: 0.0035
+2024-02-10 18:02:57 | Epoch [4/150], Step [150/156], Loss: 0.0033
+2024-02-10 18:03:43 | Epoch [5/150], Step [25/156], Loss: 0.0031
+2024-02-10 18:04:11 | Epoch [5/150], Step [50/156], Loss: 0.0033
+2024-02-10 18:04:39 | Epoch [5/150], Step [75/156], Loss: 0.0033
+2024-02-10 18:05:08 | Epoch [5/150], Step [100/156], Loss: 0.0032
+2024-02-10 18:05:36 | Epoch [5/150], Step [125/156], Loss: 0.0035
+2024-02-10 18:06:04 | Epoch [5/150], Step [150/156], Loss: 0.0031
+Start validation # 5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 99%|█████████████████████████████████████████████████████████████████████████████████████████████████▋ | 78/79 [05:44<00:04,  4.43s/it]
+current valid Dice: 0.8463
+Best performance at epoch: 5, 0.0000 -> 0.8463
+
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████| 79/79 [05:48<00:00,  4.42s/it]
+2024-02-10 18:12:37 | Epoch [6/150], Step [25/156], Loss: 0.0031
+2024-02-10 18:13:05 | Epoch [6/150], Step [50/156], Loss: 0.003
+2024-02-10 18:13:33 | Epoch [6/150], Step [75/156], Loss: 0.0028
+2024-02-10 18:14:00 | Epoch [6/150], Step [100/156], Loss: 0.0031
+2024-02-10 18:14:29 | Epoch [6/150], Step [125/156], Loss: 0.003
+2024-02-10 18:14:57 | Epoch [6/150], Step [150/156], Loss: 0.0027
+2024-02-10 18:15:42 | Epoch [7/150], Step [25/156], Loss: 0.003
+2024-02-10 18:16:10 | Epoch [7/150], Step [50/156], Loss: 0.0025
+2024-02-10 18:16:38 | Epoch [7/150], Step [75/156], Loss: 0.0024
+2024-02-10 18:17:06 | Epoch [7/150], Step [100/156], Loss: 0.0024
+2024-02-10 18:17:34 | Epoch [7/150], Step [125/156], Loss: 0.0024
+2024-02-10 18:18:02 | Epoch [7/150], Step [150/156], Loss: 0.0022
+2024-02-10 18:18:46 | Epoch [8/150], Step [25/156], Loss: 0.0033
+2024-02-10 18:19:14 | Epoch [8/150], Step [50/156], Loss: 0.0034
+2024-02-10 18:19:42 | Epoch [8/150], Step [75/156], Loss: 0.003
+2024-02-10 18:20:10 | Epoch [8/150], Step [100/156], Loss: 0.0023
+2024-02-10 18:20:39 | Epoch [8/150], Step [125/156], Loss: 0.0018
+2024-02-10 18:21:07 | Epoch [8/150], Step [150/156], Loss: 0.0016
+2024-02-10 18:21:50 | Epoch [9/150], Step [25/156], Loss: 0.0015
+2024-02-10 18:22:18 | Epoch [9/150], Step [50/156], Loss: 0.0013
+2024-02-10 18:22:47 | Epoch [9/150], Step [75/156], Loss: 0.0012
+2024-02-10 18:23:15 | Epoch [9/150], Step [100/156], Loss: 0.0016
+2024-02-10 18:23:43 | Epoch [9/150], Step [125/156], Loss: 0.0014
+2024-02-10 18:24:11 | Epoch [9/150], Step [150/156], Loss: 0.0013
+2024-02-10 18:24:55 | Epoch [10/150], Step [25/156], Loss: 0.0014
+2024-02-10 18:25:23 | Epoch [10/150], Step [50/156], Loss: 0.0013
+2024-02-10 18:25:51 | Epoch [10/150], Step [75/156], Loss: 0.0014
+2024-02-10 18:26:20 | Epoch [10/150], Step [100/156], Loss: 0.0013
+2024-02-10 18:26:48 | Epoch [10/150], Step [125/156], Loss: 0.001
+2024-02-10 18:27:16 | Epoch [10/150], Step [150/156], Loss: 0.001
+  0%|                                                                                                            | 0/79 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 99%|█████████████████████████████████████████████████████████████████████████████████████████████████▋ | 78/79 [05:49<00:04,  4.46s/it]
+current valid Dice: 0.8920
+Best performance at epoch: 10, 0.8463 -> 0.8920
+
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████| 79/79 [05:53<00:00,  4.48s/it]
+2024-02-10 18:33:55 | Epoch [11/150], Step [25/156], Loss: 0.0009
+2024-02-10 18:34:23 | Epoch [11/150], Step [50/156], Loss: 0.0009
+2024-02-10 18:34:51 | Epoch [11/150], Step [75/156], Loss: 0.0008
+2024-02-10 18:35:20 | Epoch [11/150], Step [100/156], Loss: 0.0008
+2024-02-10 18:35:48 | Epoch [11/150], Step [125/156], Loss: 0.0009
+2024-02-10 18:36:16 | Epoch [11/150], Step [150/156], Loss: 0.0008
+2024-02-10 18:37:01 | Epoch [12/150], Step [25/156], Loss: 0.0008
+2024-02-10 18:37:29 | Epoch [12/150], Step [50/156], Loss: 0.0007
+2024-02-10 18:37:57 | Epoch [12/150], Step [75/156], Loss: 0.0009
+2024-02-10 18:38:25 | Epoch [12/150], Step [100/156], Loss: 0.0008
+2024-02-10 18:38:53 | Epoch [12/150], Step [125/156], Loss: 0.0008
+2024-02-10 18:39:21 | Epoch [12/150], Step [150/156], Loss: 0.0008
+2024-02-10 18:40:06 | Epoch [13/150], Step [25/156], Loss: 0.0007
+2024-02-10 18:40:34 | Epoch [13/150], Step [50/156], Loss: 0.0008
+2024-02-10 18:41:02 | Epoch [13/150], Step [75/156], Loss: 0.0007
+2024-02-10 18:41:30 | Epoch [13/150], Step [100/156], Loss: 0.0007
+2024-02-10 18:41:58 | Epoch [13/150], Step [125/156], Loss: 0.0007
+2024-02-10 18:42:26 | Epoch [13/150], Step [150/156], Loss: 0.0007
+2024-02-10 18:43:11 | Epoch [14/150], Step [25/156], Loss: 0.0008
+2024-02-10 18:43:39 | Epoch [14/150], Step [50/156], Loss: 0.0007
+2024-02-10 18:44:07 | Epoch [14/150], Step [75/156], Loss: 0.0007
+2024-02-10 18:44:35 | Epoch [14/150], Step [100/156], Loss: 0.0007
+2024-02-10 18:45:03 | Epoch [14/150], Step [125/156], Loss: 0.0007
+2024-02-10 18:45:31 | Epoch [14/150], Step [150/156], Loss: 0.0006
+2024-02-10 18:46:17 | Epoch [15/150], Step [25/156], Loss: 0.0007
+2024-02-10 18:46:45 | Epoch [15/150], Step [50/156], Loss: 0.0006
+2024-02-10 18:47:13 | Epoch [15/150], Step [75/156], Loss: 0.0007
+2024-02-10 18:47:42 | Epoch [15/150], Step [100/156], Loss: 0.0008
+2024-02-10 18:48:10 | Epoch [15/150], Step [125/156], Loss: 0.0007
+2024-02-10 18:48:38 | Epoch [15/150], Step [150/156], Loss: 0.0006
+Start validation #15
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 99%|██████████████████████████████████████████████████████████████████████████████████████████████████▋ | 78/79 [05:57<00:04,  4.57s/it]
+current valid Dice: 0.9022
+Best performance at epoch: 15, 0.8920 -> 0.9022
+
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████| 79/79 [06:02<00:00,  4.59s/it]
+2024-02-10 18:55:26 | Epoch [16/150], Step [25/156], Loss: 0.0007
+2024-02-10 18:55:54 | Epoch [16/150], Step [50/156], Loss: 0.0008
+2024-02-10 18:56:22 | Epoch [16/150], Step [75/156], Loss: 0.0007
+2024-02-10 18:56:50 | Epoch [16/150], Step [100/156], Loss: 0.0007
+2024-02-10 18:57:19 | Epoch [16/150], Step [125/156], Loss: 0.0007
+2024-02-10 18:57:47 | Epoch [16/150], Step [150/156], Loss: 0.0006
+2024-02-10 18:58:32 | Epoch [17/150], Step [25/156], Loss: 0.0007
+2024-02-10 18:59:00 | Epoch [17/150], Step [50/156], Loss: 0.0006
+2024-02-10 18:59:28 | Epoch [17/150], Step [75/156], Loss: 0.0011
+2024-02-10 18:59:57 | Epoch [17/150], Step [100/156], Loss: 0.0007
+2024-02-10 19:00:25 | Epoch [17/150], Step [125/156], Loss: 0.0007
+2024-02-10 19:00:53 | Epoch [17/150], Step [150/156], Loss: 0.0007
+2024-02-10 19:01:38 | Epoch [18/150], Step [25/156], Loss: 0.0006
+2024-02-10 19:02:06 | Epoch [18/150], Step [50/156], Loss: 0.0007
+2024-02-10 19:02:35 | Epoch [18/150], Step [75/156], Loss: 0.0007
+2024-02-10 19:03:03 | Epoch [18/150], Step [100/156], Loss: 0.0007
+2024-02-10 19:03:31 | Epoch [18/150], Step [125/156], Loss: 0.0008
+2024-02-10 19:03:59 | Epoch [18/150], Step [150/156], Loss: 0.0012
+2024-02-10 19:04:43 | Epoch [19/150], Step [25/156], Loss: 0.0016
+2024-02-10 19:05:12 | Epoch [19/150], Step [50/156], Loss: 0.0013
+2024-02-10 19:05:40 | Epoch [19/150], Step [75/156], Loss: 0.0009
+2024-02-10 19:06:08 | Epoch [19/150], Step [100/156], Loss: 0.001
+2024-02-10 19:06:36 | Epoch [19/150], Step [125/156], Loss: 0.0009
+2024-02-10 19:07:04 | Epoch [19/150], Step [150/156], Loss: 0.0014
+2024-02-10 19:07:48 | Epoch [20/150], Step [25/156], Loss: 0.0009
+2024-02-10 19:08:16 | Epoch [20/150], Step [50/156], Loss: 0.0006
+2024-02-10 19:08:44 | Epoch [20/150], Step [75/156], Loss: 0.0007
+2024-02-10 19:09:12 | Epoch [20/150], Step [100/156], Loss: 0.001
+2024-02-10 19:09:41 | Epoch [20/150], Step [125/156], Loss: 0.0006
+2024-02-10 19:10:09 | Epoch [20/150], Step [150/156], Loss: 0.0007
+  0%|                                                                                                             | 0/79 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 99%|██████████████████████████████████████████████████████████████████████████████████████████████████▋ | 78/79 [05:52<00:04,  4.46s/it]
+
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████| 79/79 [05:56<00:00,  4.52s/it]
+Traceback (most recent call last):
+  File "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom.py", line 370, in <module>
+    train(model, train_loader, valid_loader, criterion, optimizer)
+  File "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom.py", line 296, in train
+    for step, (images, masks) in enumerate(data_loader):
+  File "/opt/conda/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 630, in __next__
+    data = self._next_data()
+  File "/opt/conda/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1328, in _next_data
+    idx, data = self._get_data()
+  File "/opt/conda/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1294, in _get_data
+    success, data = self._try_get_data()
+  File "/opt/conda/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1132, in _try_get_data
+    data = self._data_queue.get(timeout=timeout)
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 113, in get
+    if not self._poll(timeout):
+  File "/opt/conda/lib/python3.10/multiprocessing/connection.py", line 257, in poll
+    return self._poll(timeout)
+  File "/opt/conda/lib/python3.10/multiprocessing/connection.py", line 424, in _poll
+    r = wait([self], timeout)
+  File "/opt/conda/lib/python3.10/multiprocessing/connection.py", line 931, in wait
+    ready = selector.select(timeout)
+  File "/opt/conda/lib/python3.10/selectors.py", line 416, in select
+    fd_event_list = self._selector.poll(timeout)
+KeyboardInterrupt
