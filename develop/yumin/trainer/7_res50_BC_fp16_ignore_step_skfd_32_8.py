@@ -13,7 +13,7 @@ import pandas as pd
 from tqdm.auto import tqdm
 from sklearn.model_selection import GroupKFold, StratifiedGroupKFold
 import albumentations as A
-from ..UNet_Version.models.UNet_3Plus import UNet_3Plus
+# from UNet_Version.models.UNet_3Plus import UNet_3Plus
 
 # torch
 import torch
@@ -27,10 +27,11 @@ from torch.cuda.amp import autocast, GradScaler
 
 # visualization
 import matplotlib.pyplot as plt
+import wandb
 
 # 데이터 경로를 입력하세요
-WAND_NAME = '10_unet_3plus_sgkf_step_fp16_hardaug_4_2_512'
-SAVE_PT_NAME = '_10_unet_3plus_sgkf_step_fp16_hardaug_4_2_512'
+WAND_NAME = '7_res50_BC_fp16_ignore_step_skfd_32_8'
+SAVE_PT_NAME = '_7_res50_BC_fp16_ignore_step_skfd_32_8.pt'
 
 IMAGE_ROOT = "../../../data/train/DCM"
 LABEL_ROOT = "../../../data/train/outputs_json"
@@ -45,8 +46,8 @@ CLASSES = [
 CLASS2IND = {v: i for i, v in enumerate(CLASSES)}
 IND2CLASS = {v: k for k, v in CLASS2IND.items()}
 
-BATCH_SIZE_T = 4
-BATCH_SIZE_V = 4
+BATCH_SIZE_T = 32
+BATCH_SIZE_V = 8
 LR = 1e-4
 RANDOM_SEED = 21
 
@@ -200,6 +201,7 @@ tf_1 = A.Compose([
                 # A.Resize(1024, 1024),
                 # A.CenterCrop(980, 980),
                 # A.Resize(1024, 1024),
+                A.RandomBrightnessContrast(brightness_limit = 0.05, contrast_limit = 0.3, p=0.5),
                 # A.OneOf([A.OneOf([A.Blur(blur_limit = 7, always_apply = True),
                 #                     A.GlassBlur(sigma = 0.7, max_delta = 1, iterations = 2, always_apply = True),
                 #                     A.MedianBlur(blur_limit = 7, always_apply = True)], p=1),
@@ -212,13 +214,13 @@ tf_2 = A.Compose([A.Resize(512, 512)
                 ])
 
 train_dataset = XRayDataset(is_train=True, transforms=tf_1)
-valid_dataset = XRayDataset(is_train=False, transforms=tf_2)\
+valid_dataset = XRayDataset(is_train=False, transforms=tf_2)
 
 train_loader = DataLoader(
     dataset=train_dataset, 
     batch_size=BATCH_SIZE_T,
     shuffle=True,
-    num_workers=2,
+    num_workers=8,
     drop_last=True,
 )
 
@@ -266,8 +268,8 @@ def validation(epoch, model, data_loader, criterion, thr=0.5):
             images, masks = images.cuda(), masks.cuda()         
             model = model.cuda()
             
-            # outputs = model(images)['out']
-            outputs = model(images)
+            outputs = model(images)['out']
+            # outputs = model(images)
             
             output_h, output_w = outputs.size(-2), outputs.size(-1)
             mask_h, mask_w = masks.size(-2), masks.size(-1)
@@ -309,7 +311,7 @@ def train(model, data_loader, val_loader, criterion, optimizer):
     
     for epoch in range(NUM_EPOCHS):
         model.train()
-        scheduler.step()
+        
         for step, (images, masks) in enumerate(data_loader):   
                      
             # gpu 연산을 위해 device 할당합니다.
@@ -319,7 +321,8 @@ def train(model, data_loader, val_loader, criterion, optimizer):
             # outputs = model(images)['out']
             
             with torch.cuda.amp.autocast(): #fp16 연산
-                outputs = model(images)
+                outputs = model(images)['out']
+                # outputs = model(images)
                 loss = criterion(outputs, masks)
 
             # loss를 계산합니다.
@@ -338,11 +341,11 @@ def train(model, data_loader, val_loader, criterion, optimizer):
                     f'Epoch [{epoch+1}/{NUM_EPOCHS}], '
                     f'Step [{step+1}/{len(train_loader)}], '
                     f'Loss: {round(loss.item(),4)}, '
-                    f'lr: {scheduler.get_last_lr()[0]:.7f}'
+                    f'lr: {scheduler.get_last_lr()[0]}'
                 )
                 wandb.log({'Train Loss': loss.item(),
                            'learning rate' : scheduler.get_last_lr()[0]})
-
+        scheduler.step()
         # validation 주기에 따라 loss를 출력하고 best model을 저장합니다.
         if (epoch + 1) % VAL_EVERY == 0:
             dice = validation(epoch + 1, model, val_loader, criterion)
@@ -358,16 +361,16 @@ def train(model, data_loader, val_loader, criterion, optimizer):
                 
 
 
-# model = models.segmentation.fcn_resnet50(pretrained=False)
+model = models.segmentation.fcn_resnet50(pretrained=True)
 # model = models.segmentation.fcn_resnet101(pretrained=True)
 # model = models.segmentation.fcn_resnet101(pretrained=True)
 # checkpoint_path = './save_dir/latest_resnet101_epoch.pt'
 # model = torch.load(checkpoint_path)
-model = UNet_3Plus(n_classes=len(CLASSES))
+# model = UNet_3Plus(n_classes=len(CLASSES))
 
 
 # output class 개수를 dataset에 맞도록 수정합니다.
-# model.classifier[4] = nn.Conv2d(512, len(CLASSES), kernel_size=1)
+model.classifier[4] = nn.Conv2d(512, len(CLASSES), kernel_size=1)
 # model.classifier[4] = nn.Conv2d(256, len(CLASSES), kernel_size=1)
 
 

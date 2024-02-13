@@ -30,8 +30,8 @@ import matplotlib.pyplot as plt
 import wandb
 
 # 데이터 경로를 입력하세요
-WAND_NAME = '7_res50_sgkf_ignore_step_fp16_32_8'
-SAVE_PT_NAME = '_7_res50_sgkf_ignore_step_fp16_32_8'
+WAND_NAME ='4_res50_BC_fp16_32_8'
+SAVE_PT_NAME = '_4_res50_BC_fp16_32_8.pt'
 
 IMAGE_ROOT = "../../../data/train/DCM"
 LABEL_ROOT = "../../../data/train/outputs_json"
@@ -59,12 +59,12 @@ SAVED_DIR = "save_dir"
 if not os.path.exists(SAVED_DIR):                                                           
     os.makedirs(SAVED_DIR)
 
-ignore_list = ['ID073','ID288','ID363','ID387','ID430','ID487','ID519','ID523','ID543']
+# ignore_list = ['ID073','ID288','ID363','ID387','ID430','ID487','ID519','ID523','ID543']
 
 pngs = {
     os.path.relpath(os.path.join(root, fname), start=IMAGE_ROOT)
     for root, _dirs, files in os.walk(IMAGE_ROOT)
-    if not any(ignore_folder in root for ignore_folder in ignore_list)
+    # if not any(ignore_folder in root for ignore_folder in ignore_list)
     for fname in files
     if os.path.splitext(fname)[1].lower() == ".png"
 }
@@ -73,7 +73,7 @@ pngs = {
 jsons = {
     os.path.relpath(os.path.join(root, fname), start=LABEL_ROOT)
     for root, _dirs, files in os.walk(LABEL_ROOT)
-    if not any(ignore_folder in root for ignore_folder in ignore_list)
+    # if not any(ignore_folder in root for ignore_folder in ignore_list)
     for fname in files
     if os.path.splitext(fname)[1].lower() == ".json"
 }
@@ -99,21 +99,21 @@ class XRayDataset(Dataset):
         groups = [os.path.dirname(fname) for fname in _filenames]
         
         # dummy label
-        # ys = [0 for fname in _filenames]
-        wrist_pa_oblique = [f'ID{str(fname).zfill(3)}' for fname in range(274,320)]
-        wrist_pa_oblique.append('ID321')
-        y = [ 0 if os.path.dirname(fname) in wrist_pa_oblique else 1 for fname in _filenames]    
+        ys = [0 for fname in _filenames]
+        # wrist_pa_oblique = [f'ID{str(fname).zfill(3)}' for fname in range(274,320)]
+        # wrist_pa_oblique.append('ID321')
+        # y = [ 0 if os.path.dirname(fname) in wrist_pa_oblique else 1 for fname in _filenames]    
 
 
         # 전체 데이터의 20%를 validation data로 쓰기 위해 `n_splits`를
         # 5으로 설정하여 KFold를 수행합니다.
-        # gkf = GroupKFold(n_splits=5)
-        sgkf = StratifiedGroupKFold(n_splits=5)
+        gkf = GroupKFold(n_splits=5)
+        # sgkf = StratifiedGroupKFold(n_splits=5)
 
         filenames = []
         labelnames = []
-        # for i, (x, y) in enumerate(gkf.split(_filenames, ys, groups)):
-        for i, (x, y) in enumerate(sgkf.split(_filenames, y, groups)):
+        for i, (x, y) in enumerate(gkf.split(_filenames, ys, groups)):
+        # for i, (x, y) in enumerate(sgkf.split(_filenames, y, groups)):
             if is_train:
                 # 0번을 validation dataset으로 사용합니다.
                 if i == 0:
@@ -198,6 +198,7 @@ tf_1 = A.Compose([
                 A.Resize(512, 512),
                 # A.CenterCrop(480, 480),
                 # A.Resize(512, 512),
+                A.RandomBrightnessContrast(brightness_limit = 0.05, contrast_limit = 0.3, p=0.5),
                 # A.Resize(1024, 1024),
                 # A.CenterCrop(980, 980),
                 # A.Resize(1024, 1024),
@@ -340,11 +341,11 @@ def train(model, data_loader, val_loader, criterion, optimizer):
                     f'Epoch [{epoch+1}/{NUM_EPOCHS}], '
                     f'Step [{step+1}/{len(train_loader)}], '
                     f'Loss: {round(loss.item(),4)}, '
-                    f'lr: {scheduler.get_last_lr()[0]}'
+                    f'lr: {optimizer.param_groups[0]["lr"]}'
                 )
                 wandb.log({'Train Loss': loss.item(),
-                           'learning rate' : scheduler.get_last_lr()[0]})
-        scheduler.step()
+                           'learning rate' : optimizer.param_groups[0]['lr']})
+        
         # validation 주기에 따라 loss를 출력하고 best model을 저장합니다.
         if (epoch + 1) % VAL_EVERY == 0:
             dice = validation(epoch + 1, model, val_loader, criterion)
@@ -385,7 +386,7 @@ optimizer = optim.AdamW(params=model.parameters(), lr=LR, weight_decay=1e-6)
 # 스케줄러 설정
 # scheduler = CosineAnnealingLR(optimizer, T_max=T_max, eta_min = 1e-7)
 # scheduler = StepLR(optimizer, step_size=20, gamma=0.1)
-scheduler = MultiStepLR(optimizer, milestones=[70,90], gamma=1e-3)
+# scheduler = MultiStepLR(optimizer, milestones=[70,90], gamma=1e-3)
 
 # 시드를 설정합니다.
 set_seed()

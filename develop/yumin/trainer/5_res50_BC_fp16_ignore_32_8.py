@@ -11,8 +11,9 @@ import cv2
 import numpy as np
 import pandas as pd
 from tqdm.auto import tqdm
-from sklearn.model_selection import GroupKFold
+from sklearn.model_selection import GroupKFold, StratifiedGroupKFold
 import albumentations as A
+# from UNet_Version.models.UNet_3Plus import UNet_3Plus
 
 # torch
 import torch
@@ -21,13 +22,16 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
 from torchvision import models
+from torch.optim.lr_scheduler import CosineAnnealingLR, StepLR, MultiStepLR
+from torch.cuda.amp import autocast, GradScaler
 
 # visualization
 import matplotlib.pyplot as plt
+import wandb
 
 # 데이터 경로를 입력하세요
-WAND_NAME = '3_base_res50_BC_16_4'
-SAVE_PT_NAME = '_3_base_res50_BC_16_4'
+WAND_NAME = '5_res50_BC_fp16_ignore_32_8'
+SAVE_PT_NAME = '_5_res50_BC_fp16_ignore_32_8.pt'
 
 IMAGE_ROOT = "../../../data/train/DCM"
 LABEL_ROOT = "../../../data/train/outputs_json"
@@ -42,21 +46,25 @@ CLASSES = [
 CLASS2IND = {v: i for i, v in enumerate(CLASSES)}
 IND2CLASS = {v: k for k, v in CLASS2IND.items()}
 
-BATCH_SIZE = 8
+BATCH_SIZE_T = 32
+BATCH_SIZE_V = 4
 LR = 1e-4
 RANDOM_SEED = 21
 
 NUM_EPOCHS = 100
-VAL_EVERY = 5
+VAL_EVERY = 10
 
 SAVED_DIR = "save_dir"
 
 if not os.path.exists(SAVED_DIR):                                                           
     os.makedirs(SAVED_DIR)
 
+ignore_list = ['ID073','ID288','ID363','ID387','ID430','ID487','ID519','ID523','ID543']
+
 pngs = {
     os.path.relpath(os.path.join(root, fname), start=IMAGE_ROOT)
     for root, _dirs, files in os.walk(IMAGE_ROOT)
+    if not any(ignore_folder in root for ignore_folder in ignore_list)
     for fname in files
     if os.path.splitext(fname)[1].lower() == ".png"
 }
@@ -65,6 +73,7 @@ pngs = {
 jsons = {
     os.path.relpath(os.path.join(root, fname), start=LABEL_ROOT)
     for root, _dirs, files in os.walk(LABEL_ROOT)
+    if not any(ignore_folder in root for ignore_folder in ignore_list)
     for fname in files
     if os.path.splitext(fname)[1].lower() == ".json"
 }
@@ -82,94 +91,99 @@ class XRayDataset(Dataset):
     def __init__(self, is_train=True, transforms=None):
         _filenames = np.array(pngs)
         _labelnames = np.array(jsons)
-
+        
         # split train-valid
         # 한 폴더 안에 한 인물의 양손에 대한 `.dcm` 파일이 존재하기 때문에
         # 폴더 이름을 그룹으로 해서 GroupKFold를 수행합니다.
         # 동일 인물의 손이 train, valid에 따로 들어가는 것을 방지합니다.
         groups = [os.path.dirname(fname) for fname in _filenames]
-
+        
         # dummy label
         ys = [0 for fname in _filenames]
+        # wrist_pa_oblique = [f'ID{str(fname).zfill(3)}' for fname in range(274,320)]
+        # wrist_pa_oblique.append('ID321')
+        # y = [ 0 if os.path.dirname(fname) in wrist_pa_oblique else 1 for fname in _filenames]    
+
 
         # 전체 데이터의 20%를 validation data로 쓰기 위해 `n_splits`를
         # 5으로 설정하여 KFold를 수행합니다.
         gkf = GroupKFold(n_splits=5)
+        # sgkf = StratifiedGroupKFold(n_splits=5)
 
         filenames = []
         labelnames = []
         for i, (x, y) in enumerate(gkf.split(_filenames, ys, groups)):
+        # for i, (x, y) in enumerate(sgkf.split(_filenames, y, groups)):
             if is_train:
                 # 0번을 validation dataset으로 사용합니다.
                 if i == 0:
                     continue
-
+                    
                 filenames += list(_filenames[y])
                 labelnames += list(_labelnames[y])
-
+            
             else:
                 filenames = list(_filenames[y])
                 labelnames = list(_labelnames[y])
-
+                
                 # skip i > 0
                 break
-
+        
         self.filenames = filenames
         self.labelnames = labelnames
         self.is_train = is_train
         self.transforms = transforms
-
+    
     def __len__(self):
         return len(self.filenames)
-
+    
     def __getitem__(self, item):
         image_name = self.filenames[item]
         image_path = os.path.join(IMAGE_ROOT, image_name)
-
+        
         image = cv2.imread(image_path)
-
-
+        
         label_name = self.labelnames[item]
         label_path = os.path.join(LABEL_ROOT, label_name)
-
+        
         # (H, W, NC) 모양의 label을 생성합니다.
         label_shape = tuple(image.shape[:2]) + (len(CLASSES), )
         label = np.zeros(label_shape, dtype=np.uint8)
-
+        
         # label 파일을 읽습니다.
         with open(label_path, "r") as f:
             annotations = json.load(f)
         annotations = annotations["annotations"]
-
+        
         # 클래스 별로 처리합니다.
         for ann in annotations:
             c = ann["label"]
             class_ind = CLASS2IND[c]
             points = np.array(ann["points"])
-
+            
             # polygon 포맷을 dense한 mask 포맷으로 바꿉니다.
             class_label = np.zeros(image.shape[:2], dtype=np.uint8)
             cv2.fillPoly(class_label, [points], 1)
             label[..., class_ind] = class_label
-
+        
         if self.transforms is not None:
             inputs = {"image": image, "mask": label} if self.is_train else {"image": image}
             result = self.transforms(**inputs)
-
+            
             image = result["image"]
             label = result["mask"] if self.is_train else label
 
         image = image / 255.
-
+        
         # to tenser will be done later
         image = image.transpose(2, 0, 1)    # channel first 포맷으로 변경합니다.
         label = label.transpose(2, 0, 1)
-
+        
         image = torch.from_numpy(image).float()
         label = torch.from_numpy(label).float()
-
+            
         return image, label
-
+    
 # 시각화를 위한 팔레트를 설정합니다.
 PALETTE = [
     (220, 20, 60), (119, 11, 32), (0, 0, 142), (0, 0, 230), (106, 0, 228),
@@ -180,22 +194,31 @@ PALETTE = [
     (0, 125, 92), (209, 0, 151), (188, 208, 182), (0, 220, 176),
 ]
 
-tf_1 = A.Compose([A.Resize(512, 512),
-                # A.CenterCrop(400, 400),
-                A.RandomBrightnessContrast(brightness_limit = 0.2, contrast_limit = 0.5, p = 0.7),
-                # A.Compose([A.Crop(x_min=110,y_min=220,x_max=300,y_max=400,p=0.5),
-                #            A.Resize(512,512)]),
-                A.Rotate(10)
+tf_1 = A.Compose([
+                A.Resize(512, 512),
+                # A.CenterCrop(480, 480),
+                # A.Resize(512, 512),
+                A.RandomBrightnessContrast(brightness_limit = 0.05, contrast_limit = 0.3, p=0.5),
+                # A.Resize(1024, 1024),
+                # A.CenterCrop(980, 980),
+                # A.Resize(1024, 1024),
+                # A.OneOf([A.OneOf([A.Blur(blur_limit = 7, always_apply = True),
+                #                     A.GlassBlur(sigma = 0.7, max_delta = 1, iterations = 2, always_apply = True),
+                #                     A.MedianBlur(blur_limit = 7, always_apply = True)], p=1),
+                #          A.RandomBrightnessContrast(brightness_limit = 0.1, contrast_limit = 0.3,always_apply = True),
+                #          A.CLAHE(p=1.0)], 
+                #          p=0.5),
+                A.Rotate(10),
                 ])
 tf_2 = A.Compose([A.Resize(512, 512)
                 ])
 
 train_dataset = XRayDataset(is_train=True, transforms=tf_1)
-valid_dataset = XRayDataset(is_train=False, transforms=tf_2)\
+valid_dataset = XRayDataset(is_train=False, transforms=tf_2)
 
 train_loader = DataLoader(
     dataset=train_dataset, 
-    batch_size=BATCH_SIZE,
+    batch_size=BATCH_SIZE_T,
     shuffle=True,
     num_workers=8,
     drop_last=True,
@@ -204,7 +227,7 @@ train_loader = DataLoader(
 # 주의: validation data는 이미지 크기가 크기 때문에 `num_wokers`는 커지면 메모리 에러가 발생할 수 있습니다.
 valid_loader = DataLoader(
     dataset=valid_dataset, 
-    batch_size=4,
+    batch_size=BATCH_SIZE_V,
     shuffle=False,
     num_workers=0,
     drop_last=False
@@ -214,11 +237,11 @@ def dice_coef(y_true, y_pred):
     y_true_f = y_true.flatten(2)
     y_pred_f = y_pred.flatten(2)
     intersection = torch.sum(y_true_f * y_pred_f, -1)
-
+    
     eps = 0.0001
     return (2. * intersection + eps) / (torch.sum(y_true_f, -1) + torch.sum(y_pred_f, -1) + eps)
 
-def save_model(model, file_name= SAVE_PT_NAME):
+def save_model(model, file_name=SAVE_PT_NAME):
     output_path = os.path.join(SAVED_DIR, file_name)
     torch.save(model, output_path)
 
@@ -244,27 +267,28 @@ def validation(epoch, model, data_loader, criterion, thr=0.5):
         for step, (images, masks) in tqdm(enumerate(data_loader), total=len(data_loader)):
             images, masks = images.cuda(), masks.cuda()         
             model = model.cuda()
-
+            
             outputs = model(images)['out']
-
+            # outputs = model(images)
+            
             output_h, output_w = outputs.size(-2), outputs.size(-1)
             mask_h, mask_w = masks.size(-2), masks.size(-1)
-
+            
             # gt와 prediction의 크기가 다른 경우 prediction을 gt에 맞춰 interpolation 합니다.
             if output_h != mask_h or output_w != mask_w:
                 outputs = F.interpolate(outputs, size=(mask_h, mask_w), mode="bilinear")
-
+            
             loss = criterion(outputs, masks)
             total_loss += loss
             cnt += 1
-
+            
             outputs = torch.sigmoid(outputs)
             outputs = (outputs > thr).detach().cpu()
             masks = masks.detach().cpu()
-
+            
             dice = dice_coef(outputs, masks)
             dices.append(dice)
-
+                
     dices = torch.cat(dices, 0)
     dices_per_class = torch.mean(dices, 0)
     dice_str = [
@@ -272,45 +296,56 @@ def validation(epoch, model, data_loader, criterion, thr=0.5):
         for c, d in zip(CLASSES, dices_per_class)
     ]
     dice_str = "\n".join(dice_str)
-
+    
     avg_dice = torch.mean(dices_per_class).item()
-
+    
     return avg_dice
 
 def train(model, data_loader, val_loader, criterion, optimizer):
     print(f'Start training..')
-
+    
     n_class = len(CLASSES)
     best_dice = 0.
+    scaler = GradScaler()
     wandb.init(entity='level2-cv-10-detection', project='yumin', name=WAND_NAME)
-
+    
     for epoch in range(NUM_EPOCHS):
         model.train()
-
-        for step, (images, masks) in enumerate(data_loader):            
+        
+        for step, (images, masks) in enumerate(data_loader):   
+                     
             # gpu 연산을 위해 device 할당합니다.
             images, masks = images.cuda(), masks.cuda()
             model = model.cuda()
 
-            outputs = model(images)['out']
+            # outputs = model(images)['out']
+            
+            with torch.cuda.amp.autocast(): #fp16 연산
+                outputs = model(images)['out']
+                # outputs = model(images)
+                loss = criterion(outputs, masks)
 
             # loss를 계산합니다.
-            loss = criterion(outputs, masks)
+            # loss = criterion(outputs, masks)
             optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
-
+            scaler.scale(loss).backward()
+            scaler.step(optimizer)
+            scaler.update()
+            # loss.backward()
+            # optimizer.step()
+            
             # step 주기에 따라 loss를 출력합니다.
             if (step + 1) % 25 == 0:
                 print(
                     f'{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")} | '
                     f'Epoch [{epoch+1}/{NUM_EPOCHS}], '
                     f'Step [{step+1}/{len(train_loader)}], '
-                    f'Loss: {round(loss.item(),4)}'
+                    f'Loss: {round(loss.item(),4)}, '
+                    f'lr: {optimizer.param_groups[0]["lr"]}'
                 )
                 wandb.log({'Train Loss': loss.item(),
-                           'learning rate': optimizer.param_groups[0]['lr']})
-
+                           'learning rate' : optimizer.param_groups[0]['lr']})
+        
         # validation 주기에 따라 loss를 출력하고 best model을 저장합니다.
         if (epoch + 1) % VAL_EVERY == 0:
             dice = validation(epoch + 1, model, val_loader, criterion)
@@ -323,14 +358,21 @@ def train(model, data_loader, val_loader, criterion, optimizer):
                 best_dice = dice
                 save_model(model)
                 
+                
 
-# checkpoint_path = './save_dir/_3_base_res50_crop_BC_16_4.pt'
-# checkpoint = torch.load(checkpoint_path)
 
-model = models.segmentation.fcn_resnet50(pretrained=False)
+model = models.segmentation.fcn_resnet50(pretrained=True)
+# model = models.segmentation.fcn_resnet101(pretrained=True)
+# model = models.segmentation.fcn_resnet101(pretrained=True)
+# checkpoint_path = './save_dir/latest_resnet101_epoch.pt'
+# model = torch.load(checkpoint_path)
+# model = UNet_3Plus(n_classes=len(CLASSES))
+
 
 # output class 개수를 dataset에 맞도록 수정합니다.
 model.classifier[4] = nn.Conv2d(512, len(CLASSES), kernel_size=1)
+# model.classifier[4] = nn.Conv2d(256, len(CLASSES), kernel_size=1)
+
 
 # Loss function을 정의합니다.
 criterion = nn.BCEWithLogitsLoss()
@@ -338,7 +380,17 @@ criterion = nn.BCEWithLogitsLoss()
 # Optimizer를 정의합니다.
 optimizer = optim.AdamW(params=model.parameters(), lr=LR, weight_decay=1e-6)
 
+# scheduler 주기
+# T_max = 5
+
+# 스케줄러 설정
+# scheduler = CosineAnnealingLR(optimizer, T_max=T_max, eta_min = 1e-7)
+# scheduler = StepLR(optimizer, step_size=20, gamma=0.1)
+# scheduler = MultiStepLR(optimizer, milestones=[70,90], gamma=1e-3)
+
 # 시드를 설정합니다.
 set_seed()
 
 train(model, train_loader, valid_loader, criterion, optimizer)
+
+wandb.finish()

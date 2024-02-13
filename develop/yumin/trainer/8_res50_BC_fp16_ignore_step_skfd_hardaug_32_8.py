@@ -30,8 +30,8 @@ import matplotlib.pyplot as plt
 import wandb
 
 # 데이터 경로를 입력하세요
-WAND_NAME ='4_base_res50_step_BC_16_4'
-SAVE_PT_NAME = '_4_base_res50_step_BC_16_4'
+WAND_NAME = '8_res50_BC_fp16_ignore_step_skfd_hardaug_32_8'
+SAVE_PT_NAME = '_8_res50_BC_fp16_ignore_step_skfd_hardaug_32_8.pt'
 
 IMAGE_ROOT = "../../../data/train/DCM"
 LABEL_ROOT = "../../../data/train/outputs_json"
@@ -46,7 +46,8 @@ CLASSES = [
 CLASS2IND = {v: i for i, v in enumerate(CLASSES)}
 IND2CLASS = {v: k for k, v in CLASS2IND.items()}
 
-BATCH_SIZE = 16
+BATCH_SIZE_T = 32
+BATCH_SIZE_V = 8
 LR = 1e-4
 RANDOM_SEED = 21
 
@@ -58,12 +59,12 @@ SAVED_DIR = "save_dir"
 if not os.path.exists(SAVED_DIR):                                                           
     os.makedirs(SAVED_DIR)
 
-# ignore_list = ['ID073','ID288','ID363','ID387','ID430','ID487','ID519','ID523','ID543']
+ignore_list = ['ID073','ID288','ID363','ID387','ID430','ID487','ID519','ID523','ID543']
 
 pngs = {
     os.path.relpath(os.path.join(root, fname), start=IMAGE_ROOT)
     for root, _dirs, files in os.walk(IMAGE_ROOT)
-    # if not any(ignore_folder in root for ignore_folder in ignore_list)
+    if not any(ignore_folder in root for ignore_folder in ignore_list)
     for fname in files
     if os.path.splitext(fname)[1].lower() == ".png"
 }
@@ -72,7 +73,7 @@ pngs = {
 jsons = {
     os.path.relpath(os.path.join(root, fname), start=LABEL_ROOT)
     for root, _dirs, files in os.walk(LABEL_ROOT)
-    # if not any(ignore_folder in root for ignore_folder in ignore_list)
+    if not any(ignore_folder in root for ignore_folder in ignore_list)
     for fname in files
     if os.path.splitext(fname)[1].lower() == ".json"
 }
@@ -98,21 +99,21 @@ class XRayDataset(Dataset):
         groups = [os.path.dirname(fname) for fname in _filenames]
         
         # dummy label
-        ys = [0 for fname in _filenames]
-        # wrist_pa_oblique = [f'ID{str(fname).zfill(3)}' for fname in range(274,320)]
-        # wrist_pa_oblique.append('ID321')
-        # y = [ 0 if os.path.dirname(fname) in wrist_pa_oblique else 1 for fname in _filenames]    
+        # ys = [0 for fname in _filenames]
+        wrist_pa_oblique = [f'ID{str(fname).zfill(3)}' for fname in range(274,320)]
+        wrist_pa_oblique.append('ID321')
+        y = [ 0 if os.path.dirname(fname) in wrist_pa_oblique else 1 for fname in _filenames]    
 
 
         # 전체 데이터의 20%를 validation data로 쓰기 위해 `n_splits`를
         # 5으로 설정하여 KFold를 수행합니다.
-        gkf = GroupKFold(n_splits=5)
-        # sgkf = StratifiedGroupKFold(n_splits=5)
+        # gkf = GroupKFold(n_splits=5)
+        sgkf = StratifiedGroupKFold(n_splits=5)
 
         filenames = []
         labelnames = []
-        for i, (x, y) in enumerate(gkf.split(_filenames, ys, groups)):
-        # for i, (x, y) in enumerate(sgkf.split(_filenames, y, groups)):
+        # for i, (x, y) in enumerate(gkf.split(_filenames, ys, groups)):
+        for i, (x, y) in enumerate(sgkf.split(_filenames, y, groups)):
             if is_train:
                 # 0번을 validation dataset으로 사용합니다.
                 if i == 0:
@@ -197,16 +198,15 @@ tf_1 = A.Compose([
                 A.Resize(512, 512),
                 # A.CenterCrop(480, 480),
                 # A.Resize(512, 512),
-                A.RandomBrightnessContrast(brightness_limit = 0.2, contrast_limit = 0.5, p=0.7),
                 # A.Resize(1024, 1024),
                 # A.CenterCrop(980, 980),
                 # A.Resize(1024, 1024),
-                # A.OneOf([A.OneOf([A.Blur(blur_limit = 7, always_apply = True),
-                #                     A.GlassBlur(sigma = 0.7, max_delta = 1, iterations = 2, always_apply = True),
-                #                     A.MedianBlur(blur_limit = 7, always_apply = True)], p=1),
-                #          A.RandomBrightnessContrast(brightness_limit = 0.1, contrast_limit = 0.3,always_apply = True),
-                #          A.CLAHE(p=1.0)], 
-                #          p=0.5),
+                A.OneOf([A.OneOf([A.Blur(blur_limit = 4, always_apply = True),
+                                    A.GlassBlur(sigma = 0.7, max_delta = 1, iterations = 2, always_apply = True),
+                                    A.MedianBlur(blur_limit = 4, always_apply = True)], p=1),
+                         A.RandomBrightnessContrast(brightness_limit = 0.05, contrast_limit = 0.3,always_apply = True),
+                         A.CLAHE(p=1.0)], 
+                         p=0.5),
                 A.Rotate(10),
                 ])
 tf_2 = A.Compose([A.Resize(512, 512)
@@ -217,7 +217,7 @@ valid_dataset = XRayDataset(is_train=False, transforms=tf_2)
 
 train_loader = DataLoader(
     dataset=train_dataset, 
-    batch_size=BATCH_SIZE,
+    batch_size=BATCH_SIZE_T,
     shuffle=True,
     num_workers=8,
     drop_last=True,
@@ -226,7 +226,7 @@ train_loader = DataLoader(
 # 주의: validation data는 이미지 크기가 크기 때문에 `num_wokers`는 커지면 메모리 에러가 발생할 수 있습니다.
 valid_loader = DataLoader(
     dataset=valid_dataset, 
-    batch_size=4,
+    batch_size=BATCH_SIZE_V,
     shuffle=False,
     num_workers=0,
     drop_last=False
@@ -317,21 +317,21 @@ def train(model, data_loader, val_loader, criterion, optimizer):
             images, masks = images.cuda(), masks.cuda()
             model = model.cuda()
 
-            outputs = model(images)['out']
+            # outputs = model(images)['out']
             
-            # with torch.cuda.amp.autocast(): #fp16 연산
-            #     outputs = model(images)['out']
-            #     # outputs = model(images)
-            #     loss = criterion(outputs, masks)
+            with torch.cuda.amp.autocast(): #fp16 연산
+                outputs = model(images)['out']
+                # outputs = model(images)
+                loss = criterion(outputs, masks)
 
             # loss를 계산합니다.
-            loss = criterion(outputs, masks)
+            # loss = criterion(outputs, masks)
             optimizer.zero_grad()
-            # scaler.scale(loss).backward()
-            # scaler.step(optimizer)
-            # scaler.update()
-            loss.backward()
-            optimizer.step()
+            scaler.scale(loss).backward()
+            scaler.step(optimizer)
+            scaler.update()
+            # loss.backward()
+            # optimizer.step()
             
             # step 주기에 따라 loss를 출력합니다.
             if (step + 1) % 25 == 0:

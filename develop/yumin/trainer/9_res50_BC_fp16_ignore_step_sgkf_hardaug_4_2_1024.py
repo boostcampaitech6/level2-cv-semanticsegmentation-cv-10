@@ -30,8 +30,8 @@ import matplotlib.pyplot as plt
 import wandb
 
 # 데이터 경로를 입력하세요
-WAND_NAME = '8_res50_sgkf_ignore_step_fp16_hardaug_32_8'
-SAVE_PT_NAME = '_8_res50_sgkf_ignore_step_fp16_hardaug_32_8'
+WAND_NAME = '9_res50_BC_fp16_ignore_step_sgkf_hardaug_4_2_1024'
+SAVE_PT_NAME = '_9_res50_BC_fp16_ignore_step_sgkf_hardaug_4_2_1024.pt'
 
 IMAGE_ROOT = "../../../data/train/DCM"
 LABEL_ROOT = "../../../data/train/outputs_json"
@@ -46,8 +46,8 @@ CLASSES = [
 CLASS2IND = {v: i for i, v in enumerate(CLASSES)}
 IND2CLASS = {v: k for k, v in CLASS2IND.items()}
 
-BATCH_SIZE_T = 32
-BATCH_SIZE_V = 8
+BATCH_SIZE_T = 4
+BATCH_SIZE_V = 2
 LR = 1e-4
 RANDOM_SEED = 21
 
@@ -195,21 +195,21 @@ PALETTE = [
 ]
 
 tf_1 = A.Compose([
-                A.Resize(512, 512),
+                # A.Resize(512, 512),
                 # A.CenterCrop(480, 480),
                 # A.Resize(512, 512),
-                # A.Resize(1024, 1024),
+                A.Resize(1024, 1024),
                 # A.CenterCrop(980, 980),
                 # A.Resize(1024, 1024),
-                A.OneOf([A.OneOf([A.Blur(blur_limit = 7, always_apply = True),
+                A.OneOf([A.OneOf([A.Blur(blur_limit = 4, always_apply = True),
                                     A.GlassBlur(sigma = 0.7, max_delta = 1, iterations = 2, always_apply = True),
-                                    A.MedianBlur(blur_limit = 7, always_apply = True)], p=1),
-                         A.RandomBrightnessContrast(brightness_limit = 0.1, contrast_limit = 0.3,always_apply = True),
+                                    A.MedianBlur(blur_limit = 4, always_apply = True)], p=1),
+                         A.RandomBrightnessContrast(brightness_limit = 0.05, contrast_limit = 0.3,always_apply = True),
                          A.CLAHE(p=1.0)], 
                          p=0.5),
                 A.Rotate(10),
                 ])
-tf_2 = A.Compose([A.Resize(512, 512)
+tf_2 = A.Compose([A.Resize(1024, 1024)
                 ])
 
 train_dataset = XRayDataset(is_train=True, transforms=tf_1)

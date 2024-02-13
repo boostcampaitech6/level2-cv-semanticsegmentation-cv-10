@@ -13,7 +13,7 @@ import pandas as pd
 from tqdm.auto import tqdm
 from sklearn.model_selection import GroupKFold, StratifiedGroupKFold
 import albumentations as A
-# from UNet_Version.models.UNet_3Plus import UNet_3Plus
+from ..UNet_Version.models.UNet_3Plus import UNet_3Plus
 
 # torch
 import torch
@@ -27,11 +27,10 @@ from torch.cuda.amp import autocast, GradScaler
 
 # visualization
 import matplotlib.pyplot as plt
-import wandb
 
 # 데이터 경로를 입력하세요
-WAND_NAME = '6_res50_sgkf_ignore_step_BC_16_4'
-SAVE_PT_NAME = '_6_res50_sgkf_ignore_step_BC_16_4'
+WAND_NAME = '10_unet_3plus_BC_fp16_ignore_step_sgkf_hardaug_4_2_512'
+SAVE_PT_NAME = '_10_unet_3plus_BC_fp16_ignore_step_sgkf_hardaug_4_2_512.pt'
 
 IMAGE_ROOT = "../../../data/train/DCM"
 LABEL_ROOT = "../../../data/train/outputs_json"
@@ -46,7 +45,8 @@ CLASSES = [
 CLASS2IND = {v: i for i, v in enumerate(CLASSES)}
 IND2CLASS = {v: k for k, v in CLASS2IND.items()}
 
-BATCH_SIZE = 16
+BATCH_SIZE_T = 4
+BATCH_SIZE_V = 4
 LR = 1e-4
 RANDOM_SEED = 21
 
@@ -197,36 +197,35 @@ tf_1 = A.Compose([
                 A.Resize(512, 512),
                 # A.CenterCrop(480, 480),
                 # A.Resize(512, 512),
-                A.RandomBrightnessContrast(brightness_limit = 0.2, contrast_limit = 0.5, p=0.7),
                 # A.Resize(1024, 1024),
                 # A.CenterCrop(980, 980),
                 # A.Resize(1024, 1024),
-                # A.OneOf([A.OneOf([A.Blur(blur_limit = 7, always_apply = True),
-                #                     A.GlassBlur(sigma = 0.7, max_delta = 1, iterations = 2, always_apply = True),
-                #                     A.MedianBlur(blur_limit = 7, always_apply = True)], p=1),
-                #          A.RandomBrightnessContrast(brightness_limit = 0.1, contrast_limit = 0.3,always_apply = True),
-                #          A.CLAHE(p=1.0)], 
-                #          p=0.5),
+                A.OneOf([A.OneOf([A.Blur(blur_limit = 4, always_apply = True),
+                                    A.GlassBlur(sigma = 0.7, max_delta = 1, iterations = 2, always_apply = True),
+                                    A.MedianBlur(blur_limit = 4, always_apply = True)], p=1),
+                         A.RandomBrightnessContrast(brightness_limit = 0.05, contrast_limit = 0.3,always_apply = True),
+                         A.CLAHE(p=1.0)], 
+                         p=0.5),
                 A.Rotate(10),
                 ])
 tf_2 = A.Compose([A.Resize(512, 512)
                 ])
 
 train_dataset = XRayDataset(is_train=True, transforms=tf_1)
-valid_dataset = XRayDataset(is_train=False, transforms=tf_2)
+valid_dataset = XRayDataset(is_train=False, transforms=tf_2)\
 
 train_loader = DataLoader(
     dataset=train_dataset, 
-    batch_size=BATCH_SIZE,
+    batch_size=BATCH_SIZE_T,
     shuffle=True,
-    num_workers=8,
+    num_workers=2,
     drop_last=True,
 )
 
 # 주의: validation data는 이미지 크기가 크기 때문에 `num_wokers`는 커지면 메모리 에러가 발생할 수 있습니다.
 valid_loader = DataLoader(
     dataset=valid_dataset, 
-    batch_size=4,
+    batch_size=BATCH_SIZE_V,
     shuffle=False,
     num_workers=0,
     drop_last=False
@@ -267,8 +266,8 @@ def validation(epoch, model, data_loader, criterion, thr=0.5):
             images, masks = images.cuda(), masks.cuda()         
             model = model.cuda()
             
-            outputs = model(images)['out']
-            # outputs = model(images)
+            # outputs = model(images)['out']
+            outputs = model(images)
             
             output_h, output_w = outputs.size(-2), outputs.size(-1)
             mask_h, mask_w = masks.size(-2), masks.size(-1)
@@ -317,21 +316,20 @@ def train(model, data_loader, val_loader, criterion, optimizer):
             images, masks = images.cuda(), masks.cuda()
             model = model.cuda()
 
-            outputs = model(images)['out']
+            # outputs = model(images)['out']
             
-            # with torch.cuda.amp.autocast(): #fp16 연산
-            #     outputs = model(images)['out']
-            #     # outputs = model(images)
-            #     loss = criterion(outputs, masks)
+            with torch.cuda.amp.autocast(): #fp16 연산
+                outputs = model(images)
+                loss = criterion(outputs, masks)
 
             # loss를 계산합니다.
-            loss = criterion(outputs, masks)
+            # loss = criterion(outputs, masks)
             optimizer.zero_grad()
-            # scaler.scale(loss).backward()
-            # scaler.step(optimizer)
-            # scaler.update()
-            loss.backward()
-            optimizer.step()
+            scaler.scale(loss).backward()
+            scaler.step(optimizer)
+            scaler.update()
+            # loss.backward()
+            # optimizer.step()
             
             # step 주기에 따라 loss를 출력합니다.
             if (step + 1) % 25 == 0:
@@ -340,7 +338,7 @@ def train(model, data_loader, val_loader, criterion, optimizer):
                     f'Epoch [{epoch+1}/{NUM_EPOCHS}], '
                     f'Step [{step+1}/{len(train_loader)}], '
                     f'Loss: {round(loss.item(),4)}, '
-                    f'lr: {scheduler.get_last_lr()[0]}'
+                    f'lr: {scheduler.get_last_lr()[0]:.7f}'
                 )
                 wandb.log({'Train Loss': loss.item(),
                            'learning rate' : scheduler.get_last_lr()[0]})
@@ -360,16 +358,16 @@ def train(model, data_loader, val_loader, criterion, optimizer):
                 
 
 
-model = models.segmentation.fcn_resnet50(pretrained=True)
+# model = models.segmentation.fcn_resnet50(pretrained=False)
 # model = models.segmentation.fcn_resnet101(pretrained=True)
 # model = models.segmentation.fcn_resnet101(pretrained=True)
 # checkpoint_path = './save_dir/latest_resnet101_epoch.pt'
 # model = torch.load(checkpoint_path)
-# model = UNet_3Plus(n_classes=len(CLASSES))
+model = UNet_3Plus(n_classes=len(CLASSES))
 
 
 # output class 개수를 dataset에 맞도록 수정합니다.
-model.classifier[4] = nn.Conv2d(512, len(CLASSES), kernel_size=1)
+# model.classifier[4] = nn.Conv2d(512, len(CLASSES), kernel_size=1)
 # model.classifier[4] = nn.Conv2d(256, len(CLASSES), kernel_size=1)
 
 
@@ -385,7 +383,6 @@ optimizer = optim.AdamW(params=model.parameters(), lr=LR, weight_decay=1e-6)
 # 스케줄러 설정
 # scheduler = CosineAnnealingLR(optimizer, T_max=T_max, eta_min = 1e-7)
 # scheduler = StepLR(optimizer, step_size=20, gamma=0.1)
-# scheduler = MultiStepLR(optimizer, milestones=[70,90], gamma=1e-4)
 scheduler = MultiStepLR(optimizer, milestones=[70,90], gamma=1e-3)
 
 # 시드를 설정합니다.
