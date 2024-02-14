@@ -42,12 +42,12 @@ tf_2 = A.Resize(512, 512)
 
 
 # ignore 할 건지 결정
-# ignore_list = ['ID073','ID288','ID363','ID387','ID430','ID487','ID519','ID523','ID543']
+ignore_list = ['ID073','ID288','ID363','ID387','ID430','ID487','ID519','ID523','ID543']
 
 pngs = {
     os.path.relpath(os.path.join(root, fname), start=IMAGE_ROOT)
     for root, _dirs, files in os.walk(IMAGE_ROOT)
-    # if not any(ignore_folder in root for ignore_folder in ignore_list) # 원본 쓸 거면 이 line 주석처리
+    if not any(ignore_folder in root for ignore_folder in ignore_list) # 원본 쓸 거면 이 line 주석처리
     for fname in files
     if os.path.splitext(fname)[1].lower() == ".png"
 }
@@ -55,7 +55,7 @@ pngs = {
 jsons = {
     os.path.relpath(os.path.join(root, fname), start=LABEL_ROOT)
     for root, _dirs, files in os.walk(LABEL_ROOT)
-    # if not any(ignore_folder in root for ignore_folder in ignore_list) # 원본 쓸 거면 이 line 주석처리
+    if not any(ignore_folder in root for ignore_folder in ignore_list) # 원본 쓸 거면 이 line 주석처리
     for fname in files
     if os.path.splitext(fname)[1].lower() == ".json"
 }
@@ -145,7 +145,7 @@ class XRayDataset(Dataset):
     def __getitem__(self, item):
         image_name = self.filenames[item]
         image_path = os.path.join(IMAGE_ROOT, image_name)
-        print(f'{item} : 번째, {image_name} 이미지 처리 시작' )
+        # print(f'{item} : 번째, {image_name} 이미지 처리 시작' )
         # print_memory_usage()
         image = cv2.imread(image_path)
         
@@ -173,11 +173,11 @@ class XRayDataset(Dataset):
             label[..., class_ind] = class_label
         
         if self.transforms is not None:
-            inputs = {"image": image, "mask": label} if self.is_train else {"image": image}
+            inputs = {"image": image, "mask": label} #if self.is_train else {"image": image}
             result = self.transforms(**inputs)
             
             image = result["image"]
-            label = result["mask"] if self.is_train else label
+            label = result["mask"] #if self.is_train else label
 
         image = image / 255.
         
@@ -193,5 +193,5 @@ class XRayDataset(Dataset):
 train_dataset = XRayDataset(is_train=True, transforms=tf_1)
 valid_dataset = XRayDataset(is_train=False, transforms=tf_2)
 
-# save_dataset_as_single_pickle(train_dataset, save_dir_pkl, 'train.pkl')
-save_dataset_as_single_pickle(valid_dataset, save_dir_pkl, 'valid.pkl')
+save_dataset_as_single_pickle(train_dataset, save_dir_pkl, 'train.pkl')
+save_dataset_as_single_pickle(valid_dataset, save_dir_pkl, 'valid')
