@@ -24,6 +24,8 @@ from torchvision import models
 # visualization
 import matplotlib.pyplot as plt
 
+import ttach as tta
+
 CLASSES = [
     'finger-1', 'finger-2', 'finger-3', 'finger-4', 'finger-5',
     'finger-6', 'finger-7', 'finger-8', 'finger-9', 'finger-10',
@@ -39,7 +41,7 @@ IND2CLASS = {v: k for k, v in CLASS2IND.items()}
 SAVED_DIR = "saved_dir"
 
 ###
-model = torch.load(os.path.join(SAVED_DIR, "fcn_resnet50_best_model.pt"))
+model = torch.load(os.path.join(SAVED_DIR, "color_ji_50epochs.pt"))
 
 
 # 테스트 데이터 경로를 입력하세요
@@ -161,4 +163,4 @@ df = pd.DataFrame({
     "rle": rles,
 })
 # print(df.head(30))
-df.to_csv("output_seg.csv", index=False)
+df.to_csv("base_seg.csv", index=False)
