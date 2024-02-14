@@ -313,6 +313,8 @@ def train(model, data_loader, val_loader, criterion, optimizer):
     
     for epoch in range(NUM_EPOCHS):
         model.train()
+        total_loss = 0.0
+        total_steps = len(data_loader)
         
         for step, (images, masks) in enumerate(data_loader):   
                      
@@ -323,8 +325,7 @@ def train(model, data_loader, val_loader, criterion, optimizer):
             # outputs = model(images)['out']
             
             with torch.cuda.amp.autocast(): #fp16 연산
-                outputs = model(images)['out']
-                # outputs = model(images)
+                outputs = model(images)
                 loss = criterion(outputs, masks)
 
             # loss를 계산합니다.
@@ -333,21 +334,23 @@ def train(model, data_loader, val_loader, criterion, optimizer):
             scaler.scale(loss).backward()
             scaler.step(optimizer)
             scaler.update()
+            total_loss += loss.item()
             # loss.backward()
             # optimizer.step()
             
             # step 주기에 따라 loss를 출력합니다.
-            if (step + 1) % 20 == 0:
+            if (step + 1) % 25 == 0:
                 print(
                     f'{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")} | '
                     f'Epoch [{epoch+1}/{NUM_EPOCHS}], '
                     f'Step [{step+1}/{len(train_loader)}], '
                     f'Loss: {round(loss.item(),4)}, '
-                    f'lr: {scheduler.get_last_lr()[0]}'
+                    f'lr: {scheduler.optimizer.param_groups[0]["lr"]}'
                 )
                 wandb.log({'Train Loss': loss.item(),
-                           'learning rate' : scheduler.get_last_lr()[0]})
-        scheduler.step()
+                           'learning rate' : scheduler.optimizer.param_groups[0]['lr']})
+        avg_loss = total_loss / total_steps
+        scheduler.step(avg_loss)
         # validation 주기에 따라 loss를 출력하고 best model을 저장합니다.
         if (epoch + 1) % VAL_EVERY == 0:
             dice = validation(epoch + 1, model, val_loader, criterion)

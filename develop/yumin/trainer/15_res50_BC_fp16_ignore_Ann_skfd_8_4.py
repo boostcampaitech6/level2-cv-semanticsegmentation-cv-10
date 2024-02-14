@@ -30,8 +30,8 @@ import matplotlib.pyplot as plt
 import wandb
 
 # 데이터 경로를 입력하세요
-WAND_NAME = '13_res50_BC_fp16_ignore_RLROP_skfd_8_4'
-SAVE_PT_NAME = '_13_res50_BC_fp16_ignore_RLROP_skfd_8_4.pt'
+WAND_NAME = '15_res50_BC_fp16_ignore_Ann_skfd_8_4'
+SAVE_PT_NAME = '_15_res50_BC_fp16_ignore_Ann_skfd_8_4.pt'
 
 BATCH_SIZE_T = 8
 BATCH_SIZE_V = 4
@@ -335,6 +335,8 @@ def train(model, data_loader, val_loader, criterion, optimizer):
             scaler.update()
             # loss.backward()
             # optimizer.step()
+
+            scheduler.step(loss)
             
             # step 주기에 따라 loss를 출력합니다.
             if (step + 1) % 20 == 0:
@@ -343,11 +345,11 @@ def train(model, data_loader, val_loader, criterion, optimizer):
                     f'Epoch [{epoch+1}/{NUM_EPOCHS}], '
                     f'Step [{step+1}/{len(train_loader)}], '
                     f'Loss: {round(loss.item(),4)}, '
-                    f'lr: {scheduler.get_last_lr()[0]}'
+                    f'lr: {scheduler.optimizer.param_groups[0]['lr']}'
                 )
                 wandb.log({'Train Loss': loss.item(),
-                           'learning rate' : scheduler.get_last_lr()[0]})
-        scheduler.step()
+                           'learning rate' : scheduler.optimizer.param_groups[0]['lr']})
+            
         # validation 주기에 따라 loss를 출력하고 best model을 저장합니다.
         if (epoch + 1) % VAL_EVERY == 0:
             dice = validation(epoch + 1, model, val_loader, criterion)
