@@ -162,7 +162,8 @@ def validation(epoch, model, data_loader, criterion, thr=0.5):
         for c, d in zip(CLASSES, dices_per_class)
     ]
     dice_str = "\n".join(dice_str)
-    
+    print(dice_str)
+
     avg_dice = torch.mean(dices_per_class).item()
     
     return avg_dice
@@ -176,6 +177,8 @@ def train(model, data_loader, val_loader, criterion, optimizer):
     wandb.init(entity='level2-cv-10-detection', project='yumin', name=WAND_NAME)
     
     for epoch in range(NUM_EPOCHS):
+        if epoch % VAL_EVERY == 0:
+            start_time = datetime.datetime.now()
         model.train()
         total_loss = 0.0
         total_steps = len(data_loader)
@@ -215,6 +218,13 @@ def train(model, data_loader, val_loader, criterion, optimizer):
         if (epoch + 1) % VAL_EVERY == 0:
             dice = validation(epoch + 1, model, val_loader, criterion)
             print(f"current valid Dice: {dice:.4f}")
+
+            time_gap = datetime.datetime.now() - start_time
+            total_seconds = time_gap.total_seconds()
+            minutes = int(total_seconds // 60)
+            seconds = int(total_seconds % 60)
+            print(f'{VAL_EVERY} epoch당 시간: {minutes}분 {seconds}초')
+            
             wandb.log({'Validation Dice': dice})
 
             if best_dice < dice:
