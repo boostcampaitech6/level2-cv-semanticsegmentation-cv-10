@@ -41,7 +41,7 @@ IND2CLASS = {v: k for k, v in CLASS2IND.items()}
 SAVED_DIR = "saved_dir"
 
 ###
-model = torch.load(os.path.join(SAVED_DIR, "color_ji_50epochs.pt"))
+model = torch.load(os.path.join(SAVED_DIR, "add_horizontal_50epochs.pt"))
 
 
 # 테스트 데이터 경로를 입력하세요
@@ -163,4 +163,4 @@ df = pd.DataFrame({
     "rle": rles,
 })
 # print(df.head(30))
-df.to_csv("base_seg.csv", index=False)
+df.to_csv("hori_seg.csv", index=False)

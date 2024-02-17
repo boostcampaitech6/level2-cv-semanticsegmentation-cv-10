@@ -27,8 +27,8 @@ import wandb
 from albumentations.pytorch import ToTensorV2
 
 # 데이터 경로를 입력하세요
-WAND_NAME = 'add_horizontal_50epochs'
-SAVE_PT_NAME = 'add_horizontal_50epochs.pt'
+WAND_NAME = '1024add_horizontal_100epochs'
+SAVE_PT_NAME = '1024add_horizontal_100epochs.pt'
 
 
 IMAGE_ROOT = "../../data/train/DCM/"
@@ -46,11 +46,11 @@ CLASSES = [
 CLASS2IND = {v: i for i, v in enumerate(CLASSES)}
 IND2CLASS = {v: k for k, v in CLASS2IND.items()}
 
-BATCH_SIZE = 8
+BATCH_SIZE = 4
 LR = 1e-4
 RANDOM_SEED = 21
 
-NUM_EPOCHS = 50
+NUM_EPOCHS = 100
 VAL_EVERY = 10
 
 SAVED_DIR = "saved_dir"
@@ -192,19 +192,19 @@ PALETTE = [
 
 # tf = A.Resize(512, 512)
 tf_l = A.Compose([
-    A.Resize(512, 512),
-    A.ColorJitter(0.2,0.5,0.2,0),
+    A.Resize(1024, 1024),
+    A.ColorJitter(0.2, 0.5, 0.2, 0),
 ])
 
 tf_r = A.Compose([
-    A.Resize(512, 512),
+    A.Resize(1024, 1024),
     A.ColorJitter(0.2, 0.5, 0.2, 0),
     A.HorizontalFlip(p=1.0),  # p=1.0은 이미지를 항상 수평으로 뒤집습니다.
 ])
 
 
 # tf_2 = A.Compose([A.resize(512, 512)])
-tf_2 = A.Compose([A.Resize(512, 512)])
+tf_2 = A.Compose([A.Resize(1024, 1024)])
 
 
 
@@ -350,9 +350,10 @@ def train(model, data_loader, val_loader, criterion, optimizer):
                 save_model(model)
 
 model = models.segmentation.fcn_resnet50(pretrained=True)
-
+print(model)
 # output class 개수를 dataset에 맞도록 수정합니다.
 model.classifier[4] = nn.Conv2d(512, len(CLASSES), kernel_size=1)
+# model.classifier[4] = nn.Conv2d(1024, len(CLASSES), kernel_size=1)
 
 # Loss function을 정의합니다.
 criterion = nn.BCEWithLogitsLoss()
