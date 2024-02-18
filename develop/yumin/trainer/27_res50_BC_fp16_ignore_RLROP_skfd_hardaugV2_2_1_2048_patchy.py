@@ -31,11 +31,11 @@ import matplotlib.pyplot as plt
 import wandb
 
 # 데이터 경로를 입력하세요
-WAND_NAME = '26_res50_BC_fp16_ignore_RLROP_skfd_hardaugV2_8_4_2048_patchy'
-SAVE_PT_NAME = '_26_res50_BC_fp16_ignore_RLROP_skfd_hardaugV2_8_4_2048_patchy.pt'
+WAND_NAME = '27_res50_BC_fp16_ignore_RLROP_skfd_hardaugV2_2_1_2048_patchy'
+SAVE_PT_NAME = '_27_res50_BC_fp16_ignore_RLROP_skfd_hardaugV2_2_1_2048_patchy.pt'
 
-BATCH_SIZE_T = 8
-BATCH_SIZE_V = 4
+BATCH_SIZE_T = 2
+BATCH_SIZE_V = 1
 
 IMAGE_ROOT = "../../../data/train/DCM"
 LABEL_ROOT = "../../../data/train/outputs_json"
@@ -193,7 +193,7 @@ PALETTE = [
 ]
 
 tf_1 = A.Compose([
-                A.Resize(512, 512),
+                A.Resize(1024, 1024),
                 A.HorizontalFlip(p=0.5),
                 A.OneOf([A.OneOf([A.Blur(blur_limit = 4, always_apply = True),
                                     A.GlassBlur(sigma = 0.7, max_delta = 1, iterations = 2, always_apply = True),
@@ -203,7 +203,7 @@ tf_1 = A.Compose([
                          p=0.5),
                 A.Rotate(10),
                 ])
-tf_2 = A.Compose([A.Resize(512, 512)
+tf_2 = A.Compose([A.Resize(1024, 1024)
                 ])
 
 train_dataset = XRayDataset(is_train=True, transforms=tf_1)
