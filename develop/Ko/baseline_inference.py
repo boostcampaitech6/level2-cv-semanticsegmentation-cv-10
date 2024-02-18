@@ -41,7 +41,7 @@ IND2CLASS = {v: k for k, v in CLASS2IND.items()}
 SAVED_DIR = "saved_dir"
 
 ###
-model = torch.load(os.path.join(SAVED_DIR, "add_horizontal_50epochs.pt"))
+model = torch.load(os.path.join(SAVED_DIR, "1024add_horizontal_100epochs.pt"))
 
 
 # 테스트 데이터 경로를 입력하세요
@@ -132,7 +132,7 @@ def test(model, data_loader, thr=0.5):
                     filename_and_class.append(f"{IND2CLASS[c]}_{image_name}")
                     
     return rles, filename_and_class
-tf = A.Resize(512, 512)
+tf = A.Resize(1024, 1024)
 test_dataset = XRayInferenceDataset(transforms=tf)
 # print(test_dataset)
 test_loader = DataLoader(
@@ -163,4 +163,4 @@ df = pd.DataFrame({
     "rle": rles,
 })
 # print(df.head(30))
-df.to_csv("hori_seg.csv", index=False)
+df.to_csv("xxxxx.csv", index=False)
