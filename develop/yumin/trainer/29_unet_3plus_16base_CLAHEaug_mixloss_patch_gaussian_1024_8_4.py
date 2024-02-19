@@ -34,8 +34,8 @@ import wandb
 WAND_NAME = '28_res50_14base_CLAHEaug_mixloss_patch_gaussian_1024_16_4'
 SAVE_PT_NAME = '_28_res50_14base_CLAHEaug_mixloss_patch_gaussian_1024_16_4.pt'
 
-BATCH_SIZE_T = 2
-BATCH_SIZE_V = 2
+BATCH_SIZE_T = 8
+BATCH_SIZE_V = 4
 
 IMAGE_ROOT = "../../../data/train/DCM"
 LABEL_ROOT = "../../../data/train/outputs_json"
@@ -55,7 +55,7 @@ LR = 1e-3
 RANDOM_SEED = 21
 
 NUM_EPOCHS = 100
-VAL_EVERY = 5
+VAL_EVERY = 10
 
 SAVED_DIR = "save_dir"
 
@@ -193,13 +193,13 @@ PALETTE = [
 ]
 
 tf_1 = A.Compose([
-                A.Resize(100, 100),
+                A.Resize(512, 512),
                 A.HorizontalFlip(p=0.5),
                 A.CLAHE(p=1.0),
                 A.RandomBrightnessContrast(brightness_limit = 0.05, contrast_limit = 0.3, p=0.5),
                 A.Rotate(10),
                 ])
-tf_2 = A.Compose([A.Resize(100, 100),
+tf_2 = A.Compose([A.Resize(512, 512),
                   A.CLAHE(p=1.0)
                 ])
 
