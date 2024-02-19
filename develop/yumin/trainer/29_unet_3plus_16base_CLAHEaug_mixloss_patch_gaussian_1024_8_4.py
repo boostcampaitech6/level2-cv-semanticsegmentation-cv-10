@@ -14,7 +14,7 @@ import pandas as pd
 from tqdm.auto import tqdm
 from sklearn.model_selection import GroupKFold, StratifiedGroupKFold
 import albumentations as A
-from UNet_Version.models.UNet_3Plus import UNet_3Plus
+from Unet_3Plus import UNet_3Plus
 
 # torch
 import torch
@@ -34,8 +34,8 @@ import wandb
 WAND_NAME = '28_res50_14base_CLAHEaug_mixloss_patch_gaussian_1024_16_4'
 SAVE_PT_NAME = '_28_res50_14base_CLAHEaug_mixloss_patch_gaussian_1024_16_4.pt'
 
-BATCH_SIZE_T = 8
-BATCH_SIZE_V = 4
+BATCH_SIZE_T = 2
+BATCH_SIZE_V = 2
 
 IMAGE_ROOT = "../../../data/train/DCM"
 LABEL_ROOT = "../../../data/train/outputs_json"
@@ -193,13 +193,13 @@ PALETTE = [
 ]
 
 tf_1 = A.Compose([
-                A.Resize(512, 512),
+                A.Resize(100, 100),
                 A.HorizontalFlip(p=0.5),
                 A.CLAHE(p=1.0),
                 A.RandomBrightnessContrast(brightness_limit = 0.05, contrast_limit = 0.3, p=0.5),
                 A.Rotate(10),
                 ])
-tf_2 = A.Compose([A.Resize(512, 512),
+tf_2 = A.Compose([A.Resize(100, 100),
                   A.CLAHE(p=1.0)
                 ])
 
@@ -392,7 +392,7 @@ model = UNet_3Plus(n_classes=len(CLASSES))
 
 
 # output class 개수를 dataset에 맞도록 수정합니다.
-model.classifier[4] = nn.Conv2d(512, len(CLASSES), kernel_size=1)
+# model.classifier[4] = nn.Conv2d(512, len(CLASSES), kernel_size=1)
 
 # Loss function을 정의합니다.
 # criterion = nn.BCEWithLogitsLoss()
