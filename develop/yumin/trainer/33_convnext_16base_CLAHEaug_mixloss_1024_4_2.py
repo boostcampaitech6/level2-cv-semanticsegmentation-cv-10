@@ -45,7 +45,7 @@ CLASSES = [
 CLASS2IND = {v: i for i, v in enumerate(CLASSES)}
 IND2CLASS = {v: k for k, v in CLASS2IND.items()}
 
-BATCH_SIZE_T = 2
+BATCH_SIZE_T = 8
 BATCH_SIZE_V = 2
 LR = 1e-3
 RANDOM_SEED = 21
@@ -384,20 +384,16 @@ def train(model, data_loader, val_loader,  optimizer):
 class ConvNeXT_Seg(nn.Module):
     def __init__(self, num_classes):
         super(ConvNeXT_Seg, self).__init__()
-        # ConvNeXt 모델 불러오기
+
         self.backbone = convnext_base(pretrained=False, features_only=True)
         
-        # Feature 2의 채널 수(512)를 사용
         self.conv = nn.Conv2d(in_channels=512, out_channels=num_classes, kernel_size=1)
         
-        # 업샘플링 비율 조정
-        # 원본 이미지 크기로 복원하기 위한 적절한 scale_factor 계산 필요
         self.upsample = nn.Upsample(scale_factor=16, mode='bilinear', align_corners=False)
 
     def forward(self, x):
-        # x = x.unsqueeze(0)
         features = self.backbone(x)
-        x = features[2]  # Feature 2 선택
+        x = features[2]
         x = self.conv(x)
         x = self.upsample(x)  # 원본 이미지 크기로 업샘플링
         return x
