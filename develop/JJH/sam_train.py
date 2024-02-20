@@ -237,6 +237,7 @@ model = SamModel(config)
 
 from torch.optim import Adam
 import monai
+from torch.cuda.amp import autocast, GradScaler
 
 # Note: Hyperparameter tuning could
 # 
@@ -246,7 +247,7 @@ optimizer = Adam(model.mask_decoder.parameters(), lr=1e-5,
 
 seg_loss = monai.losses.DiceCELoss(sigmoid=True, squared_pred=True, reduction='mean')
 
-PATH = "./model/"
+PATH = "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/JJH/model/"
 
 ## 학습
 from tqdm import tqdm
@@ -255,37 +256,40 @@ import torch
 from torch.nn.functional import threshold, normalize
 import wandb
 
-wandb.init(project="Sam_jjh", entity="level2-cv-10-detection")
-wandb.run.name = "sam_basic"
+wandb.init(project="Sam_jjh", entity="level2-cv-10-detection", name="sam_basic")
 num_epochs = 100
-
+model.load_state_dict(torch.load("/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/JJH/model/model_7.pt"))
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model.to(device)
-
+scaler = GradScaler()
 model.train()
-for epoch in range(num_epochs):
+for epoch in range(8, num_epochs):
     epoch_losses = []
     for batch in tqdm(train_dataloader):
       # forward pass
-      outputs = model(pixel_values=batch["pixel_values"].to(device),
-                      input_boxes=batch["input_boxes"].to(device),
-                      multimask_output=False)
+      with autocast():
+        outputs = model(pixel_values=batch["pixel_values"].to(device),
+                        input_boxes=batch["input_boxes"].to(device),
+                        multimask_output=False)
+        # compute loss
+        predicted_masks = outputs.pred_masks.squeeze(1)
+        ground_truth_masks = batch["ground_truth_mask"].float().to(device)
+        loss = seg_loss(predicted_masks, ground_truth_masks.unsqueeze(dim=2))
 
-      # compute loss
-      predicted_masks = outputs.pred_masks.squeeze(1)
-      ground_truth_masks = batch["ground_truth_mask"].float().to(device)
-      loss = seg_loss(predicted_masks, ground_truth_masks.unsqueeze(dim=2))
-      wandb.log({"train_loss":loss.item()})
+      
       # backward pass (compute gradients of parameters w.r.t. loss)
       optimizer.zero_grad()
-      loss.backward()
+      scaler.scale(loss).backward()
+      # loss.backward()
 
       # optimize
-      optimizer.step()
+      scaler.step(optimizer)
+      scaler.update()
+      # optimizer.step()
       epoch_losses.append(loss.item())
 
-    if epoch % 5 == 0:
-      torch.save(model.state_dict(), PATH + f"model_{epoch}")
-
+  
+    torch.save(model.state_dict(), PATH + f"model_{epoch}.pt")
+    wandb.log({"train_loss":mean(epoch_losses)})
     print(f'EPOCH: {epoch}')
     print(f'Mean loss: {mean(epoch_losses)}')
