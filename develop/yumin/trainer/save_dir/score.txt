@@ -1,0 +1,7 @@
+2_base_res50_crop_JI_8_4.csv → 0.9421
+2dot5_base_res50_JI_8_4.csv → 0.9445
+3_res50_BC_8_4(0.2,0.5).csv → 0.9436
+3_res50_BC_8_4(0.05,0.3).csv → 0.9422
+4_res50_BC_fp16_16_4.csv → 0.9274
+4dot5_res50_BC_fp16_8_4.csv → 0.9459
+with_CLAHE_4dot5_res50_BC_fp16_8_4.csv → 0.9424

@@ -1,0 +1,49 @@
+
+2024-02-08 03:19:26 | Epoch [1/20], Step [25/80], Loss: 0.5373
+2024-02-08 03:19:56 | Epoch [1/20], Step [50/80], Loss: 0.4382
+2024-02-08 03:20:24 | Epoch [1/20], Step [75/80], Loss: 0.3506
+  0%|                                                                             | 0/20 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|████████████████████████████████████████████████████████████████████| 20/20 [05:15<00:00, 15.78s/it]
+Best performance at epoch: 1, 0.0000 -> 0.0361
+Save model in save_dir
+2024-02-08 03:26:19 | Epoch [2/20], Step [25/80], Loss: 0.2654
+2024-02-08 03:26:47 | Epoch [2/20], Step [50/80], Loss: 0.2116
+2024-02-08 03:27:15 | Epoch [2/20], Step [75/80], Loss: 0.1704
+  0%|                                                                             | 0/20 [00:00<?, ?it/s]
+  0%|                                                                             | 0/20 [00:08<?, ?it/s]
+Traceback (most recent call last):
+  File "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom.py", line 334, in <module>
+    train(model, train_loader, valid_loader, criterion, optimizer)
+  File "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom.py", line 311, in train
+    dice = validation(epoch + 1, model, val_loader, criterion)
+  File "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom.py", line 253, in validation
+    loss = criterion(outputs, masks)
+  File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/loss.py", line 725, in forward
+    return F.binary_cross_entropy_with_logits(input, target,
+  File "/opt/conda/lib/python3.10/site-packages/torch/nn/functional.py", line 3195, in binary_cross_entropy_with_logits
+    return torch.binary_cross_entropy_with_logits(input, target, weight, pos_weight, reduction_enum)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 3.62 GiB. GPU 0 has a total capacty of 31.75 GiB of which 3.27 GiB is free. Process 1179559 has 28.47 GiB memory in use. Of the allocated memory 22.59 GiB is allocated by PyTorch, and 4.65 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF

@@ -1,0 +1,68 @@
+
+2024-02-09 20:49:22 | Epoch [1/150], Step [25/80], Loss: 0.5672
+2024-02-09 20:49:52 | Epoch [1/150], Step [50/80], Loss: 0.4753
+2024-02-09 20:50:19 | Epoch [1/150], Step [75/80], Loss: 0.3895
+2024-02-09 20:51:00 | Epoch [2/150], Step [25/80], Loss: 0.3025
+2024-02-09 20:51:29 | Epoch [2/150], Step [50/80], Loss: 0.2461
+2024-02-09 20:52:00 | Epoch [2/150], Step [75/80], Loss: 0.2018
+  0%|                                                                                                     | 0/40 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 40/40 [05:27<00:00,  8.18s/it]
+current valid Dice: 0.1693
+Best performance at epoch: 2, 0.0000 -> 0.1693
+Save model in save_dir
+2024-02-09 20:58:11 | Epoch [3/150], Step [25/80], Loss: 0.1624
+2024-02-09 20:58:39 | Epoch [3/150], Step [50/80], Loss: 0.1368
+2024-02-09 20:59:05 | Epoch [3/150], Step [75/80], Loss: 0.1171
+2024-02-09 20:59:45 | Epoch [4/150], Step [25/80], Loss: 0.0983
+2024-02-09 21:00:13 | Epoch [4/150], Step [50/80], Loss: 0.087
+2024-02-09 21:00:42 | Epoch [4/150], Step [75/80], Loss: 0.0761
+  0%|                                                                                                     | 0/40 [00:00<?, ?it/s]
+  0%|                                                                                                     | 0/40 [00:06<?, ?it/s]
+Traceback (most recent call last):
+  File "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom.py", line 344, in <module>
+    train(model, train_loader, valid_loader, criterion, optimizer)
+  File "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom.py", line 314, in train
+    dice = validation(epoch + 1, model, val_loader, criterion)
+  File "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom.py", line 262, in validation
+    masks = masks.detach().cpu()
+KeyboardInterrupt

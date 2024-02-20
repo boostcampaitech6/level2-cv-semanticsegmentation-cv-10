@@ -1,0 +1,316 @@
+/opt/conda/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:136: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
+2024-02-10 20:36:29 | Epoch [1/150], Step [25/312], Loss: 0.0345
+2024-02-10 20:37:04 | Epoch [1/150], Step [50/312], Loss: 0.013
+2024-02-10 20:37:40 | Epoch [1/150], Step [75/312], Loss: 0.0085
+2024-02-10 20:38:14 | Epoch [1/150], Step [100/312], Loss: 0.0064
+2024-02-10 20:38:51 | Epoch [1/150], Step [125/312], Loss: 0.0056
+2024-02-10 20:39:25 | Epoch [1/150], Step [150/312], Loss: 0.0062
+2024-02-10 20:40:01 | Epoch [1/150], Step [175/312], Loss: 0.0051
+2024-02-10 20:40:34 | Epoch [1/150], Step [200/312], Loss: 0.0035
+2024-02-10 20:41:11 | Epoch [1/150], Step [225/312], Loss: 0.003
+2024-02-10 20:41:45 | Epoch [1/150], Step [250/312], Loss: 0.0033
+2024-02-10 20:42:22 | Epoch [1/150], Step [275/312], Loss: 0.0032
+2024-02-10 20:42:56 | Epoch [1/150], Step [300/312], Loss: 0.0022
+2024-02-10 20:43:50 | Epoch [2/150], Step [25/312], Loss: 0.002
+2024-02-10 20:44:26 | Epoch [2/150], Step [50/312], Loss: 0.002
+2024-02-10 20:45:01 | Epoch [2/150], Step [75/312], Loss: 0.0018
+2024-02-10 20:45:36 | Epoch [2/150], Step [100/312], Loss: 0.0017
+2024-02-10 20:46:11 | Epoch [2/150], Step [125/312], Loss: 0.0018
+2024-02-10 20:46:46 | Epoch [2/150], Step [150/312], Loss: 0.0015
+2024-02-10 20:47:21 | Epoch [2/150], Step [175/312], Loss: 0.0014
+2024-02-10 20:47:55 | Epoch [2/150], Step [200/312], Loss: 0.0017
+2024-02-10 20:48:31 | Epoch [2/150], Step [225/312], Loss: 0.0022
+2024-02-10 20:49:05 | Epoch [2/150], Step [250/312], Loss: 0.0018
+2024-02-10 20:49:40 | Epoch [2/150], Step [275/312], Loss: 0.0012
+2024-02-10 20:50:14 | Epoch [2/150], Step [300/312], Loss: 0.001
+2024-02-10 20:51:09 | Epoch [3/150], Step [25/312], Loss: 0.0012
+2024-02-10 20:51:44 | Epoch [3/150], Step [50/312], Loss: 0.001
+2024-02-10 20:52:20 | Epoch [3/150], Step [75/312], Loss: 0.0011
+2024-02-10 20:52:54 | Epoch [3/150], Step [100/312], Loss: 0.0009
+2024-02-10 20:53:31 | Epoch [3/150], Step [125/312], Loss: 0.0019
+2024-02-10 20:54:05 | Epoch [3/150], Step [150/312], Loss: 0.0011
+2024-02-10 20:54:39 | Epoch [3/150], Step [175/312], Loss: 0.001
+2024-02-10 20:55:15 | Epoch [3/150], Step [200/312], Loss: 0.001
+2024-02-10 20:55:49 | Epoch [3/150], Step [225/312], Loss: 0.0012
+2024-02-10 20:56:25 | Epoch [3/150], Step [250/312], Loss: 0.0009
+2024-02-10 20:57:00 | Epoch [3/150], Step [275/312], Loss: 0.0009
+2024-02-10 20:57:36 | Epoch [3/150], Step [300/312], Loss: 0.001
+2024-02-10 20:58:31 | Epoch [4/150], Step [25/312], Loss: 0.001
+2024-02-10 20:59:05 | Epoch [4/150], Step [50/312], Loss: 0.0009
+2024-02-10 20:59:41 | Epoch [4/150], Step [75/312], Loss: 0.001
+2024-02-10 21:00:15 | Epoch [4/150], Step [100/312], Loss: 0.0008
+2024-02-10 21:00:53 | Epoch [4/150], Step [125/312], Loss: 0.0008
+2024-02-10 21:01:26 | Epoch [4/150], Step [150/312], Loss: 0.0007
+2024-02-10 21:02:01 | Epoch [4/150], Step [175/312], Loss: 0.0007
+2024-02-10 21:02:35 | Epoch [4/150], Step [200/312], Loss: 0.0007
+2024-02-10 21:03:11 | Epoch [4/150], Step [225/312], Loss: 0.0007
+2024-02-10 21:03:46 | Epoch [4/150], Step [250/312], Loss: 0.0008
+2024-02-10 21:04:22 | Epoch [4/150], Step [275/312], Loss: 0.0007
+2024-02-10 21:04:57 | Epoch [4/150], Step [300/312], Loss: 0.0007
+2024-02-10 21:05:50 | Epoch [5/150], Step [25/312], Loss: 0.0006
+2024-02-10 21:06:27 | Epoch [5/150], Step [50/312], Loss: 0.0006
+2024-02-10 21:07:01 | Epoch [5/150], Step [75/312], Loss: 0.0006
+2024-02-10 21:07:36 | Epoch [5/150], Step [100/312], Loss: 0.0014
+2024-02-10 21:08:11 | Epoch [5/150], Step [125/312], Loss: 0.0008
+2024-02-10 21:08:47 | Epoch [5/150], Step [150/312], Loss: 0.0006
+2024-02-10 21:09:21 | Epoch [5/150], Step [175/312], Loss: 0.0009
+2024-02-10 21:09:57 | Epoch [5/150], Step [200/312], Loss: 0.0009
+2024-02-10 21:10:32 | Epoch [5/150], Step [225/312], Loss: 0.0007
+2024-02-10 21:11:07 | Epoch [5/150], Step [250/312], Loss: 0.0008
+2024-02-10 21:11:40 | Epoch [5/150], Step [275/312], Loss: 0.0007
+2024-02-10 21:12:15 | Epoch [5/150], Step [300/312], Loss: 0.0011
+  0%|                                                           | 0/79 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 99%|█████████████████████████████████████████████████▎| 78/79 [05:42<00:04,  4.34s/it]
+current valid Dice: 0.4989
+Best performance at epoch: 5, 0.0000 -> 0.4989
+
+100%|██████████████████████████████████████████████████| 79/79 [05:47<00:00,  4.40s/it]
+2024-02-10 21:18:55 | Epoch [6/150], Step [25/312], Loss: 0.0009
+2024-02-10 21:19:29 | Epoch [6/150], Step [50/312], Loss: 0.0012
+2024-02-10 21:20:03 | Epoch [6/150], Step [75/312], Loss: 0.0009
+2024-02-10 21:20:37 | Epoch [6/150], Step [100/312], Loss: 0.0008
+2024-02-10 21:21:10 | Epoch [6/150], Step [125/312], Loss: 0.0012
+2024-02-10 21:21:44 | Epoch [6/150], Step [150/312], Loss: 0.0006
+2024-02-10 21:22:18 | Epoch [6/150], Step [175/312], Loss: 0.0007
+2024-02-10 21:22:51 | Epoch [6/150], Step [200/312], Loss: 0.0006
+2024-02-10 21:23:25 | Epoch [6/150], Step [225/312], Loss: 0.0007
+2024-02-10 21:24:01 | Epoch [6/150], Step [250/312], Loss: 0.0007
+2024-02-10 21:24:34 | Epoch [6/150], Step [275/312], Loss: 0.0006
+2024-02-10 21:25:08 | Epoch [6/150], Step [300/312], Loss: 0.0007
+2024-02-10 21:26:03 | Epoch [7/150], Step [25/312], Loss: 0.0007
+2024-02-10 21:26:38 | Epoch [7/150], Step [50/312], Loss: 0.0006
+2024-02-10 21:27:17 | Epoch [7/150], Step [75/312], Loss: 0.0006
+2024-02-10 21:27:52 | Epoch [7/150], Step [100/312], Loss: 0.0008
+2024-02-10 21:28:29 | Epoch [7/150], Step [125/312], Loss: 0.0006
+2024-02-10 21:29:06 | Epoch [7/150], Step [150/312], Loss: 0.0006
+2024-02-10 21:29:44 | Epoch [7/150], Step [175/312], Loss: 0.0006
+2024-02-10 21:30:20 | Epoch [7/150], Step [200/312], Loss: 0.0008
+2024-02-10 21:30:58 | Epoch [7/150], Step [225/312], Loss: 0.0006
+2024-02-10 21:31:33 | Epoch [7/150], Step [250/312], Loss: 0.0006
+2024-02-10 21:32:12 | Epoch [7/150], Step [275/312], Loss: 0.0008
+2024-02-10 21:32:48 | Epoch [7/150], Step [300/312], Loss: 0.0008
+2024-02-10 21:33:44 | Epoch [8/150], Step [25/312], Loss: 0.0006
+2024-02-10 21:34:20 | Epoch [8/150], Step [50/312], Loss: 0.0007
+2024-02-10 21:34:56 | Epoch [8/150], Step [75/312], Loss: 0.0009
+2024-02-10 21:35:30 | Epoch [8/150], Step [100/312], Loss: 0.0007
+2024-02-10 21:36:06 | Epoch [8/150], Step [125/312], Loss: 0.0005
+2024-02-10 21:36:44 | Epoch [8/150], Step [150/312], Loss: 0.0019
+2024-02-10 21:37:20 | Epoch [8/150], Step [175/312], Loss: 0.0006
+2024-02-10 21:37:56 | Epoch [8/150], Step [200/312], Loss: 0.0008
+2024-02-10 21:38:32 | Epoch [8/150], Step [225/312], Loss: 0.0008
+2024-02-10 21:39:10 | Epoch [8/150], Step [250/312], Loss: 0.0006
+2024-02-10 21:39:45 | Epoch [8/150], Step [275/312], Loss: 0.001
+2024-02-10 21:40:21 | Epoch [8/150], Step [300/312], Loss: 0.0008
+2024-02-10 21:41:16 | Epoch [9/150], Step [25/312], Loss: 0.0006
+2024-02-10 21:41:52 | Epoch [9/150], Step [50/312], Loss: 0.0006
+2024-02-10 21:42:29 | Epoch [9/150], Step [75/312], Loss: 0.0006
+2024-02-10 21:43:04 | Epoch [9/150], Step [100/312], Loss: 0.0007
+2024-02-10 21:43:41 | Epoch [9/150], Step [125/312], Loss: 0.0007
+2024-02-10 21:44:16 | Epoch [9/150], Step [150/312], Loss: 0.0006
+2024-02-10 21:44:52 | Epoch [9/150], Step [175/312], Loss: 0.0005
+2024-02-10 21:45:28 | Epoch [9/150], Step [200/312], Loss: 0.0005
+2024-02-10 21:46:04 | Epoch [9/150], Step [225/312], Loss: 0.0006
+2024-02-10 21:46:40 | Epoch [9/150], Step [250/312], Loss: 0.0006
+2024-02-10 21:47:16 | Epoch [9/150], Step [275/312], Loss: 0.0007
+2024-02-10 21:47:52 | Epoch [9/150], Step [300/312], Loss: 0.0006
+2024-02-10 21:48:47 | Epoch [10/150], Step [25/312], Loss: 0.0005
+2024-02-10 21:49:24 | Epoch [10/150], Step [50/312], Loss: 0.0005
+2024-02-10 21:50:02 | Epoch [10/150], Step [75/312], Loss: 0.0005
+2024-02-10 21:50:37 | Epoch [10/150], Step [100/312], Loss: 0.0006
+2024-02-10 21:51:13 | Epoch [10/150], Step [125/312], Loss: 0.0006
+2024-02-10 21:51:49 | Epoch [10/150], Step [150/312], Loss: 0.0006
+2024-02-10 21:52:25 | Epoch [10/150], Step [175/312], Loss: 0.0006
+2024-02-10 21:53:01 | Epoch [10/150], Step [200/312], Loss: 0.0006
+2024-02-10 21:53:37 | Epoch [10/150], Step [225/312], Loss: 0.0005
+2024-02-10 21:54:15 | Epoch [10/150], Step [250/312], Loss: 0.0006
+2024-02-10 21:54:52 | Epoch [10/150], Step [275/312], Loss: 0.0006
+2024-02-10 21:55:28 | Epoch [10/150], Step [300/312], Loss: 0.0004
+  0%|                                                           | 0/79 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████████████████████████████████████████████| 79/79 [05:46<00:00,  4.38s/it]
+current valid Dice: 0.9055
+Best performance at epoch: 10, 0.4989 -> 0.9055
+Save model in save_dir
+2024-02-10 22:02:12 | Epoch [11/150], Step [25/312], Loss: 0.0005
+2024-02-10 22:02:47 | Epoch [11/150], Step [50/312], Loss: 0.0122
+2024-02-10 22:03:24 | Epoch [11/150], Step [75/312], Loss: 0.0005
+2024-02-10 22:03:58 | Epoch [11/150], Step [100/312], Loss: 0.0007
+2024-02-10 22:04:35 | Epoch [11/150], Step [125/312], Loss: 0.0006
+2024-02-10 22:05:09 | Epoch [11/150], Step [150/312], Loss: 0.0006
+2024-02-10 22:05:46 | Epoch [11/150], Step [175/312], Loss: 0.0005
+2024-02-10 22:06:21 | Epoch [11/150], Step [200/312], Loss: 0.0006
+2024-02-10 22:06:57 | Epoch [11/150], Step [225/312], Loss: 0.0008
+2024-02-10 22:07:32 | Epoch [11/150], Step [250/312], Loss: 0.0006
+2024-02-10 22:08:08 | Epoch [11/150], Step [275/312], Loss: 0.0005
+2024-02-10 22:08:43 | Epoch [11/150], Step [300/312], Loss: 0.0006
+2024-02-10 22:09:39 | Epoch [12/150], Step [25/312], Loss: 0.0006
+2024-02-10 22:10:15 | Epoch [12/150], Step [50/312], Loss: 0.0006
+Traceback (most recent call last):
+  File "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom.py", line 377, in <module>
+    train(model, train_loader, valid_loader, criterion, optimizer)
+  File "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom.py", line 318, in train
+    scaler.step(optimizer)
+  File "/opt/conda/lib/python3.10/site-packages/torch/cuda/amp/grad_scaler.py", line 416, in step
+    retval = self._maybe_opt_step(optimizer, optimizer_state, *args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/torch/cuda/amp/grad_scaler.py", line 314, in _maybe_opt_step
+    if not sum(v.item() for v in optimizer_state["found_inf_per_device"].values()):
+  File "/opt/conda/lib/python3.10/site-packages/torch/cuda/amp/grad_scaler.py", line 314, in <genexpr>
+    if not sum(v.item() for v in optimizer_state["found_inf_per_device"].values()):
+KeyboardInterrupt

@@ -1,0 +1,65 @@
+/opt/conda/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:136: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
+2024-02-11 18:30:57 | Epoch [1/150], Step [25/39], Loss: 0.0877, lr: 0.0009045
+2024-02-11 18:32:45 | Epoch [2/150], Step [25/39], Loss: 0.0301, lr: 0.0006545
+2024-02-11 18:34:32 | Epoch [3/150], Step [25/39], Loss: 0.0231, lr: 0.0003456
+2024-02-11 18:36:22 | Epoch [4/150], Step [25/39], Loss: 0.0206, lr: 0.0000956
+2024-02-11 18:38:06 | Epoch [5/150], Step [25/39], Loss: 0.0195, lr: 0.0000001
+2024-02-11 18:39:52 | Epoch [6/150], Step [25/39], Loss: 0.0188, lr: 0.0000956
+2024-02-11 18:41:41 | Epoch [7/150], Step [25/39], Loss: 0.0152, lr: 0.0003456
+2024-02-11 18:43:28 | Epoch [8/150], Step [25/39], Loss: 0.0109, lr: 0.0006545
+2024-02-11 18:45:18 | Epoch [9/150], Step [25/39], Loss: 0.01, lr: 0.0009045
+2024-02-11 18:47:04 | Epoch [10/150], Step [25/39], Loss: 0.0056, lr: 0.0010000
+Start validation #10
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|████████████████████████████████████████████████████████████████████| 20/20 [05:21<00:00, 16.09s/it]
+current valid Dice: 0.6391
+Best performance at epoch: 10, 0.0000 -> 0.6391
+Save model in save_dir
+2024-02-11 18:54:05 | Epoch [11/150], Step [25/39], Loss: 0.0043, lr: 0.0009045
+2024-02-11 18:55:40 | Epoch [12/150], Step [25/39], Loss: 0.0037, lr: 0.0006545
+2024-02-11 18:57:15 | Epoch [13/150], Step [25/39], Loss: 0.0035, lr: 0.0003456
+2024-02-11 18:58:53 | Epoch [14/150], Step [25/39], Loss: 0.0033, lr: 0.0000956
+2024-02-11 19:00:31 | Epoch [15/150], Step [25/39], Loss: 0.0033, lr: 0.0000001
+2024-02-11 19:02:07 | Epoch [16/150], Step [25/39], Loss: 0.0032, lr: 0.0000956
+2024-02-11 19:03:42 | Epoch [17/150], Step [25/39], Loss: 0.0031, lr: 0.0003456
+2024-02-11 19:05:16 | Epoch [18/150], Step [25/39], Loss: 0.0029, lr: 0.0006545
+2024-02-11 19:06:53 | Epoch [19/150], Step [25/39], Loss: 0.0026, lr: 0.0009045
+2024-02-11 19:08:29 | Epoch [20/150], Step [25/39], Loss: 0.0023, lr: 0.0010000
+Start validation #20
+  0%|                                                                             | 0/20 [00:08<?, ?it/s]
+Traceback (most recent call last):
+  File "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom_res.py", line 388, in <module>
+    train(model, train_loader, valid_loader, criterion, optimizer)
+  File "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom_res.py", line 346, in train
+    dice = validation(epoch + 1, model, val_loader, criterion)
+  File "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom_res.py", line 276, in validation
+    loss = criterion(outputs, masks)
+  File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1518, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1527, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/loss.py", line 725, in forward
+    return F.binary_cross_entropy_with_logits(input, target,
+  File "/opt/conda/lib/python3.10/site-packages/torch/nn/functional.py", line 3195, in binary_cross_entropy_with_logits
+    return torch.binary_cross_entropy_with_logits(input, target, weight, pos_weight, reduction_enum)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 3.62 GiB. GPU 0 has a total capacty of 31.75 GiB of which 3.53 GiB is free. Process 3487668 has 28.22 GiB memory in use. Of the allocated memory 19.40 GiB is allocated by PyTorch, and 7.58 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF

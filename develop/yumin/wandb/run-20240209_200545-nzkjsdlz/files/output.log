@@ -1,0 +1,10 @@
+
+2024-02-09 20:07:03 | Epoch [1/100], Step [25/80], Loss: 0.6078
+2024-02-09 20:07:47 | Epoch [1/100], Step [50/80], Loss: 0.5321
+2024-02-09 20:08:32 | Epoch [1/100], Step [75/80], Loss: 0.468
+Traceback (most recent call last):
+  File "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom.py", line 343, in <module>
+    train(model, train_loader, valid_loader, criterion, optimizer)
+  File "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom.py", line 291, in train
+    images, masks = images.cuda(), masks.cuda()
+KeyboardInterrupt

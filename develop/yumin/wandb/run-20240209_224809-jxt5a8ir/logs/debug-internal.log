@@ -1,0 +1,312 @@
+2024-02-09 22:48:09,215 INFO    StreamThr :198794 [internal.py:wandb_internal():86] W&B internal server running at pid: 198794, started at: 2024-02-09 22:48:09.214359
+2024-02-09 22:48:09,217 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status
+2024-02-09 22:48:09,221 INFO    WriterThread:198794 [datastore.py:open_for_write():87] open: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/run-jxt5a8ir.wandb
+2024-02-09 22:48:09,222 DEBUG   SenderThread:198794 [sender.py:send():382] send: header
+2024-02-09 22:48:09,225 DEBUG   SenderThread:198794 [sender.py:send():382] send: run
+2024-02-09 22:48:11,083 INFO    SenderThread:198794 [dir_watcher.py:__init__():211] watching files in: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files
+2024-02-09 22:48:11,083 INFO    SenderThread:198794 [sender.py:_start_run_threads():1136] run started: jxt5a8ir with start time 1707486489.214358
+2024-02-09 22:48:11,092 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: check_version
+2024-02-09 22:48:11,093 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: check_version
+2024-02-09 22:48:11,731 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: run_start
+2024-02-09 22:48:11,735 DEBUG   HandlerThread:198794 [system_info.py:__init__():27] System info init
+2024-02-09 22:48:11,735 DEBUG   HandlerThread:198794 [system_info.py:__init__():42] System info init done
+2024-02-09 22:48:11,736 INFO    HandlerThread:198794 [system_monitor.py:start():194] Starting system monitor
+2024-02-09 22:48:11,736 INFO    SystemMonitor:198794 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2024-02-09 22:48:11,736 INFO    HandlerThread:198794 [system_monitor.py:probe():214] Collecting system info
+2024-02-09 22:48:11,737 INFO    SystemMonitor:198794 [interfaces.py:start():190] Started cpu monitoring
+2024-02-09 22:48:11,738 INFO    SystemMonitor:198794 [interfaces.py:start():190] Started disk monitoring
+2024-02-09 22:48:11,740 INFO    SystemMonitor:198794 [interfaces.py:start():190] Started gpu monitoring
+2024-02-09 22:48:11,740 INFO    SystemMonitor:198794 [interfaces.py:start():190] Started memory monitoring
+2024-02-09 22:48:11,742 INFO    SystemMonitor:198794 [interfaces.py:start():190] Started network monitoring
+2024-02-09 22:48:11,751 DEBUG   HandlerThread:198794 [system_info.py:probe():151] Probing system
+2024-02-09 22:48:11,753 DEBUG   HandlerThread:198794 [system_info.py:_probe_git():136] Probing git
+2024-02-09 22:48:11,758 DEBUG   HandlerThread:198794 [system_info.py:_probe_git():144] Probing git done
+2024-02-09 22:48:11,758 DEBUG   HandlerThread:198794 [system_info.py:probe():199] Probing system done
+2024-02-09 22:48:11,758 DEBUG   HandlerThread:198794 [system_monitor.py:probe():223] {'os': 'Linux-5.4.0-99-generic-x86_64-with-glibc2.31', 'python': '3.10.13', 'heartbeatAt': '2024-02-09T13:48:11.751299', 'startedAt': '2024-02-09T13:48:09.206371', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': '/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom.py', 'codePathLocal': 'custom.py', 'codePath': 'develop/yumin/custom.py', 'git': {'remote': 'https://github.com/boostcampaitech6/level2-cv-semanticsegmentation-cv-10.git', 'commit': '551722d52d86d898687b00d96c9a8970da815b1f'}, 'email': 'edwin.minle@gmail.com', 'root': '/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10', 'host': 'instance-6956', 'username': 'root', 'executable': '/opt/conda/bin/python', 'cpu_count': 8, 'cpu_count_logical': 8, 'cpu_freq': {'current': 2200.289, 'min': 0.0, 'max': 0.0}, 'cpu_freq_per_core': [{'current': 2200.289, 'min': 0.0, 'max': 0.0}, {'current': 2200.289, 'min': 0.0, 'max': 0.0}, {'current': 2200.289, 'min': 0.0, 'max': 0.0}, {'current': 2200.289, 'min': 0.0, 'max': 0.0}, {'current': 2200.289, 'min': 0.0, 'max': 0.0}, {'current': 2200.289, 'min': 0.0, 'max': 0.0}, {'current': 2200.289, 'min': 0.0, 'max': 0.0}, {'current': 2200.289, 'min': 0.0, 'max': 0.0}], 'disk': {'/': {'total': 48.963348388671875, 'used': 35.20821762084961}}, 'gpu': 'Tesla V100-SXM2-32GB', 'gpu_count': 1, 'gpu_devices': [{'name': 'Tesla V100-SXM2-32GB', 'memory_total': 34089730048}], 'memory': {'total': 88.38546752929688}}
+2024-02-09 22:48:11,758 INFO    HandlerThread:198794 [system_monitor.py:probe():224] Finished collecting system info
+2024-02-09 22:48:11,758 INFO    HandlerThread:198794 [system_monitor.py:probe():227] Publishing system info
+2024-02-09 22:48:11,758 DEBUG   HandlerThread:198794 [system_info.py:_save_conda():208] Saving list of conda packages installed into the current environment
+2024-02-09 22:48:12,085 INFO    Thread-13 :198794 [dir_watcher.py:_on_file_created():271] file/dir created: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/conda-environment.yaml
+2024-02-09 22:48:16,522 DEBUG   HandlerThread:198794 [system_info.py:_save_conda():220] Saving conda packages done
+2024-02-09 22:48:16,522 INFO    HandlerThread:198794 [system_monitor.py:probe():229] Finished publishing system info
+2024-02-09 22:48:16,527 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:48:16,528 DEBUG   SenderThread:198794 [sender.py:send():382] send: files
+2024-02-09 22:48:16,528 INFO    SenderThread:198794 [sender.py:_save_file():1403] saving file wandb-metadata.json with policy now
+2024-02-09 22:48:16,532 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: python_packages
+2024-02-09 22:48:16,533 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: python_packages
+2024-02-09 22:48:16,533 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: stop_status
+2024-02-09 22:48:16,533 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: stop_status
+2024-02-09 22:48:16,538 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: internal_messages
+2024-02-09 22:48:16,910 DEBUG   SenderThread:198794 [sender.py:send():382] send: telemetry
+2024-02-09 22:48:17,089 INFO    Thread-13 :198794 [dir_watcher.py:_on_file_modified():288] file/dir modified: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/conda-environment.yaml
+2024-02-09 22:48:17,089 INFO    Thread-13 :198794 [dir_watcher.py:_on_file_created():271] file/dir created: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/requirements.txt
+2024-02-09 22:48:17,089 INFO    Thread-13 :198794 [dir_watcher.py:_on_file_created():271] file/dir created: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/wandb-metadata.json
+2024-02-09 22:48:17,527 INFO    wandb-upload_0:198794 [upload_job.py:push():131] Uploaded file /tmp/tmpg9ejc7dqwandb/p3l8lrvf-wandb-metadata.json
+2024-02-09 22:48:19,911 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:48:24,912 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:48:29,913 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:48:31,534 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: stop_status
+2024-02-09 22:48:31,535 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: stop_status
+2024-02-09 22:48:31,537 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: internal_messages
+2024-02-09 22:48:35,764 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:48:40,768 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:48:41,104 INFO    Thread-13 :198794 [dir_watcher.py:_on_file_modified():288] file/dir modified: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/config.yaml
+2024-02-09 22:48:46,000 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:48:46,534 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: stop_status
+2024-02-09 22:48:46,534 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: stop_status
+2024-02-09 22:48:46,536 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: internal_messages
+2024-02-09 22:48:51,800 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:48:56,800 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:49:00,710 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: partial_history
+2024-02-09 22:49:00,711 DEBUG   SenderThread:198794 [sender.py:send():382] send: history
+2024-02-09 22:49:00,711 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: summary_record
+2024-02-09 22:49:00,712 INFO    SenderThread:198794 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2024-02-09 22:49:01,120 INFO    Thread-13 :198794 [dir_watcher.py:_on_file_created():271] file/dir created: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/wandb-summary.json
+2024-02-09 22:49:01,120 INFO    Thread-13 :198794 [dir_watcher.py:_on_file_created():271] file/dir created: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/output.log
+2024-02-09 22:49:01,534 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: stop_status
+2024-02-09 22:49:01,534 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: stop_status
+2024-02-09 22:49:01,536 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: internal_messages
+2024-02-09 22:49:03,121 INFO    Thread-13 :198794 [dir_watcher.py:_on_file_modified():288] file/dir modified: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/output.log
+2024-02-09 22:49:05,724 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:49:10,725 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:49:11,742 DEBUG   SystemMonitor:198794 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2024-02-09 22:49:11,743 DEBUG   SenderThread:198794 [sender.py:send():382] send: stats
+2024-02-09 22:49:15,744 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:49:16,534 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: stop_status
+2024-02-09 22:49:16,534 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: stop_status
+2024-02-09 22:49:16,536 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: internal_messages
+2024-02-09 22:49:20,750 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:49:25,751 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:49:29,851 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: partial_history
+2024-02-09 22:49:29,852 DEBUG   SenderThread:198794 [sender.py:send():382] send: history
+2024-02-09 22:49:29,852 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: summary_record
+2024-02-09 22:49:29,853 INFO    SenderThread:198794 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2024-02-09 22:49:30,131 INFO    Thread-13 :198794 [dir_watcher.py:_on_file_modified():288] file/dir modified: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/wandb-summary.json
+2024-02-09 22:49:30,853 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:49:31,131 INFO    Thread-13 :198794 [dir_watcher.py:_on_file_modified():288] file/dir modified: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/output.log
+2024-02-09 22:49:31,534 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: stop_status
+2024-02-09 22:49:31,535 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: stop_status
+2024-02-09 22:49:31,536 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: internal_messages
+2024-02-09 22:49:36,790 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:49:41,744 DEBUG   SenderThread:198794 [sender.py:send():382] send: stats
+2024-02-09 22:49:42,745 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:49:46,534 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: stop_status
+2024-02-09 22:49:46,535 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: stop_status
+2024-02-09 22:49:46,588 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: internal_messages
+2024-02-09 22:49:47,810 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:49:52,810 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:49:57,811 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:50:00,529 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: partial_history
+2024-02-09 22:50:00,529 DEBUG   SenderThread:198794 [sender.py:send():382] send: history
+2024-02-09 22:50:00,530 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: summary_record
+2024-02-09 22:50:00,530 INFO    SenderThread:198794 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2024-02-09 22:50:01,144 INFO    Thread-13 :198794 [dir_watcher.py:_on_file_modified():288] file/dir modified: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/wandb-summary.json
+2024-02-09 22:50:01,145 INFO    Thread-13 :198794 [dir_watcher.py:_on_file_modified():288] file/dir modified: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/output.log
+2024-02-09 22:50:01,534 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: stop_status
+2024-02-09 22:50:01,535 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: stop_status
+2024-02-09 22:50:01,536 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: internal_messages
+2024-02-09 22:50:03,753 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:50:08,754 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:50:11,744 DEBUG   SenderThread:198794 [sender.py:send():382] send: stats
+2024-02-09 22:50:14,745 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:50:16,535 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: stop_status
+2024-02-09 22:50:16,535 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: stop_status
+2024-02-09 22:50:16,538 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: internal_messages
+2024-02-09 22:50:19,826 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:50:24,827 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:50:29,828 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:50:31,538 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: internal_messages
+2024-02-09 22:50:31,539 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: stop_status
+2024-02-09 22:50:31,539 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: stop_status
+2024-02-09 22:50:35,789 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:50:40,790 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:50:41,745 DEBUG   SenderThread:198794 [sender.py:send():382] send: stats
+2024-02-09 22:50:44,389 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: partial_history
+2024-02-09 22:50:44,390 DEBUG   SenderThread:198794 [sender.py:send():382] send: history
+2024-02-09 22:50:44,390 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: summary_record
+2024-02-09 22:50:44,390 INFO    SenderThread:198794 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2024-02-09 22:50:45,161 INFO    Thread-13 :198794 [dir_watcher.py:_on_file_modified():288] file/dir modified: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/wandb-summary.json
+2024-02-09 22:50:46,391 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:50:46,538 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: internal_messages
+2024-02-09 22:50:46,539 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: stop_status
+2024-02-09 22:50:46,539 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: stop_status
+2024-02-09 22:50:47,162 INFO    Thread-13 :198794 [dir_watcher.py:_on_file_modified():288] file/dir modified: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/output.log
+2024-02-09 22:50:51,812 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:50:56,813 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:51:01,538 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: internal_messages
+2024-02-09 22:51:01,544 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: stop_status
+2024-02-09 22:51:01,545 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: stop_status
+2024-02-09 22:51:01,852 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:51:06,853 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:51:11,746 DEBUG   SenderThread:198794 [sender.py:send():382] send: stats
+2024-02-09 22:51:12,747 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:51:16,538 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: internal_messages
+2024-02-09 22:51:16,544 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: stop_status
+2024-02-09 22:51:16,544 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: stop_status
+2024-02-09 22:51:17,623 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: partial_history
+2024-02-09 22:51:17,624 DEBUG   SenderThread:198794 [sender.py:send():382] send: history
+2024-02-09 22:51:17,624 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: summary_record
+2024-02-09 22:51:17,625 INFO    SenderThread:198794 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2024-02-09 22:51:18,192 INFO    Thread-13 :198794 [dir_watcher.py:_on_file_modified():288] file/dir modified: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/wandb-summary.json
+2024-02-09 22:51:18,625 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:51:19,192 INFO    Thread-13 :198794 [dir_watcher.py:_on_file_modified():288] file/dir modified: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/output.log
+2024-02-09 22:51:23,338 DEBUG   SenderThread:198794 [sender.py:send():382] send: exit
+2024-02-09 22:51:23,338 INFO    SenderThread:198794 [sender.py:send_exit():589] handling exit code: 255
+2024-02-09 22:51:23,338 INFO    SenderThread:198794 [sender.py:send_exit():591] handling runtime: 191
+2024-02-09 22:51:23,340 INFO    SenderThread:198794 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2024-02-09 22:51:23,340 INFO    SenderThread:198794 [sender.py:send_exit():597] send defer
+2024-02-09 22:51:23,340 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: defer
+2024-02-09 22:51:23,340 INFO    HandlerThread:198794 [handler.py:handle_request_defer():172] handle defer: 0
+2024-02-09 22:51:23,341 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: defer
+2024-02-09 22:51:23,341 INFO    SenderThread:198794 [sender.py:send_request_defer():613] handle sender defer: 0
+2024-02-09 22:51:23,341 INFO    SenderThread:198794 [sender.py:transition_state():617] send defer: 1
+2024-02-09 22:51:23,341 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: defer
+2024-02-09 22:51:23,341 INFO    HandlerThread:198794 [handler.py:handle_request_defer():172] handle defer: 1
+2024-02-09 22:51:23,341 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: defer
+2024-02-09 22:51:23,341 INFO    SenderThread:198794 [sender.py:send_request_defer():613] handle sender defer: 1
+2024-02-09 22:51:23,341 INFO    SenderThread:198794 [sender.py:transition_state():617] send defer: 2
+2024-02-09 22:51:23,341 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: defer
+2024-02-09 22:51:23,342 INFO    HandlerThread:198794 [handler.py:handle_request_defer():172] handle defer: 2
+2024-02-09 22:51:23,342 INFO    HandlerThread:198794 [system_monitor.py:finish():203] Stopping system monitor
+2024-02-09 22:51:23,342 DEBUG   SystemMonitor:198794 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2024-02-09 22:51:23,342 INFO    HandlerThread:198794 [interfaces.py:finish():202] Joined cpu monitor
+2024-02-09 22:51:23,342 DEBUG   SystemMonitor:198794 [system_monitor.py:_start():183] Publishing last batch of metrics
+2024-02-09 22:51:23,343 INFO    HandlerThread:198794 [interfaces.py:finish():202] Joined disk monitor
+2024-02-09 22:51:23,353 INFO    HandlerThread:198794 [interfaces.py:finish():202] Joined gpu monitor
+2024-02-09 22:51:23,354 INFO    HandlerThread:198794 [interfaces.py:finish():202] Joined memory monitor
+2024-02-09 22:51:23,354 INFO    HandlerThread:198794 [interfaces.py:finish():202] Joined network monitor
+2024-02-09 22:51:23,354 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: defer
+2024-02-09 22:51:23,354 INFO    SenderThread:198794 [sender.py:send_request_defer():613] handle sender defer: 2
+2024-02-09 22:51:23,354 INFO    SenderThread:198794 [sender.py:transition_state():617] send defer: 3
+2024-02-09 22:51:23,354 DEBUG   SenderThread:198794 [sender.py:send():382] send: stats
+2024-02-09 22:51:23,355 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: defer
+2024-02-09 22:51:23,355 INFO    HandlerThread:198794 [handler.py:handle_request_defer():172] handle defer: 3
+2024-02-09 22:51:23,355 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: defer
+2024-02-09 22:51:23,355 INFO    SenderThread:198794 [sender.py:send_request_defer():613] handle sender defer: 3
+2024-02-09 22:51:23,355 INFO    SenderThread:198794 [sender.py:transition_state():617] send defer: 4
+2024-02-09 22:51:23,355 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: defer
+2024-02-09 22:51:23,355 INFO    HandlerThread:198794 [handler.py:handle_request_defer():172] handle defer: 4
+2024-02-09 22:51:23,355 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: defer
+2024-02-09 22:51:23,356 INFO    SenderThread:198794 [sender.py:send_request_defer():613] handle sender defer: 4
+2024-02-09 22:51:23,356 INFO    SenderThread:198794 [sender.py:transition_state():617] send defer: 5
+2024-02-09 22:51:23,356 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: defer
+2024-02-09 22:51:23,356 INFO    HandlerThread:198794 [handler.py:handle_request_defer():172] handle defer: 5
+2024-02-09 22:51:23,356 DEBUG   SenderThread:198794 [sender.py:send():382] send: summary
+2024-02-09 22:51:23,356 INFO    SenderThread:198794 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2024-02-09 22:51:23,357 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: defer
+2024-02-09 22:51:23,357 INFO    SenderThread:198794 [sender.py:send_request_defer():613] handle sender defer: 5
+2024-02-09 22:51:23,357 INFO    SenderThread:198794 [sender.py:transition_state():617] send defer: 6
+2024-02-09 22:51:23,357 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: defer
+2024-02-09 22:51:23,357 INFO    HandlerThread:198794 [handler.py:handle_request_defer():172] handle defer: 6
+2024-02-09 22:51:23,357 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: defer
+2024-02-09 22:51:23,357 INFO    SenderThread:198794 [sender.py:send_request_defer():613] handle sender defer: 6
+2024-02-09 22:51:23,357 INFO    SenderThread:198794 [sender.py:transition_state():617] send defer: 7
+2024-02-09 22:51:23,357 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:51:23,357 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: defer
+2024-02-09 22:51:23,357 INFO    HandlerThread:198794 [handler.py:handle_request_defer():172] handle defer: 7
+2024-02-09 22:51:23,358 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: defer
+2024-02-09 22:51:23,358 INFO    SenderThread:198794 [sender.py:send_request_defer():613] handle sender defer: 7
+2024-02-09 22:51:24,194 INFO    Thread-13 :198794 [dir_watcher.py:_on_file_modified():288] file/dir modified: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/wandb-summary.json
+2024-02-09 22:51:24,337 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: poll_exit
+2024-02-09 22:51:25,342 INFO    SenderThread:198794 [sender.py:transition_state():617] send defer: 8
+2024-02-09 22:51:25,342 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: poll_exit
+2024-02-09 22:51:25,343 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: defer
+2024-02-09 22:51:25,343 INFO    HandlerThread:198794 [handler.py:handle_request_defer():172] handle defer: 8
+2024-02-09 22:51:25,343 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: defer
+2024-02-09 22:51:25,343 INFO    SenderThread:198794 [sender.py:send_request_defer():613] handle sender defer: 8
+2024-02-09 22:51:25,343 INFO    SenderThread:198794 [job_builder.py:build():296] Attempting to build job artifact
+2024-02-09 22:51:25,343 INFO    SenderThread:198794 [job_builder.py:_get_source_type():426] is repo sourced job
+2024-02-09 22:51:25,366 INFO    SenderThread:198794 [job_builder.py:build():402] adding wandb-job metadata file
+2024-02-09 22:51:25,369 INFO    SenderThread:198794 [sender.py:transition_state():617] send defer: 9
+2024-02-09 22:51:25,369 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: defer
+2024-02-09 22:51:25,369 INFO    HandlerThread:198794 [handler.py:handle_request_defer():172] handle defer: 9
+2024-02-09 22:51:25,370 DEBUG   SenderThread:198794 [sender.py:send():382] send: artifact
+2024-02-09 22:51:26,194 INFO    Thread-13 :198794 [dir_watcher.py:_on_file_modified():288] file/dir modified: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/output.log
+2024-02-09 22:51:26,338 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: poll_exit
+2024-02-09 22:51:26,788 INFO    wandb-upload_0:198794 [upload_job.py:push():86] Skipped uploading /data/ephemeral/home/.local/share/wandb/artifacts/staging/tmpih67sall
+2024-02-09 22:51:31,340 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: keepalive
+2024-02-09 22:51:32,218 INFO    wandb-upload_1:198794 [upload_job.py:push():89] Uploaded file /data/ephemeral/home/.local/share/wandb/artifacts/staging/tmpwq0r3rhd
+2024-02-09 22:51:35,152 INFO    SenderThread:198794 [sender.py:send_artifact():1494] sent artifact job-https___github.com_boostcampaitech6_level2-cv-semanticsegmentation-cv-10.git_develop_yumin_custom.py - {'id': 'QXJ0aWZhY3Q6NzE4MjE3NDAx', 'state': 'PENDING', 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjEzNzk1NjYzNw==', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6NzE4MTQ3MDE5', 'versionIndex': 5}}}
+2024-02-09 22:51:35,152 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: defer
+2024-02-09 22:51:35,152 INFO    SenderThread:198794 [sender.py:send_request_defer():613] handle sender defer: 9
+2024-02-09 22:51:35,152 INFO    SenderThread:198794 [dir_watcher.py:finish():358] shutting down directory watcher
+2024-02-09 22:51:35,152 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:51:35,199 INFO    SenderThread:198794 [dir_watcher.py:finish():388] scan: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files
+2024-02-09 22:51:35,199 INFO    SenderThread:198794 [dir_watcher.py:finish():402] scan save: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/config.yaml config.yaml
+2024-02-09 22:51:35,199 INFO    SenderThread:198794 [dir_watcher.py:finish():402] scan save: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/output.log output.log
+2024-02-09 22:51:35,199 INFO    SenderThread:198794 [dir_watcher.py:finish():402] scan save: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/wandb-summary.json wandb-summary.json
+2024-02-09 22:51:35,200 INFO    SenderThread:198794 [dir_watcher.py:finish():402] scan save: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/conda-environment.yaml conda-environment.yaml
+2024-02-09 22:51:35,200 INFO    SenderThread:198794 [dir_watcher.py:finish():402] scan save: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/requirements.txt requirements.txt
+2024-02-09 22:51:35,200 INFO    SenderThread:198794 [dir_watcher.py:finish():402] scan save: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/wandb-metadata.json wandb-metadata.json
+2024-02-09 22:51:35,200 INFO    SenderThread:198794 [sender.py:transition_state():617] send defer: 10
+2024-02-09 22:51:35,200 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: poll_exit
+2024-02-09 22:51:35,200 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: defer
+2024-02-09 22:51:35,201 INFO    HandlerThread:198794 [handler.py:handle_request_defer():172] handle defer: 10
+2024-02-09 22:51:35,203 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: defer
+2024-02-09 22:51:35,203 INFO    SenderThread:198794 [sender.py:send_request_defer():613] handle sender defer: 10
+2024-02-09 22:51:35,203 INFO    SenderThread:198794 [file_pusher.py:finish():172] shutting down file pusher
+2024-02-09 22:51:35,344 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: poll_exit
+2024-02-09 22:51:35,344 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: poll_exit
+2024-02-09 22:51:35,690 INFO    wandb-upload_3:198794 [upload_job.py:push():131] Uploaded file /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/wandb-summary.json
+2024-02-09 22:51:36,083 INFO    wandb-upload_1:198794 [upload_job.py:push():131] Uploaded file /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/requirements.txt
+2024-02-09 22:51:36,345 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: poll_exit
+2024-02-09 22:51:36,345 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: poll_exit
+2024-02-09 22:51:37,346 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: poll_exit
+2024-02-09 22:51:37,346 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: poll_exit
+2024-02-09 22:51:38,347 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: poll_exit
+2024-02-09 22:51:38,347 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: poll_exit
+2024-02-09 22:51:39,348 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: poll_exit
+2024-02-09 22:51:39,348 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: poll_exit
+2024-02-09 22:51:40,349 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: status_report
+2024-02-09 22:51:40,350 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: poll_exit
+2024-02-09 22:51:40,350 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: poll_exit
+2024-02-09 22:51:40,845 INFO    wandb-upload_2:198794 [upload_job.py:push():131] Uploaded file /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/config.yaml
+2024-02-09 22:51:40,917 INFO    wandb-upload_0:198794 [upload_job.py:push():131] Uploaded file /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/output.log
+2024-02-09 22:51:41,037 INFO    wandb-upload_4:198794 [upload_job.py:push():131] Uploaded file /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/files/conda-environment.yaml
+2024-02-09 22:51:41,238 INFO    Thread-12 (_thread_body):198794 [sender.py:transition_state():617] send defer: 11
+2024-02-09 22:51:41,238 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: defer
+2024-02-09 22:51:41,238 INFO    HandlerThread:198794 [handler.py:handle_request_defer():172] handle defer: 11
+2024-02-09 22:51:41,239 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: defer
+2024-02-09 22:51:41,239 INFO    SenderThread:198794 [sender.py:send_request_defer():613] handle sender defer: 11
+2024-02-09 22:51:41,239 INFO    SenderThread:198794 [file_pusher.py:join():178] waiting for file pusher
+2024-02-09 22:51:41,239 INFO    SenderThread:198794 [sender.py:transition_state():617] send defer: 12
+2024-02-09 22:51:41,239 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: defer
+2024-02-09 22:51:41,239 INFO    HandlerThread:198794 [handler.py:handle_request_defer():172] handle defer: 12
+2024-02-09 22:51:41,239 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: defer
+2024-02-09 22:51:41,239 INFO    SenderThread:198794 [sender.py:send_request_defer():613] handle sender defer: 12
+2024-02-09 22:51:41,239 INFO    SenderThread:198794 [file_stream.py:finish():595] file stream finish called
+2024-02-09 22:51:41,351 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: poll_exit
+2024-02-09 22:51:41,451 INFO    SenderThread:198794 [file_stream.py:finish():599] file stream finish is done
+2024-02-09 22:51:41,451 INFO    SenderThread:198794 [sender.py:transition_state():617] send defer: 13
+2024-02-09 22:51:41,451 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: poll_exit
+2024-02-09 22:51:41,452 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: defer
+2024-02-09 22:51:41,452 INFO    HandlerThread:198794 [handler.py:handle_request_defer():172] handle defer: 13
+2024-02-09 22:51:41,452 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: defer
+2024-02-09 22:51:41,452 INFO    SenderThread:198794 [sender.py:send_request_defer():613] handle sender defer: 13
+2024-02-09 22:51:41,452 INFO    SenderThread:198794 [sender.py:transition_state():617] send defer: 14
+2024-02-09 22:51:41,452 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: defer
+2024-02-09 22:51:41,452 INFO    HandlerThread:198794 [handler.py:handle_request_defer():172] handle defer: 14
+2024-02-09 22:51:41,452 DEBUG   SenderThread:198794 [sender.py:send():382] send: final
+2024-02-09 22:51:41,452 DEBUG   SenderThread:198794 [sender.py:send():382] send: footer
+2024-02-09 22:51:41,452 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: defer
+2024-02-09 22:51:41,452 INFO    SenderThread:198794 [sender.py:send_request_defer():613] handle sender defer: 14
+2024-02-09 22:51:41,453 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: poll_exit
+2024-02-09 22:51:41,453 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: poll_exit
+2024-02-09 22:51:41,454 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: poll_exit
+2024-02-09 22:51:41,454 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: server_info
+2024-02-09 22:51:41,454 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: get_summary
+2024-02-09 22:51:41,455 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: poll_exit
+2024-02-09 22:51:41,455 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: server_info
+2024-02-09 22:51:41,457 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: sampled_history
+2024-02-09 22:51:41,457 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: internal_messages
+2024-02-09 22:51:41,458 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: job_info
+2024-02-09 22:51:41,681 DEBUG   SenderThread:198794 [sender.py:send_request():409] send_request: job_info
+2024-02-09 22:51:41,682 INFO    MainThread:198794 [wandb_run.py:_footer_history_summary_info():3866] rendering history
+2024-02-09 22:51:41,682 INFO    MainThread:198794 [wandb_run.py:_footer_history_summary_info():3898] rendering summary
+2024-02-09 22:51:41,682 INFO    MainThread:198794 [wandb_run.py:_footer_sync_info():3825] logging synced files
+2024-02-09 22:51:41,682 DEBUG   HandlerThread:198794 [handler.py:handle_request():146] handle_request: shutdown
+2024-02-09 22:51:41,682 INFO    HandlerThread:198794 [handler.py:finish():869] shutting down handler
+2024-02-09 22:51:42,458 INFO    WriterThread:198794 [datastore.py:close():296] close: /data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/wandb/run-20240209_224809-jxt5a8ir/run-jxt5a8ir.wandb
+2024-02-09 22:51:42,682 INFO    SenderThread:198794 [sender.py:finish():1572] shutting down sender
+2024-02-09 22:51:42,682 INFO    SenderThread:198794 [file_pusher.py:finish():172] shutting down file pusher
+2024-02-09 22:51:42,682 INFO    SenderThread:198794 [file_pusher.py:join():178] waiting for file pusher

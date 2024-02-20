@@ -1,0 +1,101 @@
+
+2024-02-09 21:13:11 | Epoch [1/150], Step [25/80], Loss: 0.5449
+2024-02-09 21:13:43 | Epoch [1/150], Step [50/80], Loss: 0.4524
+2024-02-09 21:14:12 | Epoch [1/150], Step [75/80], Loss: 0.3707
+2024-02-09 21:14:54 | Epoch [2/150], Step [25/80], Loss: 0.289
+2024-02-09 21:15:25 | Epoch [2/150], Step [50/80], Loss: 0.2356
+2024-02-09 21:15:52 | Epoch [2/150], Step [75/80], Loss: 0.1942
+2024-02-09 21:16:36 | Epoch [3/150], Step [25/80], Loss: 0.1567
+2024-02-09 21:17:06 | Epoch [3/150], Step [50/80], Loss: 0.1324
+2024-02-09 21:17:35 | Epoch [3/150], Step [75/80], Loss: 0.1144
+2024-02-09 21:18:19 | Epoch [4/150], Step [25/80], Loss: 0.0967
+2024-02-09 21:18:49 | Epoch [4/150], Step [50/80], Loss: 0.0856
+2024-02-09 21:19:18 | Epoch [4/150], Step [75/80], Loss: 0.0758
+2024-02-09 21:20:01 | Epoch [5/150], Step [25/80], Loss: 0.0655
+2024-02-09 21:20:30 | Epoch [5/150], Step [50/80], Loss: 0.0597
+2024-02-09 21:21:00 | Epoch [5/150], Step [75/80], Loss: 0.0545
+2024-02-09 21:21:41 | Epoch [6/150], Step [25/80], Loss: 0.0485
+2024-02-09 21:22:10 | Epoch [6/150], Step [50/80], Loss: 0.0448
+2024-02-09 21:22:38 | Epoch [6/150], Step [75/80], Loss: 0.042
+2024-02-09 21:23:22 | Epoch [7/150], Step [25/80], Loss: 0.0383
+2024-02-09 21:23:50 | Epoch [7/150], Step [50/80], Loss: 0.0354
+2024-02-09 21:24:22 | Epoch [7/150], Step [75/80], Loss: 0.0338
+2024-02-09 21:25:04 | Epoch [8/150], Step [25/80], Loss: 0.0312
+2024-02-09 21:25:34 | Epoch [8/150], Step [50/80], Loss: 0.0293
+2024-02-09 21:26:02 | Epoch [8/150], Step [75/80], Loss: 0.0282
+2024-02-09 21:26:45 | Epoch [9/150], Step [25/80], Loss: 0.0263
+2024-02-09 21:27:16 | Epoch [9/150], Step [50/80], Loss: 0.0245
+2024-02-09 21:27:44 | Epoch [9/150], Step [75/80], Loss: 0.0235
+2024-02-09 21:28:27 | Epoch [10/150], Step [25/80], Loss: 0.0227
+2024-02-09 21:28:58 | Epoch [10/150], Step [50/80], Loss: 0.0211
+2024-02-09 21:29:24 | Epoch [10/150], Step [75/80], Loss: 0.0211
+Start validation #10
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|████████████████████████████████████████████████████████████████████| 40/40 [05:27<00:00,  8.19s/it]
+current valid Dice: 0.3072
+Best performance at epoch: 10, 0.0000 -> 0.3072
+Save model in save_dir
+2024-02-09 21:35:33 | Epoch [11/150], Step [25/80], Loss: 0.0198
+Traceback (most recent call last):
+  File "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom.py", line 344, in <module>
+    train(model, train_loader, valid_loader, criterion, optimizer)
+  File "/data/ephemeral/home/level2-cv-semanticsegmentation-cv-10/develop/yumin/custom.py", line 289, in train
+    for step, (images, masks) in enumerate(data_loader):
+  File "/opt/conda/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 630, in __next__
+    data = self._next_data()
+  File "/opt/conda/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1328, in _next_data
+    idx, data = self._get_data()
+  File "/opt/conda/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1294, in _get_data
+    success, data = self._try_get_data()
+  File "/opt/conda/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1132, in _try_get_data
+    data = self._data_queue.get(timeout=timeout)
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 113, in get
+    if not self._poll(timeout):
+  File "/opt/conda/lib/python3.10/multiprocessing/connection.py", line 257, in poll
+    return self._poll(timeout)
+  File "/opt/conda/lib/python3.10/multiprocessing/connection.py", line 424, in _poll
+    r = wait([self], timeout)
+  File "/opt/conda/lib/python3.10/multiprocessing/connection.py", line 931, in wait
+    ready = selector.select(timeout)
+  File "/opt/conda/lib/python3.10/selectors.py", line 416, in select
+    fd_event_list = self._selector.poll(timeout)
+KeyboardInterrupt
